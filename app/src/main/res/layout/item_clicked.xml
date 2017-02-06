@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:background="#f6f6f6"
+    android:paddingTop="10dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@mipmap/carfor"
+        android:id="@+id/item_icon"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#fff"
+        android:layout_gravity="center"
+        android:layout_weight="1.14"
+        android:layout_marginBottom="10dp"
+
+        />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp">
+        <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+            android:layout_marginBottom="10dp">
+        <TextView
+            android:text="Carrefour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/name2_tv"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="#000080"
+            android:layout_marginLeft="5dp"
+          />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="4dp"
+    android:background="@drawable/rounded_cornenr_imageview"
+
+                >
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                app:srcCompat="@mipmap/staron"
+                android:id="@+id/imageView2"
+                android:layout_marginTop="1dp"
+                />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2.0"
+                    android:textSize="15dp"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/rate_value"
+                    android:textColor="#FFCD02"
+                    android:layout_marginTop="-3dp"
+
+                    />
+            </LinearLayout>
+        </LinearLayout>
+        <com.sackcentury.shinebuttonlib.ShineButton
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:src="@android:color/darker_gray"
+            app:btn_color="@android:color/darker_gray"
+            app:btn_fill_color="#FF6666"
+            app:allow_random_color="true"
+            app:big_shine_color="#FF6666"
+            app:click_animation_duration="200"
+            app:shine_animation_duration="1500"
+            app:shine_turn_angle="10"
+            app:small_shine_offset_angle="20"
+            app:shine_distance_multiple="1.5"
+            app:small_shine_color="#CC9999"
+            app:shine_count="8"
+            app:siShape="@raw/heart"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+android:id="@+id/like_btn"
+            />
+    </GridLayout>
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/rate_values"
+
+        >
+
+    </android.support.v7.widget.AppCompatSpinner>
+
+    <TextView
+        android:text="One of the most dignfied hyper markets, it will surely fascinate you !!"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/promo2_tv"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="16dp"
+        android:textColor="@color/colorPrimaryDark"
+           />
+
+
+
+    <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+       <Button
+        android:text="Copy link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+           android:layout_weight="1"
+           />
+
+    <Button
+        android:text="Share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2"
+        android:layout_weight="1"/>
+</LinearLayout>
+
+    <Button
+        android:text="Website"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/website_btn"
+        android:layout_marginTop="-10dp"
+        />
+
+    <Button
+        android:text="CALL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/call_btn"
+        android:layout_marginTop="-10dp"
+        />
+
+    <Button
+        android:text="COMMENT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button4"
+        android:layout_marginTop="-10dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        android:text="Direction To Here"
+        />
+
+</LinearLayout>

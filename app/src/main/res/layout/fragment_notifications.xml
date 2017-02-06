@@ -1,0 +1,173 @@
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.example.lenovo.citycenter.Fragments.Notifications"
+        android:padding="2dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        >
+        <!-- TODO: Update blank fragment layout -->
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="50dp"
+    android:orientation="vertical"
+           android:background="#e0e0e0"
+           android:gravity="center"
+           android:layout_marginBottom="20dp">
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="MANAGE NOTIFICATIONS"
+               android:id="@+id/textView"
+               android:textStyle="bold"
+               android:textSize="17dp"
+               android:textColor="#3f3f3f"
+               />
+
+       </LinearLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:background="#bf27494A"
+            android:layout_marginBottom="2dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WOMEN'S FASHION"
+                android:textColor="#fff"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                />
+            <com.kyleduo.switchbutton.SwitchButton
+                style="@style/SwitchButtonMD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                />
+    </GridLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:background="#bf27494A"
+            android:layout_marginBottom="2dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MEN'S FASHION"
+                android:textColor="#fff"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                />
+            <com.kyleduo.switchbutton.SwitchButton
+                style="@style/SwitchButtonMD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                />
+        </GridLayout>
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:background="#bf27494A"
+            android:layout_marginBottom="2dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DINING"
+                android:textColor="#fff"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                />
+            <com.kyleduo.switchbutton.SwitchButton
+                style="@style/SwitchButtonMD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                />
+        </GridLayout>
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:background="#bf27494A"
+            android:layout_marginBottom="2dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OFFERS"
+                android:textColor="#fff"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                />
+            <com.kyleduo.switchbutton.SwitchButton
+                style="@style/SwitchButtonMD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                />
+        </GridLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:background="#bf27494A"
+            android:layout_marginBottom="2dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+    android:layout_gravity="bottom"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EVENTS"
+                android:textColor="#fff"
+                android:textSize="15dp"
+                android:layout_gravity="center"
+                />
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/sb_text_state"
+                style="@style/SwitchButtonMD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+
+                />
+        </GridLayout>
+
+
+    </LinearLayout>
+    <include layout="@layout/footer_layout"/>
+
+</RelativeLayout>

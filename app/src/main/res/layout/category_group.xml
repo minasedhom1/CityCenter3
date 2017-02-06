@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:background="@drawable/customshape"
+    android:paddingLeft="10dp"
+>
+>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="2dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="shop Name"
+                android:id="@+id/shopNameTextView"
+                android:textStyle="bold"
+
+                android:focusable="false"
+                />
+
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:id="@+id/shopPic"
+                android:src="@mipmap/jewelry"
+                android:focusable="false"
+                android:scaleType="fitXY"
+                android:cropToPadding="false"
+                android:layout_marginTop="7dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="right"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="95dp"
+                android:text="shop detail"
+                android:gravity="left"
+                android:id="@+id/shopDetailsTextview"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="10dp"
+                android:focusable="false"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="Explore ›"
+                android:textColor="#ffff"
+                android:id="@+id/explore_btn"
+                android:background="@drawable/rounded_corner_btn"
+                android:focusable="false"
+                android:fontFamily="sans-serif-smallcaps"
+                android:layout_marginRight="10dp"
+                android:textAllCaps="false"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+</LinearLayout>
+
+</LinearLayout>
+

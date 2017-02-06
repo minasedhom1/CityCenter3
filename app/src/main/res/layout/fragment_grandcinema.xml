@@ -1,0 +1,20 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.lenovo.citycenter.Fragments.GrandCinema">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listview_category"
+        android:divider="#00000000"
+        android:dividerHeight="10dip"
+        android:paddingTop="6dp"
+        android:cacheColorHint="#00000000"
+        android:entries="@array/rate_values"
+        />
+
+
+</LinearLayout>
