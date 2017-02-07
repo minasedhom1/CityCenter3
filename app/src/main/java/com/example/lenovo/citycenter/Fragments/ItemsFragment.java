@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +22,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.Classes.GetDataRequest;
 import com.example.lenovo.citycenter.Classes.Item;
+import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -136,6 +140,7 @@ public class ItemsFragment extends Fragment {
                     {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Item item=new Item();
+                        item.setId(object.getString("ItemID"));
                         item.setName(htmlRender(object.getString("Name_En")));
                         item.setDescription(htmlRender(object.getString("Description_En")));
                         item.setPhone1(object.getString("Phone1"));
@@ -147,7 +152,7 @@ public class ItemsFragment extends Fragment {
 
                     itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
                     ItemList.setAdapter(itemAdapter);
-
+                    itemAdapter.setNotifyOnChange(true);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -183,6 +188,7 @@ boolean like=false;
       //  ItemList = (ListView) getActivity().findViewById(R.id.clickedItem_customList);
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, ItemList, false);
         ItemList.addFooterView(footerView,null,false);
+      //  itemAdapter.setNotifyOnChange(true);
       //  itemAdapter = new MyCustomListAdapter(getContext(), android.R.layout.simple_list_item_1, R.id.shopNameTextView, itemArrayList);
       //  ItemList.setAdapter(itemAdapter);
 //        itemAdapter.notifyDataSetChanged();
@@ -300,14 +306,40 @@ boolean like=false;
 
 
                 //holder.shineButton.setChecked(itemArrayList.get(position).isLike());
-
-
+                myItem.setLike(myItem.isLike());
+                holder.shineButton.setChecked(myItem.isLike());
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
+                        if(!myItem.isLike())
+                        { StringRequest postReq=new StringRequest(Request.Method.POST, Variables.URL_ADD_TO_FAVORITES_ITEM +myItem.getId(), new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                JsonElement root=new JsonParser().parse(response);
+                                root=new JsonParser().parse(root.getAsString());   //double parse
+                                response = root.getAsString();
+                                try {
+                                    JSONObject obj =new JSONObject(response);
+                                    String  status=obj.getString("Status");
+                                    if(status.matches("Success")||status.matches("Already Exists"))
+                                    { myItem.setLike(true);}
+                                    toast(status);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        },null);
+                        RequestQueue queue= Volley.newRequestQueue(getContext());
+                        queue.add(postReq);
+
+
                         }
-}
+                        else {
+                            myItem.setLike(false);
+                        }
+}}
                 );
 
             holder.image.setOnClickListener(new View.OnClickListener() {
@@ -366,55 +398,6 @@ boolean like=false;
             }
         }*/
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

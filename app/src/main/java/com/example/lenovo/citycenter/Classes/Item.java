@@ -8,12 +8,29 @@ import java.io.Serializable;
 
 public class Item implements Serializable{
 
-   private String name,description ,photo1,phone1,categoryName,city,region,site;
+   private String id,name,description ,photo1,phone1,categoryName,city,region,site;
     int rate;
     double lon,lat;
-    boolean like;
+
+    public boolean isLike() {
+        return like;
+    }
+
+    public void setLike(boolean like) {
+        this.like = like;
+    }
+
+    private boolean like;
 
     public Item() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

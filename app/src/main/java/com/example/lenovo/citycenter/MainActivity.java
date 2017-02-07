@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -20,6 +21,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.Classes.Category;
 import com.example.lenovo.citycenter.Fragments.Categories;
 import com.example.lenovo.citycenter.Fragments.ContactUs;
@@ -28,6 +35,7 @@ import com.example.lenovo.citycenter.Fragments.GrandCinema;
 import com.example.lenovo.citycenter.Fragments.LatestOffers;
 import com.example.lenovo.citycenter.Fragments.Notifications;
 import com.example.lenovo.citycenter.Fragments.WhatsNew;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -40,9 +48,15 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.widget.LikeView;
+import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +66,7 @@ import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static String ACCOUNT_ID;
 
     private GoogleApiClient client;
 
@@ -80,7 +95,30 @@ public class MainActivity extends AppCompatActivity
         loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                AccessToken tok;
+                tok = AccessToken.getCurrentAccessToken();
+                Log.d("UserID", tok.getUserId());
+               // Toast.makeText(MainActivity.this, tok.getUserId(),Toast.LENGTH_LONG).show();
+                StringRequest postReq=new StringRequest(Request.Method.POST, Variables.URL_POST_FBID_GET_ACC_ID +tok.getUserId(), new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JsonElement root=new JsonParser().parse(response);
+                        root=new JsonParser().parse(root.getAsString());   //double parse
+                        response = root.getAsString();
+                        try {
+                            JSONObject obj =new JSONObject(response);
+                            ACCOUNT_ID = obj.getString("ID");
+                           // Toast.makeText(MainActivity.this,Variables.ACCOUNT_ID,Toast.LENGTH_LONG).show();
+                            Log.d("ACCOUNTID",ACCOUNT_ID);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(MainActivity.this,response,Toast.LENGTH_LONG).show();
 
+                    }
+                },null);
+                RequestQueue queue= Volley.newRequestQueue(MainActivity.this);
+                queue.add(postReq);
             }
 
             @Override
