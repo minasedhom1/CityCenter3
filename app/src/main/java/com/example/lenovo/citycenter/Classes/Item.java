@@ -8,9 +8,17 @@ import java.io.Serializable;
 
 public class Item implements Serializable{
 
-   private String id,name,description ,photo1,phone1,categoryName,city,region,site;
+   private String id,name,description ,photo1,phone1,categoryName,city,region,site,categoryID;
     int rate;
     double lon,lat;
+
+    public String getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
+    }
 
     public boolean isLike() {
         return like;

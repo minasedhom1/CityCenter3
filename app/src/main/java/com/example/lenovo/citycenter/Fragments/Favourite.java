@@ -30,6 +30,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.Classes.Item;
+import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -61,14 +62,16 @@ public class Favourite extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+     //  itemArrayList = MainActivity.fav_items;
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       // itemArrayList=Methods.getFavourites((AppCompatActivity) getActivity());
+        final View view=inflater.inflate(R.layout.fragment_favourite, container, false);
+
+        // itemArrayList=Methods.getFavourites((AppCompatActivity) getActivity());
        StringRequest request=new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -93,6 +96,7 @@ public class Favourite extends Fragment {
                        // item.setCategoryName(object.getString("CategoryName_En"));
                         itemArrayList.add(item);
                     }
+                    itemList= (ListView) view.findViewById(R.id.favourite_list);
                     itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
                     itemList.setAdapter(itemAdapter);
                 } catch (JSONException e1) {
@@ -106,7 +110,14 @@ public class Favourite extends Fragment {
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         queue.add(request);
 
-        return inflater.inflate(R.layout.fragment_favourite, container, false);
+
+       /* itemList= (ListView) view.findViewById(R.id.favourite_list);
+        itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,MainActivity.fav_items);
+        itemList.setAdapter(itemAdapter);*/
+        //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+
+
+        return view;
 
 
     }
@@ -114,7 +125,6 @@ public class Favourite extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
      //   View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, itemList, false);
     //    itemList.addFooterView(footerView,null,false);
 
@@ -152,7 +162,6 @@ public class Favourite extends Fragment {
 
         /*----------------------------------------------APi favoutrite handle----------------------------------------------------*/
 
-     itemList= (ListView) view.findViewById(R.id.favourite_list);
 
 
     }
@@ -224,7 +233,7 @@ public class Favourite extends Fragment {
                 /*-------------------like btn--------------------*/
 
                 holder.shineButton.init(getActivity());
-
+                holder.shineButton.setChecked(true);
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
                                                           @Override
                                                           public void onClick(View view) {

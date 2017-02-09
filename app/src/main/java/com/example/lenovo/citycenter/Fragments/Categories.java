@@ -30,6 +30,7 @@ import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.Classes.ExpandListAdpter;
 import com.example.lenovo.citycenter.Classes.GetDataRequest;
 import com.example.lenovo.citycenter.Classes.Category;
+import com.example.lenovo.citycenter.Classes.Item;
 import com.example.lenovo.citycenter.Classes.Subcategory;
 import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
@@ -56,11 +57,18 @@ public class Categories extends Fragment {
     private ArrayList<Category> categoryArrayList;
     private ArrayList<Subcategory> subcategoryAraayList;
 
+
+    ArrayList<String>integers=new ArrayList<>();
+
    // private ArrayAdapter myAdapter;
    ExpandListAdpter expandListAdpter;
+
+    RequestQueue queue ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
 
     }
@@ -73,7 +81,7 @@ public class Categories extends Fragment {
         categoryArrayList = new ArrayList<>();
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
         GetDataRequest.setUrl(Variables.URL_GET_CATEGORIES_GOODS);
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+         queue = Volley.newRequestQueue(getContext());
 
         Response.Listener<String> responseListener = new Response.Listener<String>() {
 
@@ -98,10 +106,6 @@ public class Categories extends Fragment {
                         categoryArrayList.add(myCategory);
                     }
 
-                  /*  myAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.shopNameTextView,categoryArrayList);
-                    customListView.setAdapter(myAdapter);
-                    myAdapter.setNotifyOnChange(true);*/
-
                     expandListAdpter=new ExpandListAdpter((AppCompatActivity) getActivity(),categoryArrayList);
                     expand_listView.setAdapter(expandListAdpter);
                 } catch (JSONException e) {
@@ -111,6 +115,8 @@ public class Categories extends Fragment {
         };
         GetDataRequest fetchRequest = new GetDataRequest(responseListener);
         queue.add(fetchRequest);
+
+        queue.start();
 /*-----------------------------------------------------------------------------------------------------------------------------------*/
 
 
@@ -132,25 +138,6 @@ public class Categories extends Fragment {
 
         expand_listView.addFooterView(footerView,null,false);
         expand_listView.setGroupIndicator(null);
-/*
-        categoryArrayList.add(new category("<font color=#008000 >Jewellery / </font> <font color=#993366>Watches </font>", "Check our stores, Damas, Big Boys, Talaat El Sergany and Time Trade", R.mipmap.jewelry));
-
-        categoryArrayList.add(new category("<font color=#008000 >Optical / </font> <font color=#993366>Sunglasses</font>", "Check our shops C & CO, Grand Optics, and Maghrabi", R.mipmap.glasses));
-
-        categoryArrayList.add(new category("<font color=#993300 >Perfumes / </font> <font color=#808000>Cosmetics</font>", "Check our 4 Perfume/Cosmetics shops", R.mipmap.perfume));
-
-        categoryArrayList.add(new category("<font color=#339966 >Children's</font> <font color=#3366ff>Fashion </font>", "Check our 5 children's wear shops, including Mothercare", R.mipmap.kids));
-        categoryArrayList.add(new category("<font color=#993366 >Shoes / </font> <font color=#339966>Bags</font>", "The Mega stores in city stars", R.mipmap.shoes));*/
-
-
-/*
-        myAdapter = new MyCustomListAdapter(getContext(), android.R.layout.simple_list_item_1, R.id.shopNameTextView, categoryArrayList);
-
-        customListView.setAdapter(myAdapter);*/
-       //myAdapter.setNotifyOnChange(true);
-
-
-
 
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +169,7 @@ public class Categories extends Fragment {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 Category cat = (Category) expandListAdpter.getGroup(groupPosition);
+
                 if(!cat.isHas_sub())
                 {Variables.catID = String.valueOf(cat.get_id());
                 Fragment fragment = new ItemsFragment();
@@ -203,6 +191,83 @@ public class Categories extends Fragment {
            return false;
        }
    });
+
+    }
+
+
+
+
+    public String htmlRender(String ss)
+    {
+        ss=ss.replace("span","font");
+        ss=ss.replace("style=\"color: ","color=");
+        ss=ss.replace(";\"","");
+        ss=ss.replaceAll("<p>","");
+        ss=ss.replaceAll("</p>",""); //********
+        return ss;
+    }
+
+    public void toast(String s)
+    {
+        Toast.makeText(getContext(),s,Toast.LENGTH_SHORT).show();
+    }
+
+    public  ArrayList<Subcategory> getSubs(int catID) {
+        final ArrayList<Subcategory> subCat_array = new ArrayList();
+        Volley.newRequestQueue(getContext()).add(new StringRequest(Request.Method.GET, Variables.URL_GET_SELECTED_CATEGORY_SUBCATEGORIES + catID,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JsonElement root = new JsonParser().parse(response);
+                            response = root.getAsString();  //not .toString
+                            jsonArray = new JSONArray(response);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                Subcategory mySub = new Subcategory();
+                                mySub.setSubCat_ID(object.getInt("SubCategoryID"));
+                                mySub.setSubCat_name(object.getString("Name_En")); // X
+                                mySub.setSubCat_describtion(object.getString("Description_En")); // X
+                                mySub.setSubCat_icon_url("https://sa3ednymalladmin.azurewebsites.net/IMG/" + object.getString("Photo1"));
+                                subCat_array.add(mySub);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, null)
+        );
+        return subCat_array;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //onItem click
        // customListView.setDescendantFocusability(customListView.getBottom());
        /* customListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -226,7 +291,7 @@ public class Categories extends Fragment {
 
 
         //ExpandListAdpter expandListAdpter=new ExpandListAdpter(getActivity(),categoryArrayList,subcategoryAraayList);
-    }
+
 
 
 
@@ -290,50 +355,5 @@ public class Categories extends Fragment {
         }
     }*/
 
-    public String htmlRender(String ss)
-    {
-        ss=ss.replace("span","font");
-        ss=ss.replace("style=\"color: ","color=");
-        ss=ss.replace(";\"","");
-        ss=ss.replaceAll("<p>","");
-        ss=ss.replaceAll("</p>",""); //********
-        return ss;
-    }
 
-    public void toast(String s)
-    {
-        Toast.makeText(getContext(),s,Toast.LENGTH_SHORT).show();
-    }
-
-    public  ArrayList<Subcategory> getSubs(int catID) {
-        final ArrayList<Subcategory> subCat_array = new ArrayList();
-        Volley.newRequestQueue(getContext()).add(new StringRequest(Request.Method.GET, Variables.URL_GET_SELECTED_CATEGORY_SUBCATEGORIES + catID,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        try {
-                            JsonElement root = new JsonParser().parse(response);
-                            response = root.getAsString();  //not .toString
-                            jsonArray = new JSONArray(response);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject object = jsonArray.getJSONObject(i);
-                                Subcategory mySub = new Subcategory();
-                                mySub.setSubCat_ID(object.getInt("SubCategoryID"));
-                                mySub.setSubCat_name(object.getString("Name_En")); // X
-                                mySub.setSubCat_describtion(object.getString("Description_En")); // X
-                                mySub.setSubCat_icon_url("https://sa3ednymalladmin.azurewebsites.net/IMG/" + object.getString("Photo1"));
-                                subCat_array.add(mySub);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, null)
-        );
-        return subCat_array;
-
-    }
 }

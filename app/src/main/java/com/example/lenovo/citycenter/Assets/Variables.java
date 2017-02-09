@@ -8,6 +8,8 @@ import com.example.lenovo.citycenter.MainActivity;
 
 public class Variables {
     public  static String catID;
+    public  static String ACCOUNT_ID;
+
     public static final String URL_POST_FBID_GET_ACC_ID ="http://Sa3ednymallservice.azurewebsites.net/sodic/Account/CreateAccount/Create?FBID=";
     public static final String URL_GET_CATEGORIES_GOODS="http://sa3ednyMallservice.azurewebsites.net/sodic/Category/GetAllActiveCategoriesGoods/Get";
     public static final String URL_GET_CATEGORIES_SERVICES="http://sa3ednyMallservice.azurewebsites.net/sodic/Category/GetAllActiveCategoriesServices/Get";

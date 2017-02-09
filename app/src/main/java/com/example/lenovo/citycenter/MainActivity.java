@@ -28,6 +28,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.Classes.Category;
+import com.example.lenovo.citycenter.Classes.Item;
 import com.example.lenovo.citycenter.Fragments.Categories;
 import com.example.lenovo.citycenter.Fragments.ContactUs;
 import com.example.lenovo.citycenter.Fragments.Favourite;
@@ -55,6 +56,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,8 +71,6 @@ public class MainActivity extends AppCompatActivity
     public static String ACCOUNT_ID;
 
     private GoogleApiClient client;
-
-    /*----------*/
     public Fragment fragment = null;
     public Class fragmentClass = null;
     public FragmentManager fragmentManager = getSupportFragmentManager();
@@ -84,14 +84,51 @@ public class MainActivity extends AppCompatActivity
     Profile profile;
     View navHed;
 
+    public static ArrayList<Item> fav_items ;
+    static ArrayList<Item> all_items;
+   // ArrayList<String>integers=new ArrayList<>();
+    JSONArray jsonArray;
+    RequestQueue queue;
+   public static ArrayList<String> fav_ids;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FacebookSdk.sdkInitialize(MainActivity.this);
-        callbackManager = CallbackManager.Factory.create();
+       queue=Volley.newRequestQueue(MainActivity.this);
+        fav_items=new ArrayList<>();
+        all_items=new ArrayList<>();
+        fav_ids=new ArrayList<>();
 
-        LoginManager loginManager=LoginManager.getInstance();
+
+        callbackManager = CallbackManager.Factory.create();
+        if(AccessToken.getCurrentAccessToken()!=null) {
+            StringRequest postReq = new StringRequest(Request.Method.POST, Variables.URL_POST_FBID_GET_ACC_ID + AccessToken.getCurrentAccessToken().getUserId(), new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    JsonElement root = new JsonParser().parse(response);
+                    root = new JsonParser().parse(root.getAsString());   //double parse
+                    response = root.getAsString();
+                    try {
+                        JSONObject obj = new JSONObject(response);
+                        ACCOUNT_ID = obj.getString("ID");
+                        getFavourtieItems();
+
+                        // Toast.makeText(MainActivity.this,Variables.ACCOUNT_ID,Toast.LENGTH_LONG).show();
+                        Log.d("ACCOUNTID", ACCOUNT_ID);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+
+                }
+            }, null);
+           // RequestQueue queue= Volley.newRequestQueue(MainActivity.this);
+            queue.add(postReq);
+
+        }
+
+      else{  LoginManager loginManager=LoginManager.getInstance();
         loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -108,6 +145,7 @@ public class MainActivity extends AppCompatActivity
                         try {
                             JSONObject obj =new JSONObject(response);
                             ACCOUNT_ID = obj.getString("ID");
+                             getFavourtieItems();
                            // Toast.makeText(MainActivity.this,Variables.ACCOUNT_ID,Toast.LENGTH_LONG).show();
                             Log.d("ACCOUNTID",ACCOUNT_ID);
                         } catch (JSONException e) {
@@ -117,8 +155,9 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 },null);
-                RequestQueue queue= Volley.newRequestQueue(MainActivity.this);
+            //    RequestQueue queue= Volley.newRequestQueue(MainActivity.this);
                 queue.add(postReq);
+               // queue.stop();
             }
 
             @Override
@@ -131,7 +170,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
+        loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));}
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -211,7 +250,7 @@ public class MainActivity extends AppCompatActivity
             faceName.setText("none");
         }
 
-       mainFrag();
+
 
         View image = findViewById(R.id.logo_header);
         image.setSoundEffectsEnabled(false);
@@ -225,7 +264,94 @@ public class MainActivity extends AppCompatActivity
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+      mainFrag();
 
+/*if(ACCOUNT_ID!=null)
+{
+        StringRequest favrequest =new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID ,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JsonElement root=new JsonParser().parse(response);
+                        response = root.getAsString();
+                        try {
+                            JSONObject jsonObject= new JSONObject(response);
+
+                            jsonArray=jsonObject.getJSONArray("allFav");
+
+                            for (int i = 0; i < jsonArray.length(); i++)
+                            {
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                object= object.getJSONObject("fav");
+                                Item item=new Item();
+                                item.setId(object.getString("ItemID"));
+                                item.setName(htmlRender(object.getString("Name_En")));
+                                item.setDescription(htmlRender(object.getString("Description_En")));
+                                // item.setPhone1(object.getString("Phone1"));
+                                item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/"+object.getString("Photo1"));
+                                // item.setCategoryName(object.getString("CategoryName_En"));
+                                fav_items.add(item);
+                            }
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                        for(int i=0;i<fav_items.size();i++)
+                        {
+                            integers.add(fav_items.get(i).getId());
+                        }
+                    }
+
+                },null);
+        queue.add(favrequest);*/
+ /*       StringRequest request_all_items=new StringRequest(Request.Method.GET, Variables.URL_GET_ALL_ITEMS,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JsonElement root=new JsonParser().parse(response);
+                            response = root.getAsString();
+                            JSONObject jsonObject=new JSONObject(response);
+                            jsonArray=jsonObject.getJSONArray("ItemsList");
+                            for (int i = 0; i < jsonArray.length(); i++)
+
+                            {
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                Item item=new Item();
+                                item.setId(object.getString("ItemID"));
+                                item.setName(htmlRender(object.getString("Name_En")));
+                                item.setDescription(htmlRender(object.getString("Description_En")));
+                                item.setPhone1(object.getString("Phone1"));
+                                item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/"+object.getString("Photo1"));
+                                item.setCategoryName(object.getString("CategoryName_En"));
+                                if(integers.contains(item.getId()))
+                                {
+                                    item.setLike(true);
+                                }
+                                all_items.add(item);
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },null);*/
+
+
+
+
+
+     //   queue.add(request_all_items);
+
+
+
+        // queue.start();
+
+      //  mainFrag();
 
     }
 
@@ -291,6 +417,91 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+   /* public  void getItems()
+    {StringRequest request_all_items=new StringRequest(Request.Method.GET, Variables.URL_GET_ALL_ITEMS,
+            new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+
+                    try {
+                        JsonElement root=new JsonParser().parse(response);
+                        response = root.getAsString();
+                        JSONObject jsonObject=new JSONObject(response);
+                        jsonArray=jsonObject.getJSONArray("ItemsList");
+                        for (int i = 0; i < jsonArray.length(); i++)
+
+                        {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            Item item=new Item();
+                            item.setId(object.getString("ItemID"));
+                            item.setName(htmlRender(object.getString("Name_En")));
+                            item.setDescription(htmlRender(object.getString("Description_En")));
+                            item.setPhone1(object.getString("Phone1"));
+                            item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/"+object.getString("Photo1"));
+                            item.setCategoryName(object.getString("CategoryName_En"));
+                            if(integers.contains(item.getId()))
+                            {
+                                item.setLike(true);
+                            }
+                            all_items.add(item);
+
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            },null);
+        queue.add(request_all_items);
+    }*/
+
+    public  void getFavourtieItems()
+    {
+        final StringRequest favrequest =new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID ,
+            new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    JsonElement root=new JsonParser().parse(response);
+                    response = root.getAsString();
+                    try {
+                        JSONObject jsonObject= new JSONObject(response);
+
+                        jsonArray=jsonObject.getJSONArray("allFav");
+
+                        for (int i = 0; i < jsonArray.length(); i++)
+                        {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            object= object.getJSONObject("fav");
+                            Item item=new Item();
+                            item.setId(object.getString("ItemID"));
+                            item.setName(htmlRender(object.getString("Name_En")));
+                            item.setDescription(htmlRender(object.getString("Description_En")));
+                            // item.setPhone1(object.getString("Phone1"));
+                            item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/"+object.getString("Photo1"));
+                            // item.setCategoryName(object.getString("CategoryName_En"));
+                            fav_items.add(item);
+
+                        }
+                        for(int i=0;i<fav_items.size();i++)
+                        {
+                            fav_ids.add(fav_items.get(i).getId());
+                        }
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                 /*   for(int i=0;i<fav_items.size();i++)
+                    {
+                        fav_ids.add(fav_items.get(i).getId());
+                    }*/
+                }
+
+            },null);
+        queue.add(favrequest);
+
+    }
 
 
 
@@ -379,6 +590,15 @@ public class MainActivity extends AppCompatActivity
 
     }*/
 
+    public String htmlRender(String ss)
+    {
+        ss=ss.replace("span","font");
+        ss=ss.replace("style=\"color: ","color=");
+        ss=ss.replace(";\"","");
+        ss=ss.replaceAll("<p>","");
+        ss=ss.replaceAll("</p>",""); //********
+        return ss;
+    }
 
     void faceBookStuff() {
 
@@ -403,4 +623,6 @@ public class MainActivity extends AppCompatActivity
 
         fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
     }
+
+
 }

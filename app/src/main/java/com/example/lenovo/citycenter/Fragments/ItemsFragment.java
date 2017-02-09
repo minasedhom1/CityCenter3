@@ -76,11 +76,11 @@ public class ItemsFragment extends Fragment {
 
 
     ListView ItemList;
-    ArrayList<Item> itemArrayList = new ArrayList<>();
+   static ArrayList<Item> itemArrayList = new ArrayList<>();
     private ArrayAdapter itemAdapter;
     static ArrayList<Item> favouriteList=new ArrayList<>();
 
-    static Item myItem;
+   // static Item myItem;
 
 
 
@@ -114,7 +114,6 @@ public class ItemsFragment extends Fragment {
          //  itemArrayList = new ArrayList<>();
           // itemArrayList.add(myItem);
 
-
     }
     JSONArray jsonArray;
     @Override
@@ -123,12 +122,14 @@ public class ItemsFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_items, container, false);
 
         ItemList= (ListView) view.findViewById(R.id.clickedItem_customList);
-        itemArrayList = new ArrayList<>();
+      //  itemArrayList = new ArrayList<>();
 
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
+            Response.Listener<String> responseListener = new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
+
+
 
                 try {
                     JsonElement root=new JsonParser().parse(response);
@@ -146,7 +147,13 @@ public class ItemsFragment extends Fragment {
                         item.setPhone1(object.getString("Phone1"));
                         item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/"+object.getString("Photo1"));
                         item.setCategoryName(object.getString("CategoryName_En"));
+                        item.setCategoryID(Variables.catID);
                         itemArrayList.add(item);
+                        if(MainActivity.fav_ids.contains(item.getId()))
+                        {
+                            item.setLike(true);
+                        }
+
 
                     }
 
@@ -156,14 +163,31 @@ public class ItemsFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
         };
+        if(itemArrayList.size()!=0)
+        { if(itemArrayList.get(0).getCategoryID()==Variables.catID  )
 
-        GetDataRequest fetchRequest = new GetDataRequest(responseListener);
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        queue.add(fetchRequest);
-
-
+          /*GetDataRequest fetchRequest = new GetDataRequest(responseListener);
+          RequestQueue queue = Volley.newRequestQueue(getActivity());
+                 queue.add(fetchRequest);*/
+            {  itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
+                ItemList.setAdapter(itemAdapter);
+                itemAdapter.setNotifyOnChange(true);
+            }
+            else {
+            itemArrayList.clear();
+            GetDataRequest fetchRequest = new GetDataRequest(responseListener);
+            RequestQueue queue = Volley.newRequestQueue(getActivity());
+            queue.add(fetchRequest);
+        }
+        }
+else {
+                GetDataRequest fetchRequest = new GetDataRequest(responseListener);
+                RequestQueue queue = Volley.newRequestQueue(getActivity());
+                queue.add(fetchRequest);
+        }
         return view;
    }
 
@@ -194,9 +218,10 @@ boolean like=false;
 //        itemAdapter.notifyDataSetChanged();
        // ItemList.addFooterView();
       // newInstance(myItem);
-        toast(Variables.catID);
+      //  toast(Variables.catID);
 
 
+//        toast(String.valueOf(Variables.catID==itemArrayList.get(0).getCategoryID()));
 
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -254,7 +279,7 @@ boolean like=false;
                     LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
                     convertView = inflater.inflate(R.layout.item_clicked, parent, false);
 
-                    myItem = itemArrayList.get(position);
+                    Item myItem = itemArrayList.get(position);
 
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.promo2_tv);
@@ -303,17 +328,16 @@ boolean like=false;
                 /*-------------------like btn--------------------*/
 
                 holder.shineButton.init(getActivity());
-
+                //holder.shineButton.setChecked(myItem.isLike());
 
                 //holder.shineButton.setChecked(itemArrayList.get(position).isLike());
-                myItem.setLike(myItem.isLike());
+               // myItem.setLike(myItem.isLike());
                 holder.shineButton.setChecked(myItem.isLike());
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        if(!myItem.isLike())
-                        { StringRequest postReq=new StringRequest(Request.Method.POST, Variables.URL_ADD_TO_FAVORITES_ITEM +myItem.getId(), new Response.Listener<String>() {
+                      //  MainActivity.fav_items.add(myItem);
+                       StringRequest postReq=new StringRequest(Request.Method.POST, Variables.URL_ADD_TO_FAVORITES_ITEM +myItem.getId(), new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
                                 JsonElement root=new JsonParser().parse(response);
@@ -336,27 +360,14 @@ boolean like=false;
 
 
                         }
-                        else {
-                            myItem.setLike(false);
-                        }
-}}
+
+}
                 );
 
             holder.image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-      /*              LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
 
-                    View layout = inflater.inflate(R.layout.pop_up_item_image,
-                            parent,false);
-                    ImageView image = (ImageView) layout.findViewById(R.id.imageView3);*/
-                   /* PopupWindow
-                    final Dialog nagDialog = new Dialog(getContext(),android.R.style.Widget_Material_Light_PopupMenu_Overflow);
-                    nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    nagDialog.setContentView(R.layout.pop_up_item_image);
-                    ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.imageView3);
-                    ivPreview.setImageDrawable(holder.image.getDrawable());
-                    nagDialog.show();*/
                     final Dialog nagDialog = new Dialog(getContext());
                     nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     nagDialog.setContentView(R.layout.pop_up_item_image);
