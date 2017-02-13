@@ -13,11 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +23,6 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Variables;
-import com.example.lenovo.citycenter.Classes.Category;
 import com.example.lenovo.citycenter.Classes.Item;
 import com.example.lenovo.citycenter.Fragments.Categories;
 import com.example.lenovo.citycenter.Fragments.ContactUs;
@@ -41,15 +36,12 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.LoggingBehavior;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
-import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.widget.LikeView;
-import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.JsonElement;
@@ -116,7 +108,7 @@ public class MainActivity extends AppCompatActivity
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+                //    Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
 
                 }
             }, null);
@@ -148,7 +140,11 @@ public class MainActivity extends AppCompatActivity
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Toast.makeText(MainActivity.this,response,Toast.LENGTH_LONG).show();
+                      //
+                        //
+                        //
+                        //
+                        // Toast.makeText(MainActivity.this,response,Toast.LENGTH_LONG).show();
 
                     }
                 },null);
@@ -400,7 +396,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
+        fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

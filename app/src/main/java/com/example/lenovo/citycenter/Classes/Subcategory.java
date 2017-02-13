@@ -5,15 +5,15 @@ package com.example.lenovo.citycenter.Classes;
  */
 
 public class Subcategory {
-    String subCat_name,subCat_describtion,subCat_icon_url;
-    int Cat_ID,subCat_ID;
+   private String subcat_id, subCat_name,subCat_describtion,subCat_icon_url;
+    int Cat_ID;
 
-    public int getSubCat_ID() {
-        return subCat_ID;
+    public String getSubcat_id() {
+        return subcat_id;
     }
 
-    public void setSubCat_ID(int subCat_ID) {
-        this.subCat_ID = subCat_ID;
+    public void setSubcat_id(String subcat_id) {
+        this.subcat_id = subcat_id;
     }
 
     public int getCat_ID() {

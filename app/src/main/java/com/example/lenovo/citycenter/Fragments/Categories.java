@@ -6,49 +6,31 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Variables;
+import com.example.lenovo.citycenter.Classes.Category;
 import com.example.lenovo.citycenter.Classes.ExpandListAdpter;
 import com.example.lenovo.citycenter.Classes.GetDataRequest;
-import com.example.lenovo.citycenter.Classes.Category;
-import com.example.lenovo.citycenter.Classes.Item;
 import com.example.lenovo.citycenter.Classes.Subcategory;
-import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
-
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class Categories extends Fragment {
 
@@ -117,7 +99,7 @@ public class Categories extends Fragment {
         queue.start();
 /*-----------------------------------------------------------------------------------------------------------------------------------*/
 
-        Methods.toast("hello",getContext());
+    //    Methods.toast("hello",getContext());
 
         return inflater.inflate(R.layout.fragment_categories, container, false);
 
@@ -180,11 +162,13 @@ public class Categories extends Fragment {
           expand_listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
        @Override
        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-           Category myCategory= (Category) expandListAdpter.getGroup(groupPosition);
-          int subcatID = myCategory.getSub_array().get(childPosition).getSubCat_ID();
+           Category cat = (Category) expandListAdpter.getGroup(groupPosition);
+             String subcatID=cat.getSub_array().get(childPosition).getSubcat_id();
+
            Fragment fragment = new ItemsFragment();
            getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
-            GetDataRequest.setUrl(Variables.URL_GET_SELECTED_SUBCATEGORY_ITEM+subcatID );
+           String url = Variables.URL_GET_SELECTED_SUBCATEGORY_ITEM + subcatID;
+            GetDataRequest.setUrl(url );
 
            return false;
        }
@@ -221,7 +205,7 @@ public class Categories extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Subcategory mySub = new Subcategory();
-                                mySub.setSubCat_ID(object.getInt("SubCategoryID"));
+                                mySub.setSubcat_id((object.getString("SubCategoryID")));
                                 mySub.setSubCat_name(object.getString("Name_En")); // X
                                 mySub.setSubCat_describtion(object.getString("Description_En")); // X
                                 mySub.setSubCat_icon_url("https://sa3ednymalladmin.azurewebsites.net/IMG/" + object.getString("Photo1"));
