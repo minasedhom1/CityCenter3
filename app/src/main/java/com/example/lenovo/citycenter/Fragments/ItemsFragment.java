@@ -62,80 +62,69 @@ public class ItemsFragment extends Fragment {
         // Required empty public constructor
     }
 
-   static  Bundle args;
-    // TODO: Rename and change types and number of parameters
-
-   /* public static ItemsFragment newInstance(Item item) {
-        ItemsFragment fragment = new ItemsFragment();
-        args = new Bundle();
-        args.putSerializable("key",item);
-        fragment.setArguments(args);
-        return fragment;
-    }*/
-
-
-
     ListView ItemList;
-   static ArrayList<Item> itemArrayList = new ArrayList<>();
+   static ArrayList<Item> itemArrayList ;
     private ArrayAdapter itemAdapter;
-    static ArrayList<Item> favouriteList=new ArrayList<>();
-
-   // static Item myItem;
-
-
-
-  /*  public static ItemsFragment newInstance(Item item) {
-        ItemsFragment fragment = new ItemsFragment();
-        Favourite fragment2=new Favourite();
-        Bundle args = new Bundle();
-        args.putSerializable("key",item);
-        fragment.setTargetFragment(fragment2,1);
-        fragment.setArguments(args);
-        return fragment;
-
-    }
-    */
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-
-    }
+    static ArrayList<Item> favouriteList ;
+    ArrayList<String>fav_ids;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+//First: get favourite IDs to compare
+        itemArrayList = new ArrayList<>();
+        favouriteList=new ArrayList<>();
+        fav_ids=new ArrayList<>();
+        if (favouriteList.size() == 0) {
+            final StringRequest favrequest = new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            JsonElement root = new JsonParser().parse(response);
+                            response = root.getAsString();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = jsonObject.getJSONArray("allFav");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject object = jsonArray.getJSONObject(i);
+                                    object = object.getJSONObject("fav");
+                                    Item item = new Item();
+                                    item.setId(object.getString("ItemID"));
+                                    item.setName(htmlRender(object.getString("Name_En")));
+                                    item.setDescription(htmlRender(object.getString("Description_En")));
+                                    item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/" + object.getString("Photo1"));
+                                    favouriteList.add(item);
+                                }
+                                for (int i = 0; i < favouriteList.size(); i++) {
+                                    fav_ids.add(favouriteList.get(i).getId());
+                                }
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    }, null);
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            queue.add(favrequest);
         }
-
-         //  itemArrayList = new ArrayList<>();
-          // itemArrayList.add(myItem);
-
     }
-    JSONArray jsonArray;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_items, container, false);
 
         ItemList= (ListView) view.findViewById(R.id.clickedItem_customList);
-      //  itemArrayList = new ArrayList<>();
 
+        //Second: get items for that category id (get from cat frag.), then compare with  fav IDs
             Response.Listener<String> responseListener = new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-
-
-
                 try {
                     JsonElement root=new JsonParser().parse(response);
                     response = root.getAsString();
                     JSONObject jsonObject=new JSONObject(response);
-                    jsonArray=jsonObject.getJSONArray("ItemsList");
+                    JSONArray jsonArray=jsonObject.getJSONArray("ItemsList");
                     for (int i = 0; i < jsonArray.length(); i++)
 
                     {
@@ -149,49 +138,39 @@ public class ItemsFragment extends Fragment {
                         item.setCategoryName(object.getString("CategoryName_En"));
                         item.setCategoryID(Variables.catID);
                         itemArrayList.add(item);
-                        if(MainActivity.fav_ids.contains(item.getId()))
+                        if(fav_ids.size()!=0 && fav_ids.contains(item.getId()))
                         {
                             item.setLike(true);
                         }
-
-
                     }
-
                     itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
                     ItemList.setAdapter(itemAdapter);
                     itemAdapter.setNotifyOnChange(true);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         };
-        if(itemArrayList.size()!=0)
-        { if(itemArrayList.get(0).getCategoryID()==Variables.catID  )
-
-          /*GetDataRequest fetchRequest = new GetDataRequest(responseListener);
-          RequestQueue queue = Volley.newRequestQueue(getActivity());
-                 queue.add(fetchRequest);*/
+       /* if(itemArrayList.size()!=0) //check the static arraylist, not to re-request.
+        { if(itemArrayList.get(0).getCategoryID()==Variables.catID  )//check if the catId is identical.if so ->|use it to fill adapter|
             {  itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
                 ItemList.setAdapter(itemAdapter);
                 itemAdapter.setNotifyOnChange(true);
             }
-            else {
+            else {  //if not, request new items for that category
             itemArrayList.clear();
             GetDataRequest fetchRequest = new GetDataRequest(responseListener);
             RequestQueue queue = Volley.newRequestQueue(getActivity());
             queue.add(fetchRequest);
         }
         }
-else {
+else {    //if it's empty,request.*/
                 GetDataRequest fetchRequest = new GetDataRequest(responseListener);
                 RequestQueue queue = Volley.newRequestQueue(getActivity());
                 queue.add(fetchRequest);
-        }
+
         return view;
    }
-
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -200,10 +179,8 @@ else {
         }
     }
 
-boolean like=false;
-
+    boolean like=false;
     FloatingActionButton fab;
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -212,22 +189,11 @@ boolean like=false;
       //  ItemList = (ListView) getActivity().findViewById(R.id.clickedItem_customList);
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, ItemList, false);
         ItemList.addFooterView(footerView,null,false);
-      //  itemAdapter.setNotifyOnChange(true);
-      //  itemAdapter = new MyCustomListAdapter(getContext(), android.R.layout.simple_list_item_1, R.id.shopNameTextView, itemArrayList);
-      //  ItemList.setAdapter(itemAdapter);
-//        itemAdapter.notifyDataSetChanged();
-       // ItemList.addFooterView();
-      // newInstance(myItem);
-      //  toast(Variables.catID);
-
-
-//        toast(String.valueOf(Variables.catID==itemArrayList.get(0).getCategoryID()));
-
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ItemList.smoothScrollToPosition(0);
+        ItemList.smoothScrollToPosition(0);
 
                 // customListView.setSelection(0); //listView.smoothScrollToPosition(listView.getTop());
 
@@ -246,15 +212,7 @@ boolean like=false;
                 else fab.show();
             }
         });
-
-
     }
-
-
-
-
-
-
 
     public class MyCustomListAdapter extends ArrayAdapter<Item> {
 
@@ -336,33 +294,59 @@ boolean like=false;
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                      //  MainActivity.fav_items.add(myItem);
-                       StringRequest postReq=new StringRequest(Request.Method.POST, Variables.URL_ADD_TO_FAVORITES_ITEM +myItem.getId(), new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                JsonElement root=new JsonParser().parse(response);
-                                root=new JsonParser().parse(root.getAsString());   //double parse
-                                response = root.getAsString();
-                                try {
-                                    JSONObject obj =new JSONObject(response);
-                                    String  status=obj.getString("Status");
-                                    if(status.matches("Success")||status.matches("Already Exists"))
-                                    { myItem.setLike(true);}
-                                    toast(status);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                        //  MainActivity.fav_items.add(myItem);
+                        if (!myItem.isLike()) {
+                            StringRequest postReq = new StringRequest(Request.Method.POST, Variables.URL_ADD_TO_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    JsonElement root = new JsonParser().parse(response);
+                                    root = new JsonParser().parse(root.getAsString());   //double parse
+                                    response = root.getAsString();
+                                    try {
+                                        JSONObject obj = new JSONObject(response);
+                                        String status = obj.getString("Status");
+                                        if (status.matches("Success") || status.matches("Already Exists")) {
+                                           // myItem.setLike(true);
+                                            toast("Added to Favorites list!");
+                                        }
+                                         else toast(status);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
                                 }
-
-                            }
-                        },null);
-                        RequestQueue queue= Volley.newRequestQueue(getContext());
-                        queue.add(postReq);
-
-
+                            }, null);
+                            RequestQueue queue = Volley.newRequestQueue(getContext());
+                            queue.add(postReq);
+                            myItem.setLike(true);
                         }
-
+                    else {
+                            StringRequest postReq = new StringRequest(Request.Method.POST, Variables.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    JsonElement root = new JsonParser().parse(response);
+                                    root = new JsonParser().parse(root.getAsString());   //double parse
+                                    response = root.getAsString();
+                                    try {
+                                        JSONObject obj = new JSONObject(response);
+                                        String status = obj.getString("Status");
+                                        if(status.matches("Success"))
+                                        {
+                                        toast("Removed from Favorites list!");}
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, null);
+                            RequestQueue queue = Volley.newRequestQueue(getContext());
+                            queue.add(postReq);
+                            itemAdapter.setNotifyOnChange(true);
+                        }
+                        //toast("it's already added to favourites list!");
+                }
 }
                 );
+
 
             holder.image.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -433,4 +417,6 @@ boolean like=false;
         ss=ss.replaceAll("</p>",""); //********
         return ss;
     }
+
+
 }

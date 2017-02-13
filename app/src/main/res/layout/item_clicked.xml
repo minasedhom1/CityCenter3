@@ -143,14 +143,16 @@ android:id="@+id/like_btn"
         android:layout_height="wrap_content"
         android:id="@+id/website_btn"
         android:layout_marginTop="-10dp"
+
         />
 
     <Button
-        android:text="CALL"
+        android:text="Call"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/call_btn"
         android:layout_marginTop="-10dp"
+        
         />
 
     <Button

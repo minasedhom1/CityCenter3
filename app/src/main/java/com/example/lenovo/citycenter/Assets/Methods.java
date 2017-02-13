@@ -1,6 +1,8 @@
 package com.example.lenovo.citycenter.Assets;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -23,7 +25,10 @@ import java.util.ArrayList;
 
 public class Methods {
 
-
+    public static void toast(String s, Context context)
+    {
+        Toast.makeText(context,s,Toast.LENGTH_SHORT).show();
+    }
     public static String htmlRender(String ss)
 
     {

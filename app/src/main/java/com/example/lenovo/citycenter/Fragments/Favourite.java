@@ -70,6 +70,7 @@ public class Favourite extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view=inflater.inflate(R.layout.fragment_favourite, container, false);
+        itemList= (ListView) view.findViewById(R.id.favourite_list);
 
         // itemArrayList=Methods.getFavourites((AppCompatActivity) getActivity());
        StringRequest request=new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID, new Response.Listener<String>() {
@@ -89,6 +90,7 @@ public class Favourite extends Fragment {
                         JSONObject object = jsonArray.getJSONObject(i);
                         object= object.getJSONObject("fav");
                         Item item=new Item();
+                        item.setId(object.getString("ItemID"));
                         item.setName(htmlRender(object.getString("Name_En")));
                         item.setDescription(htmlRender(object.getString("Description_En")));
                        // item.setPhone1(object.getString("Phone1"));
@@ -96,7 +98,6 @@ public class Favourite extends Fragment {
                        // item.setCategoryName(object.getString("CategoryName_En"));
                         itemArrayList.add(item);
                     }
-                    itemList= (ListView) view.findViewById(R.id.favourite_list);
                     itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
                     itemList.setAdapter(itemAdapter);
                 } catch (JSONException e1) {
@@ -125,6 +126,12 @@ public class Favourite extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+         /*itemArrayList=MainActivity.fav_items;
+        itemList= (ListView) view.findViewById(R.id.favourite_list);
+        itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
+        itemList.setAdapter(itemAdapter);*/
+
      //   View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, itemList, false);
     //    itemList.addFooterView(footerView,null,false);
 
@@ -221,9 +228,7 @@ public class Favourite extends Fragment {
                 holder.website.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        /*Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(myItem.getSite()));
-                        startActivity(i);*/
+
                         toast(myItem.getPhoto1());
                     }
                 });
@@ -235,14 +240,32 @@ public class Favourite extends Fragment {
                 holder.shineButton.init(getActivity());
                 holder.shineButton.setChecked(true);
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
-                                                          @Override
-                                                          public void onClick(View view) {
+                   @Override
+                    public void onClick(View v) {
+                       StringRequest postReq = new StringRequest(Request.Method.POST, Variables.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
+                           @Override
+                           public void onResponse(String response) {
+                               JsonElement root = new JsonParser().parse(response);
+                               root = new JsonParser().parse(root.getAsString());   //double parse
+                               response = root.getAsString();
+                               try {
+                                   JSONObject obj = new JSONObject(response);
+                                   String status = obj.getString("Status");
+                                   if(status.matches("Success"))
+                                   {
+                                       toast("Removed from Favorites list!");}
+                               } catch (JSONException e) {
+                                   e.printStackTrace();
+                               }
+                           }
+                       }, null);
+                       RequestQueue queue = Volley.newRequestQueue(getContext());
+                       queue.add(postReq);
+                       itemAdapter.remove(myItem);
+                       itemAdapter.setNotifyOnChange(true);
+                    }});
 
-                                                          }
-                                                      }
-                );
-
-                holder.image.setOnClickListener(new View.OnClickListener() {
+                    holder.image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         final Dialog nagDialog = new Dialog(getContext());

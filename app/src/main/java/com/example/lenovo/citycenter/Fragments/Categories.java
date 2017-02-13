@@ -26,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.Classes.ExpandListAdpter;
 import com.example.lenovo.citycenter.Classes.GetDataRequest;
@@ -58,18 +59,16 @@ public class Categories extends Fragment {
     private ArrayList<Subcategory> subcategoryAraayList;
 
 
-    ArrayList<String>integers=new ArrayList<>();
-
-   // private ArrayAdapter myAdapter;
+   /* static ArrayList<Item> favouriteList=new ArrayList<>();
+   static ArrayList<String>fav_ids;*/
    ExpandListAdpter expandListAdpter;
-
     RequestQueue queue ;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
+      //  fav_ids=new ArrayList<>();
 
     }
         JSONArray jsonArray;
@@ -77,7 +76,7 @@ public class Categories extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+       // getFavourtieItems();
         categoryArrayList = new ArrayList<>();
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
         GetDataRequest.setUrl(Variables.URL_GET_CATEGORIES_GOODS);
@@ -115,10 +114,10 @@ public class Categories extends Fragment {
         };
         GetDataRequest fetchRequest = new GetDataRequest(responseListener);
         queue.add(fetchRequest);
-
         queue.start();
 /*-----------------------------------------------------------------------------------------------------------------------------------*/
 
+        Methods.toast("hello",getContext());
 
         return inflater.inflate(R.layout.fragment_categories, container, false);
 
@@ -139,19 +138,17 @@ public class Categories extends Fragment {
         expand_listView.addFooterView(footerView,null,false);
         expand_listView.setGroupIndicator(null);
 
+
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                // customListView.smoothScrollToPositionFromTop(0,0);
                 expand_listView.smoothScrollToPositionFromTop(0,0);
-
-                // customListView.setSelection(0); //listView.smoothScrollToPosition(listView.getTop());
-
             }}
         );
 
-        /*customListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        expand_listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
 
@@ -163,7 +160,7 @@ public class Categories extends Fragment {
                     fab.hide();
                 else fab.show();
             }
-        });*/
+        });
 
         expand_listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -174,12 +171,13 @@ public class Categories extends Fragment {
                 {Variables.catID = String.valueOf(cat.get_id());
                 Fragment fragment = new ItemsFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
-                    GetDataRequest.setUrl(Variables.URL_GET_SELECTED_CATEGORY_ITEMS+Variables.catID );
+                GetDataRequest.setUrl(Variables.URL_GET_SELECTED_CATEGORY_ITEMS+Variables.catID ); //set the clicked cat id to fetch it's items
                 }
                 return false;
             }
         });
-   expand_listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+          expand_listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
        @Override
        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
            Category myCategory= (Category) expandListAdpter.getGroup(groupPosition);
@@ -207,10 +205,7 @@ public class Categories extends Fragment {
         return ss;
     }
 
-    public void toast(String s)
-    {
-        Toast.makeText(getContext(),s,Toast.LENGTH_SHORT).show();
-    }
+
 
     public  ArrayList<Subcategory> getSubs(int catID) {
         final ArrayList<Subcategory> subCat_array = new ArrayList();
@@ -243,6 +238,74 @@ public class Categories extends Fragment {
         return subCat_array;
 
     }
+
+
+
+
+   /* public void getFavourtieItems()
+
+    {
+        if(favouriteList.size()==0) {
+            final StringRequest favrequest = new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            JsonElement root = new JsonParser().parse(response);
+                            response = root.getAsString();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                jsonArray = jsonObject.getJSONArray("allFav");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject object = jsonArray.getJSONObject(i);
+                                    object = object.getJSONObject("fav");
+                                    Item item = new Item();
+                                    item.setId(object.getString("ItemID"));
+                                    item.setName(htmlRender(object.getString("Name_En")));
+                                    item.setDescription(htmlRender(object.getString("Description_En")));
+                                    item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/" + object.getString("Photo1"));
+                                    favouriteList.add(item);
+                                }
+                                for (int i = 0; i < favouriteList.size(); i++) {
+                                    fav_ids.add(favouriteList.get(i).getId());
+                                }
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                    }, null);
+            RequestQueue queue= Volley.newRequestQueue(getContext());
+            queue.add(favrequest);
+        }
+    }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

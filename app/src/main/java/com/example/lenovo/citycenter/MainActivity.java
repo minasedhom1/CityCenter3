@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity
         all_items=new ArrayList<>();
         fav_ids=new ArrayList<>();
 
-
         callbackManager = CallbackManager.Factory.create();
         if(AccessToken.getCurrentAccessToken()!=null) {
             StringRequest postReq = new StringRequest(Request.Method.POST, Variables.URL_POST_FBID_GET_ACC_ID + AccessToken.getCurrentAccessToken().getUserId(), new Response.Listener<String>() {
@@ -112,9 +111,7 @@ public class MainActivity extends AppCompatActivity
                     try {
                         JSONObject obj = new JSONObject(response);
                         ACCOUNT_ID = obj.getString("ID");
-                        getFavourtieItems();
-
-                        // Toast.makeText(MainActivity.this,Variables.ACCOUNT_ID,Toast.LENGTH_LONG).show();
+                      mainFrag();
                         Log.d("ACCOUNTID", ACCOUNT_ID);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -145,8 +142,8 @@ public class MainActivity extends AppCompatActivity
                         try {
                             JSONObject obj =new JSONObject(response);
                             ACCOUNT_ID = obj.getString("ID");
-                             getFavourtieItems();
-                           // Toast.makeText(MainActivity.this,Variables.ACCOUNT_ID,Toast.LENGTH_LONG).show();
+                            mainFrag();
+                            // Toast.makeText(MainActivity.this,Variables.ACCOUNT_ID,Toast.LENGTH_LONG).show();
                             Log.d("ACCOUNTID",ACCOUNT_ID);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -171,6 +168,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));}
+     //   mainFrag();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -264,7 +262,7 @@ public class MainActivity extends AppCompatActivity
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-      mainFrag();
+
 
 /*if(ACCOUNT_ID!=null)
 {
@@ -458,51 +456,46 @@ public class MainActivity extends AppCompatActivity
         queue.add(request_all_items);
     }*/
 
-    public  void getFavourtieItems()
+    /*public  void getFavourtieItems()
+
     {
-        final StringRequest favrequest =new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID ,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    JsonElement root=new JsonParser().parse(response);
-                    response = root.getAsString();
-                    try {
-                        JSONObject jsonObject= new JSONObject(response);
+        if(fav_items.size()==0) {
+            final StringRequest favrequest = new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            JsonElement root = new JsonParser().parse(response);
+                            response = root.getAsString();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
 
-                        jsonArray=jsonObject.getJSONArray("allFav");
+                                jsonArray = jsonObject.getJSONArray("allFav");
 
-                        for (int i = 0; i < jsonArray.length(); i++)
-                        {
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            object= object.getJSONObject("fav");
-                            Item item=new Item();
-                            item.setId(object.getString("ItemID"));
-                            item.setName(htmlRender(object.getString("Name_En")));
-                            item.setDescription(htmlRender(object.getString("Description_En")));
-                            // item.setPhone1(object.getString("Phone1"));
-                            item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/"+object.getString("Photo1"));
-                            // item.setCategoryName(object.getString("CategoryName_En"));
-                            fav_items.add(item);
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject object = jsonArray.getJSONObject(i);
+                                    object = object.getJSONObject("fav");
+                                    Item item = new Item();
+                                    item.setId(object.getString("ItemID"));
+                                    item.setName(htmlRender(object.getString("Name_En")));
+                                    item.setDescription(htmlRender(object.getString("Description_En")));
+                                    item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/" + object.getString("Photo1"));
+                                    fav_items.add(item);
+
+                                }
+                                for (int i = 0; i < fav_items.size(); i++) {
+                                    fav_ids.add(fav_items.get(i).getId());
+                                }
+                            } catch (JSONException e1) {
+                                e1.printStackTrace();
+                            }
 
                         }
-                        for(int i=0;i<fav_items.size();i++)
-                        {
-                            fav_ids.add(fav_items.get(i).getId());
-                        }
-                    } catch (JSONException e1) {
-                        e1.printStackTrace();
-                    }
-                 /*   for(int i=0;i<fav_items.size();i++)
-                    {
-                        fav_ids.add(fav_items.get(i).getId());
-                    }*/
-                }
 
-            },null);
-        queue.add(favrequest);
-
+                    }, null);
+            queue.add(favrequest);
+        }
     }
-
+*/
 
 
 
