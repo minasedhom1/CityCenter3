@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -61,7 +62,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static String ACCOUNT_ID;
-
     private GoogleApiClient client;
     public Fragment fragment = null;
     public Class fragmentClass = null;
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
                     try {
                         JSONObject obj = new JSONObject(response);
                         ACCOUNT_ID = obj.getString("ID");
-                      mainFrag();
+                        mainFrag();
                         Log.d("ACCOUNTID", ACCOUNT_ID);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -396,9 +396,9 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack(fragment.getClass().getName()).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.START,true);
         return true;
     }
 
@@ -494,29 +494,6 @@ public class MainActivity extends AppCompatActivity
 */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  /*-----------------------------------------------------------------*/
 
  /*   public class MyCustomListAdapter extends ArrayAdapter<category> {
@@ -610,7 +587,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
+        fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).commit();
     }
 
 

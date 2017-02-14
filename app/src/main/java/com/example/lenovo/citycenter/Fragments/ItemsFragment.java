@@ -112,9 +112,7 @@ public class ItemsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_items, container, false);
-
         ItemList= (ListView) view.findViewById(R.id.clickedItem_customList);
-
         //Second: get items for that category id (get from cat frag.), then compare with  fav IDs
             Response.Listener<String> responseListener = new Response.Listener<String>() {
 
@@ -126,7 +124,6 @@ public class ItemsFragment extends Fragment {
                     JSONObject jsonObject=new JSONObject(response);
                     JSONArray jsonArray=jsonObject.getJSONArray("ItemsList");
                     for (int i = 0; i < jsonArray.length(); i++)
-
                     {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Item item=new Item();

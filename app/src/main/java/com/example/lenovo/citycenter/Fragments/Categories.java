@@ -39,10 +39,6 @@ public class Categories extends Fragment {
     //private ListView customListView;
     private ArrayList<Category> categoryArrayList;
     private ArrayList<Subcategory> subcategoryAraayList;
-
-
-   /* static ArrayList<Item> favouriteList=new ArrayList<>();
-   static ArrayList<String>fav_ids;*/
    ExpandListAdpter expandListAdpter;
     RequestQueue queue ;
 

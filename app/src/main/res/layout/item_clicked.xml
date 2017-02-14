@@ -8,6 +8,8 @@
     android:background="#f6f6f6"
     android:paddingTop="10dp">
 
+
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -58,9 +60,8 @@
                 android:id="@+id/imageView2"
                 android:layout_marginTop="1dp"
                 />
-
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="2.0"
                     android:textSize="15dp"
@@ -69,7 +70,7 @@
                     android:textColor="#FFCD02"
                     android:layout_marginTop="-3dp"
 
-                    />
+                    android:layout_weight="1.14" />
             </LinearLayout>
         </LinearLayout>
         <com.sackcentury.shinebuttonlib.ShineButton
@@ -95,14 +96,14 @@ android:id="@+id/like_btn"
             />
     </GridLayout>
 
-    <android.support.v7.widget.AppCompatSpinner
+    <Spinner
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:entries="@array/rate_values"
 
         >
 
-    </android.support.v7.widget.AppCompatSpinner>
+    </Spinner>
 
     <TextView
         android:text="One of the most dignfied hyper markets, it will surely fascinate you !!"
@@ -152,7 +153,7 @@ android:id="@+id/like_btn"
         android:layout_height="wrap_content"
         android:id="@+id/call_btn"
         android:layout_marginTop="-10dp"
-        
+
         />
 
     <Button
