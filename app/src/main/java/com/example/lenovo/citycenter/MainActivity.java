@@ -1,11 +1,11 @@
 package com.example.lenovo.citycenter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,8 +23,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Variables;
-import com.example.lenovo.citycenter.Classes.Item;
+import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.Fragments.Categories;
 import com.example.lenovo.citycenter.Fragments.ContactUs;
 import com.example.lenovo.citycenter.Fragments.Favourite;
@@ -43,8 +44,8 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.widget.LikeView;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
@@ -257,7 +258,6 @@ public class MainActivity extends AppCompatActivity
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
 
 /*if(ACCOUNT_ID!=null)
@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity
         // queue.start();
 
       //  mainFrag();
-
+add_device_token();
     }
 
 
@@ -590,5 +590,29 @@ public class MainActivity extends AppCompatActivity
         fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).commit();
     }
 
+
+
+    public void add_device_token()
+    {
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+
+        StringRequest postReq = new StringRequest(Request.Method.POST, Variables.URL_ADD_DEVICE_TOKEN + refreshedToken, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JsonElement root = new JsonParser().parse(response);
+                root = new JsonParser().parse(root.getAsString());   //double parse
+                response = root.getAsString();
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    String status = obj.getString("Status");
+                       Toast.makeText(MainActivity.this,status,Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, null);
+
+        queue.add(postReq);
+    }
 
 }

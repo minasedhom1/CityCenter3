@@ -1,4 +1,4 @@
-package com.example.lenovo.citycenter.Classes;
+package com.example.lenovo.citycenter.classes;
 
 import java.util.ArrayList;
 

@@ -8,8 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.lenovo.citycenter.Classes.Item;
-import com.example.lenovo.citycenter.Classes.Subcategory;
+import com.example.lenovo.citycenter.classes.Item;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 

@@ -1,4 +1,4 @@
-package com.example.lenovo.citycenter.Classes;
+package com.example.lenovo.citycenter.classes;
 
 /**
  * Created by mido on 2/5/2017.

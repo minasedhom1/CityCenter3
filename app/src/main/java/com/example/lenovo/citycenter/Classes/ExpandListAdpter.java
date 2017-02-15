@@ -1,4 +1,4 @@
-package com.example.lenovo.citycenter.Classes;
+package com.example.lenovo.citycenter.classes;
 
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -7,11 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.lenovo.citycenter.Fragments.Categories;
 import com.example.lenovo.citycenter.R;
 import com.squareup.picasso.Picasso;
 

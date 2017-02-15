@@ -8,7 +8,7 @@ import com.example.lenovo.citycenter.MainActivity;
 
 public class Variables {
     public  static String catID;
-    public  static String ACCOUNT_ID;
+    public  static String DEVICE_TOKEN;
 
     public static final String URL_POST_FBID_GET_ACC_ID ="http://Sa3ednymallservice.azurewebsites.net/sodic/Account/CreateAccount/Create?FBID=";
     public static final String URL_GET_CATEGORIES_GOODS="http://sa3ednyMallservice.azurewebsites.net/sodic/Category/GetAllActiveCategoriesGoods/Get";
@@ -22,5 +22,5 @@ public class Variables {
     public  static  final String URL_ADD_TO_FAVORITES_ITEM= "http://sa3ednymallservice.azurewebsites.net/sodic/Favourite/AddToFavourite/Add?AccountID="+ MainActivity.ACCOUNT_ID+"&itemID="; //***
     public  static final  String URL_GET_FAVOURITES_FOR_ID="http://sa3ednymallservice.azurewebsites.net/sodic/Favourite/GetFavourite/Get?AccountID="+ MainActivity.ACCOUNT_ID;
     public  static final  String URL_DELETE_FROM_FAVORITES_ITEM="http://sa3ednymallservice.azurewebsites.net/sodic/Favourite/DeleteFromFavourite/Delete?AccountID="+ MainActivity.ACCOUNT_ID+"&itemID=";//**
-
+    public  static final  String URL_ADD_DEVICE_TOKEN="http://sa3ednyservice.azurewebsites.net/Sodic/Device/AddDevice/Add?DeviceType=S7&DeviceToken=";
 }

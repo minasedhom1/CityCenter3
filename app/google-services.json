@@ -1,0 +1,143 @@
+{
+  "project_info": {
+    "project_number": "539592135683",
+    "firebase_url": "https://pushnotificationphp-b58ca.firebaseio.com",
+    "project_id": "pushnotificationphp-b58ca",
+    "storage_bucket": "pushnotificationphp-b58ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539592135683:android:ec935c71f98dfdf9",
+        "android_client_info": {
+          "package_name": "com.example.mido.pushnotificationfirebasephp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539592135683-6bpjbutdbun0q2g5p9f3bcss1uo8dftp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mido.pushnotificationfirebasephp",
+            "certificate_hash": "E53EDD7E3EF77BCF64DCB607FFAA578EE7FE4F34"
+          }
+        },
+        {
+          "client_id": "539592135683-ore9skmomstu4tp336lmh67fdstio80n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVDQY56Jv6QiZX0hQLb9QECVeu8RU5UEU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539592135683-ore9skmomstu4tp336lmh67fdstio80n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539592135683:android:40959b5b132ecd39",
+        "android_client_info": {
+          "package_name": "com.example.lenovo.materialdesigns"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539592135683-ibm5fpt1pt079cnm0jaquro3ff3fsj9v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lenovo.materialdesigns",
+            "certificate_hash": "E53EDD7E3EF77BCF64DCB607FFAA578EE7FE4F34"
+          }
+        },
+        {
+          "client_id": "539592135683-ore9skmomstu4tp336lmh67fdstio80n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVDQY56Jv6QiZX0hQLb9QECVeu8RU5UEU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539592135683-ore9skmomstu4tp336lmh67fdstio80n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539592135683:android:b10b5266e4e354bf",
+        "android_client_info": {
+          "package_name": "com.example.lenovo.citycenter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539592135683-ak7isb2s12at2rmhhsv3ifldskd4hsgg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lenovo.citycenter",
+            "certificate_hash": "E53EDD7E3EF77BCF64DCB607FFAA578EE7FE4F34"
+          }
+        },
+        {
+          "client_id": "539592135683-ore9skmomstu4tp336lmh67fdstio80n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVDQY56Jv6QiZX0hQLb9QECVeu8RU5UEU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539592135683-ore9skmomstu4tp336lmh67fdstio80n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
