@@ -17,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.classes.Category;
 import com.example.lenovo.citycenter.classes.ExpandListAdpter;
@@ -57,7 +58,7 @@ public class Categories extends Fragment {
        // getFavourtieItems();
         categoryArrayList = new ArrayList<>();
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
-        GetDataRequest.setUrl(Variables.URL_GET_CATEGORIES_GOODS);
+        GetDataRequest.setUrl(Urls.URL_GET_CATEGORIES_GOODS);
          queue = Volley.newRequestQueue(getContext());
 
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -146,10 +147,11 @@ public class Categories extends Fragment {
                 Category cat = (Category) expandListAdpter.getGroup(groupPosition);
 
                 if(!cat.isHas_sub())
-                {Variables.catID = String.valueOf(cat.get_id());
+                {
+                    Variables.catID = String.valueOf(cat.get_id());
                 Fragment fragment = new ItemsFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
-                GetDataRequest.setUrl(Variables.URL_GET_SELECTED_CATEGORY_ITEMS+Variables.catID ); //set the clicked cat id to fetch it's items
+                GetDataRequest.setUrl(Urls.URL_GET_SELECTED_CATEGORY_ITEMS+ Variables.catID ); //set the clicked cat id to fetch it's items
                 }
                 return false;
             }
@@ -163,7 +165,7 @@ public class Categories extends Fragment {
 
            Fragment fragment = new ItemsFragment();
            getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
-           String url = Variables.URL_GET_SELECTED_SUBCATEGORY_ITEM + subcatID;
+           String url = Urls.URL_GET_SELECTED_SUBCATEGORY_ITEM + subcatID;
             GetDataRequest.setUrl(url );
 
            return false;
@@ -189,7 +191,7 @@ public class Categories extends Fragment {
 
     public  ArrayList<Subcategory> getSubs(int catID) {
         final ArrayList<Subcategory> subCat_array = new ArrayList();
-        Volley.newRequestQueue(getContext()).add(new StringRequest(Request.Method.GET, Variables.URL_GET_SELECTED_CATEGORY_SUBCATEGORIES + catID,
+        Volley.newRequestQueue(getContext()).add(new StringRequest(Request.Method.GET, Urls.URL_GET_SELECTED_CATEGORY_SUBCATEGORIES + catID,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -226,7 +228,7 @@ public class Categories extends Fragment {
 
     {
         if(favouriteList.size()==0) {
-            final StringRequest favrequest = new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID,
+            final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -321,7 +323,7 @@ public class Categories extends Fragment {
            *//*     if(i != adapterView.getLastVisiblePosition()) //not footer
                 {*//*
                     Category cat = (Category) myAdapter.getItem(i);
-                    Variables.catID = String.valueOf(cat.get_id());
+                    Urls.catID = String.valueOf(cat.get_id());
                     Fragment fragment = new ItemsFragment();
                     getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
            *//*     }

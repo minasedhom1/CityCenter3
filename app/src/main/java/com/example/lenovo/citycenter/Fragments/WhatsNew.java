@@ -22,7 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
-import com.example.lenovo.citycenter.Assets.Variables;
+import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
@@ -59,7 +59,7 @@ JSONArray jsonArray;
         ItemList= (ListView) view.findViewById(R.id.clickedItem_customList);
         itemArrayList = new ArrayList<>();
 
-        GetDataRequest.setUrl(Variables.URL_GET_NEW_ITEMS );
+        GetDataRequest.setUrl(Urls.URL_GET_NEW_ITEMS );
         Response.Listener<String> responseListener = new Response.Listener<String>() {
 
             @Override

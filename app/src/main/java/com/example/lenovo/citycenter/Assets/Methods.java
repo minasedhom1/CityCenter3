@@ -42,7 +42,7 @@ public class Methods {
    public static ArrayList<Item> getFavourites( AppCompatActivity activity) {
         final ArrayList<Item> subCat_array = new ArrayList();
 
-        Volley.newRequestQueue(activity).add(new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID, new Response.Listener<String>() {
+        Volley.newRequestQueue(activity).add(new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 JsonElement root=new JsonParser().parse(response);

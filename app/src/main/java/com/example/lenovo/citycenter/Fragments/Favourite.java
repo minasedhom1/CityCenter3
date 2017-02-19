@@ -25,7 +25,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.lenovo.citycenter.Assets.Variables;
+import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
 import com.google.gson.JsonElement;
@@ -69,7 +69,7 @@ public class Favourite extends Fragment {
         itemList= (ListView) view.findViewById(R.id.favourite_list);
 
         // itemArrayList=Methods.getFavourites((AppCompatActivity) getActivity());
-       StringRequest request=new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID, new Response.Listener<String>() {
+       StringRequest request=new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 JsonElement root=new JsonParser().parse(response);
@@ -238,7 +238,7 @@ public class Favourite extends Fragment {
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
                    @Override
                     public void onClick(View v) {
-                       StringRequest postReq = new StringRequest(Request.Method.POST, Variables.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
+                       StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
                            @Override
                            public void onResponse(String response) {
                                JsonElement root = new JsonParser().parse(response);

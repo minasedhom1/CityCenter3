@@ -26,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Item;
@@ -74,7 +75,7 @@ public class ItemsFragment extends Fragment {
         favouriteList=new ArrayList<>();
         fav_ids=new ArrayList<>();
         if (favouriteList.size() == 0) {
-            final StringRequest favrequest = new StringRequest(Request.Method.GET, Variables.URL_GET_FAVOURITES_FOR_ID,
+            final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -147,7 +148,7 @@ public class ItemsFragment extends Fragment {
             }
         };
        /* if(itemArrayList.size()!=0) //check the static arraylist, not to re-request.
-        { if(itemArrayList.get(0).getCategoryID()==Variables.catID  )//check if the catId is identical.if so ->|use it to fill adapter|
+        { if(itemArrayList.get(0).getCategoryID()==Urls.catID  )//check if the catId is identical.if so ->|use it to fill adapter|
             {  itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
                 ItemList.setAdapter(itemAdapter);
                 itemAdapter.setNotifyOnChange(true);
@@ -291,7 +292,7 @@ else {    //if it's empty,request.*/
                     public void onClick(View view) {
                         //  MainActivity.fav_items.add(myItem);
                         if (!myItem.isLike()) {
-                            StringRequest postReq = new StringRequest(Request.Method.POST, Variables.URL_ADD_TO_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
+                            StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_TO_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     JsonElement root = new JsonParser().parse(response);
@@ -316,7 +317,7 @@ else {    //if it's empty,request.*/
                             myItem.setLike(true);
                         }
                     else {
-                            StringRequest postReq = new StringRequest(Request.Method.POST, Variables.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
+                            StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     JsonElement root = new JsonParser().parse(response);

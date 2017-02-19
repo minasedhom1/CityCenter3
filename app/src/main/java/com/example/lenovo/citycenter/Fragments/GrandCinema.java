@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Category;
@@ -63,7 +64,7 @@ public class GrandCinema extends Fragment {
 
         categoryArrayList = new ArrayList<>();
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
-        GetDataRequest.setUrl(Variables.URL_GET_CATEGORIES_SERVICES);
+        GetDataRequest.setUrl(Urls.URL_GET_CATEGORIES_SERVICES);
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
         Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -286,6 +287,5 @@ public class GrandCinema extends Fragment {
     {
         Toast.makeText(getContext(),s,Toast.LENGTH_SHORT).show();
     }
-
 
 }
