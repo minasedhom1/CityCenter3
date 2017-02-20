@@ -1,5 +1,6 @@
 package com.example.lenovo.citycenter;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -13,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
@@ -84,52 +86,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        FacebookSdk.sdkInitialize(MainActivity.this);
-        callbackManager = CallbackManager.Factory.create();
-
-        queue = Volley.newRequestQueue(MainActivity.this);
-/*        fav_items = new ArrayList<>();
-        all_items = new ArrayList<>();
-        fav_ids = new ArrayList<>();*/
-
-        if (AccessToken.getCurrentAccessToken() != null) {
-            getAccID();
-
-        } else {
-            LoginManager loginManager = LoginManager.getInstance();
-            loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    AccessToken tok;
-                    tok = AccessToken.getCurrentAccessToken();
-                    Log.d("UserID", tok.getUserId());
-
-                    getAccID();
-                }
-
-                @Override
-                public void onCancel() {
-                    AlertDialog.Builder alertDialog =new AlertDialog.Builder(MainActivity.this) ;
-                    alertDialog.setMessage("Are you sure you do NOT want to login? \n by login to your facbook acoont you can access to");
-                    alertDialog.show();
-
-                    Methods.toast("cancelled",MainActivity.this);
-
-
-                }
-
-                @Override
-                public void onError(FacebookException error) {
-                    Methods.toast("Error happend",MainActivity.this);
-
-                }
-            });
-            
-            loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
-        }
-        //   mainFrag();
-
+/*---------------------------------------------------------------------------------------------------------------------------------*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -173,11 +130,78 @@ public class MainActivity extends AppCompatActivity
         imageView = (ImageView) navHed.findViewById(R.id.prof_image);
 
         View header_view = findViewById(R.id.header_layout);
-        final ImageView home_prof = (ImageView) findViewById(R.id.home_prof);
-        final TextView home_name = (TextView) findViewById(R.id.home_name);
-        LikeView likeView = (LikeView) findViewById(R.id.fb_like_btn);
+        final ImageView home_prof = (ImageView) header_view.findViewById(R.id.home_prof);
+        final TextView home_name = (TextView) header_view.findViewById(R.id.home_name);
+        LikeView likeView = (LikeView) header_view.findViewById(R.id.fb_like_btn);
         likeView.setLikeViewStyle(LikeView.Style.BUTTON);
         likeView.setObjectIdAndType("https://www.facebook.com/sa3ednyapps/", LikeView.ObjectType.PAGE);
+ /*---------------------------------------------------------------------------------------------------------------------------------*/
+
+
+
+
+        mainFrag();
+        FacebookSdk.sdkInitialize(MainActivity.this);
+        callbackManager = CallbackManager.Factory.create();
+
+        queue = Volley.newRequestQueue(MainActivity.this);
+
+        if (AccessToken.getCurrentAccessToken() != null)
+        {
+            getAccID();
+        }
+      else {
+            LoginManager loginManager = LoginManager.getInstance();
+            loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    AccessToken tok;
+                    tok = AccessToken.getCurrentAccessToken();
+                    Log.d("UserID", tok.getUserId());
+                    getAccID();
+                }
+
+                @Override
+                public void onCancel() {
+                    AlertDialog.Builder alertDialog =new AlertDialog.Builder(MainActivity.this) ;
+                    alertDialog.setMessage("Are you sure you do NOT want to login?")
+                    .setNegativeButton("No,I'll Signin next time", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    alertDialog.show();
+                    Methods.toast("Login Cancelled",MainActivity.this);
+                }
+
+                @Override
+                public void onError(FacebookException error) {
+                    Methods.toast("Error happend",MainActivity.this);
+
+                }
+
+            });
+            loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
+
+        }
+
+
+        profile = Profile.getCurrentProfile();
+        if (profile != null) {
+            faceName.setText(profile.getName());
+            home_name.setText("Welcome " + profile.getFirstName() + "!");
+            Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(imageView);
+            Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
+        } else {
+            imageView.setImageResource(R.mipmap.prof1);
+            faceName.setText("");
+        }
 
 
         ProfileTracker profileTracker = new ProfileTracker() {
@@ -188,8 +212,6 @@ public class MainActivity extends AppCompatActivity
                     home_name.setText("Welcome " + currentProfile.getFirstName() + "!");
                     Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(imageView);
                     Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
-
-
                 } else {
                     imageView.setImageResource(R.mipmap.ic_launcher);
                     faceName.setText("no00000");
@@ -198,16 +220,7 @@ public class MainActivity extends AppCompatActivity
         };
         profileTracker.startTracking();
 
-        profile = Profile.getCurrentProfile();
-        if (profile != null) {
-            faceName.setText(profile.getName());
-            home_name.setText("Welcome " + profile.getFirstName() + "!");
-            Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(imageView);
-            Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
-        } else {
-            imageView.setImageResource(R.mipmap.ic_launcher);
-            faceName.setText("none");
-        }
+
 
 
         View image = findViewById(R.id.logo_header);
@@ -219,9 +232,20 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-        add_device_token();
+       add_device_token();
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     @Override
@@ -234,6 +258,19 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -354,7 +391,8 @@ public class MainActivity extends AppCompatActivity
                 try {
                     JSONObject obj = new JSONObject(response);
                     Variables.ACCOUNT_ID = obj.getString("ID");
-                    mainFrag();
+                  // mainFrag();
+
                     Log.d("ACCOUNTID", Variables.ACCOUNT_ID);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -365,7 +403,7 @@ public class MainActivity extends AppCompatActivity
         }, null);
         // RequestQueue queue= Volley.newRequestQueue(MainActivity.this);
         queue.add(postReq);
-        queue.start();
+       // queue.start();
     }
 }
 
