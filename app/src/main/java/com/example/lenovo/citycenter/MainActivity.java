@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -81,11 +82,15 @@ public class MainActivity extends AppCompatActivity
     static ArrayList<Item> all_items;
     RequestQueue queue;
     public static ArrayList<String> fav_ids;
-
+public  static  Typeface font;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+         font= Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf" );
+
+
 /*---------------------------------------------------------------------------------------------------------------------------------*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -143,7 +148,6 @@ public class MainActivity extends AppCompatActivity
         mainFrag();
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();
-
         queue = Volley.newRequestQueue(MainActivity.this);
 
         if (AccessToken.getCurrentAccessToken() != null)
@@ -165,6 +169,7 @@ public class MainActivity extends AppCompatActivity
                 public void onCancel() {
                     AlertDialog.Builder alertDialog =new AlertDialog.Builder(MainActivity.this) ;
                     alertDialog.setMessage("Are you sure you do NOT want to login?")
+                            .setIcon(R.mipmap.staron)
                     .setNegativeButton("No,I'll Signin next time", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -173,19 +178,15 @@ public class MainActivity extends AppCompatActivity
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                         }
                     });
                     alertDialog.show();
                     Methods.toast("Login Cancelled",MainActivity.this);
                 }
-
                 @Override
                 public void onError(FacebookException error) {
                     Methods.toast("Error happend",MainActivity.this);
-
                 }
-
             });
             loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
@@ -213,15 +214,14 @@ public class MainActivity extends AppCompatActivity
                     Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(imageView);
                     Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
                 } else {
-                    imageView.setImageResource(R.mipmap.ic_launcher);
-                    faceName.setText("no00000");
+                    imageView.setImageResource(R.mipmap.prof1);
+                    faceName.setText("");
                 }
             }
         };
         profileTracker.startTracking();
 
-
-
+       add_device_token();
 
         View image = findViewById(R.id.logo_header);
         image.setSoundEffectsEnabled(false);
@@ -231,8 +231,6 @@ public class MainActivity extends AppCompatActivity
                 signture();
             }
         });
-
-       add_device_token();
     }
 
 
@@ -265,14 +263,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-
-
-
-
-
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -294,10 +284,10 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = Favourite.class;
 
 
-        } else if (id == R.id.nav_notify) {
+        }/* else if (id == R.id.nav_notify) {
             fragmentClass = Notifications.class;
 
-        } else if (id == R.id.nav_contact_us) {
+        } */else if (id == R.id.nav_contact_us) {
             fragmentClass = ContactUs.class;
 
         }

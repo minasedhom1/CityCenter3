@@ -26,6 +26,8 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Urls;
+import com.example.lenovo.citycenter.Assets.Variables;
+import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
 import com.google.gson.JsonElement;
@@ -42,6 +44,7 @@ import java.util.List;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.example.lenovo.citycenter.Assets.Methods.htmlRender;
+import static com.example.lenovo.citycenter.Assets.Methods.toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,7 +71,7 @@ public class Favourite extends Fragment {
         final View view=inflater.inflate(R.layout.fragment_favourite, container, false);
         itemList= (ListView) view.findViewById(R.id.favourite_list);
 
-        // itemArrayList=Methods.getFavourites((AppCompatActivity) getActivity());
+
        StringRequest request=new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -103,9 +106,11 @@ public class Favourite extends Fragment {
             }
 
         },null);
-
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        queue.add(request);
+if(Variables.ACCOUNT_ID!=null)
+{ RequestQueue queue = Volley.newRequestQueue(getActivity());
+        queue.add(request);}
+        else
+{toast("Login to display your Favourites",getContext());}
 
 
        /* itemList= (ListView) view.findViewById(R.id.favourite_list);

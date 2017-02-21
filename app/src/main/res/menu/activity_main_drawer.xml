@@ -23,11 +23,11 @@
             android:id="@+id/nav_fav"
             android:icon="@drawable/heart"
             android:title="Favorite" />
-        <item
+     <!--   <item
         android:id="@+id/nav_notify"
         android:icon="@drawable/notify"
         android:title="Notifications" />
-
+-->
 
             <item
                 android:id="@+id/nav_share"

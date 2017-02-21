@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import com.android.volley.Request;
@@ -19,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
+import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.classes.Category;
 import com.example.lenovo.citycenter.classes.ExpandListAdpter;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
@@ -31,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Categories extends Fragment {
@@ -47,8 +50,6 @@ public class Categories extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  fav_ids=new ArrayList<>();
-
     }
         JSONArray jsonArray;
 
@@ -58,6 +59,7 @@ public class Categories extends Fragment {
        // getFavourtieItems();
         categoryArrayList = new ArrayList<>();
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
+        //GetDataRequest.setUrl(Urls.URL_GET_CATEGORIES_GOODS);
         GetDataRequest.setUrl(Urls.URL_GET_CATEGORIES_GOODS);
          queue = Volley.newRequestQueue(getContext());
 
@@ -144,6 +146,16 @@ public class Categories extends Fragment {
         expand_listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                Button explore = (Button) v.findViewById(R.id.explore_btn);
+                explore.setTypeface(MainActivity.font);
+                if(expand_listView.isGroupExpanded(groupPosition))
+                {
+                    explore.setText(getString(R.string.arrow_left));
+
+                }
+                 else
+                    explore.setText(getString(R.string.arrow_bottom));
+
                 Category cat = (Category) expandListAdpter.getGroup(groupPosition);
 
                 if(!cat.isHas_sub())

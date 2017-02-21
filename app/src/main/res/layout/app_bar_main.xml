@@ -8,17 +8,17 @@
     tools:context="com.example.lenovo.citycenter.MainActivity"
     android:background="@mipmap/background">
 
-    <android.support.design.widget.AppBarLayout
+<!--    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
 
-    </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.AppBarLayout>-->
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="429dp"
+        android:layout_width="match_parent"
         android:layout_height="113dp"
        android:navigationIcon="@mipmap/logo"
         app:popupTheme="@style/AppTheme.PopupOverlay"

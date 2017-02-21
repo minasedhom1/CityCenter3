@@ -37,8 +37,6 @@ public class Category {
     public Category(String _name, String _details) {
         this._name = _name;
         this._details=_details;
-
-
     }
 public Category()
 {}

@@ -1,5 +1,6 @@
 package com.example.lenovo.citycenter.classes;
 
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.lenovo.citycenter.Assets.Methods;
+import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.squareup.picasso.Picasso;
 
@@ -77,10 +80,10 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true; //**
     }
-
+    ViewHolder holder;
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        ViewHolder holder = new ViewHolder();
+        holder = new ViewHolder();
         try {
 
 
@@ -91,6 +94,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
                 holder.shopName= (TextView) convertView.findViewById(R.id.shopNameTextView); //*******kont nasi el view.
                 holder.shopDetails = (TextView) convertView.findViewById(R.id.shopDetailsTextview);
                 holder.categoryIcon = (ImageView) convertView.findViewById(R.id.shopPic);
+
                 holder.explore = (Button) convertView.findViewById(R.id.explore_btn);
 
                 convertView.setTag(holder);
@@ -105,7 +109,9 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
             String logoURL="https://sa3ednymalladmin.azurewebsites.net/IMG/"+ myCat.get_icon();
             Picasso.with(activity).load(logoURL).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.categoryIcon);
             holder.shopName.setTextSize(16f);
-            holder.explore.setTextSize(11f);
+            holder.explore.setTypeface(MainActivity.font);
+           //  holder.explore.setText("Explore " + "&#xf054;");
+            /*holder.explore.setTextSize(11f);*/
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
@@ -113,7 +119,8 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
             holder.explore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //toast(myCat.get_name());
+                   Methods.toast(myCat.get_name(),activity);
+
 
                 }
             });

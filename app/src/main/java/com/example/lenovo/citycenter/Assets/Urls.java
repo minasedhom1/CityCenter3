@@ -21,4 +21,17 @@ public class Urls {
     public  static final  String URL_GET_FAVOURITES_FOR_ID="http://sa3ednymallservice.azurewebsites.net/sodic/Favourite/GetFavourite/Get?AccountID="+Variables.ACCOUNT_ID;
     public  static final  String URL_DELETE_FROM_FAVORITES_ITEM="http://sa3ednymallservice.azurewebsites.net/sodic/Favourite/DeleteFromFavourite/Delete?AccountID="+Variables.ACCOUNT_ID+"&itemID=";//**
     public  static final  String URL_ADD_DEVICE_TOKEN="http://sa3ednyservice.azurewebsites.net/Sodic/Device/AddDevice/Add?DeviceType=S7&DeviceToken=";
+
+    public static final String URL_GET_CATEGORIES_GOODS_SODIC="http://sodicservice.azurewebsites.net/sodic/Category/GetAllActiveCategoriesgoods/Getgoods";
+    public static final String URL_GET_CATEGORIES_SERVICES_SODIC="http://sodicservice.azurewebsites.net/sodic/Category/GetAllActiveCategoriesservices/Getservices";
+    public  static  final String URL_GET_SELECTED_CATEGORY_SUBCATEGORIES_SODIC="http://sodicservice.azurewebsites.net/sodic/Category//GetActiveSubCategories/Get?categoryID=";
+    public static final String URL_GET_SELECTED_CATEGORY_ITEMS_SODIC="http://sodicservice.azurewebsites.net/sodic/Item/GetActiveItem/Get?categoryID=";
+
+
+
+
+
+
+
+
 }
