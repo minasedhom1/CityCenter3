@@ -28,7 +28,7 @@ WebView  webViewl;
                              Bundle savedInstanceState) {
 View view =inflater.inflate(R.layout.fragment_contact_us, container, false);
 
-        webViewl= (WebView) view.findViewById(R.id.contact_us_web_view);
+       webViewl= (WebView) view.findViewById(R.id.contact_us_web_view);
         webViewl.setWebViewClient(new WebViewClient());
         WebSettings settings=webViewl.getSettings();
         settings.setJavaScriptEnabled(true);

@@ -70,9 +70,6 @@ public class MainActivity extends AppCompatActivity
     public Fragment fragment = null;
     public Class fragmentClass = null;
     public FragmentManager fragmentManager = getSupportFragmentManager();
-    /*-----------------*/
-    int count = 0;
-    /*-----------------*/
     private CallbackManager callbackManager;
     TextView faceName;
     ImageView imageView;
@@ -87,6 +84,7 @@ public  static  Typeface font;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainFrag();
 
          font= Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf" );
 
@@ -141,14 +139,10 @@ public  static  Typeface font;
         likeView.setLikeViewStyle(LikeView.Style.BUTTON);
         likeView.setObjectIdAndType("https://www.facebook.com/sa3ednyapps/", LikeView.ObjectType.PAGE);
  /*---------------------------------------------------------------------------------------------------------------------------------*/
-
-
-
-
-        mainFrag();
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();
         queue = Volley.newRequestQueue(MainActivity.this);
+ /*---------------------------------------------------------------------------------------------------------------------------------*/
 
         if (AccessToken.getCurrentAccessToken() != null)
         {
@@ -164,7 +158,6 @@ public  static  Typeface font;
                     Log.d("UserID", tok.getUserId());
                     getAccID();
                 }
-
                 @Override
                 public void onCancel() {
                     AlertDialog.Builder alertDialog =new AlertDialog.Builder(MainActivity.this) ;
@@ -191,8 +184,10 @@ public  static  Typeface font;
             loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
 
         }
+ /*---------------------------------------------------------------------------------------------------------------------------------*/
 
 
+ /*------------------------------------------------------check if ther is a logged in FB acc---------------------------------------------------------------------------*/
         profile = Profile.getCurrentProfile();
         if (profile != null) {
             faceName.setText(profile.getName());
@@ -204,6 +199,7 @@ public  static  Typeface font;
             faceName.setText("");
         }
 
+ /*----------------------------------------------------------Tracks the changes-----------------------------------------------------------------------*/
 
         ProfileTracker profileTracker = new ProfileTracker() {
             @Override
@@ -220,39 +216,24 @@ public  static  Typeface font;
             }
         };
         profileTracker.startTracking();
-
-       add_device_token();
+ /*---------------------------------------------------------------------------------------------------------------------------------*/
+       add_device_token();  //add your device token to DB
 
         View image = findViewById(R.id.logo_header);
         image.setSoundEffectsEnabled(false);
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signture();
-            }
-        });
-    }
-
-
-
-
-
-
-
-
-
-
-
-
+        image.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {signture();}});}
 
 
     @Override
     public void onBackPressed() {
-        // startActivity(new Intent(getBaseContext(),MainActivity.class));
+      //  mainFrag();
+     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
+        Methods.toast(currentFragment.getClass().getSimpleName(),this);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -296,29 +277,24 @@ public  static  Typeface font;
         } catch (Exception e) {
             e.printStackTrace();
         }
+//.addToBackStack(fragment.getClass().getName()) //for back stack
 
-        fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack(fragment.getClass().getName()).commit();
+        fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START, true);
         return true;
     }
 
 
-    public void signture() {
-        count++;
-        if (count == 10) {
-            Toast.makeText(MainActivity.this, "Mina Raafat \n 01275791088 ", Toast.LENGTH_SHORT).show();
-            count = 0;
-        }
-    }
+    int count=0;void signture(){count++;if(count==10){Methods.toast(";)",this);count=0;}}
+
+
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         callbackManager.onActivityResult(requestCode, resultCode, data);
-
     }
 
     void mainFrag() {
@@ -328,7 +304,6 @@ public  static  Typeface font;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).commit();
     }
 

@@ -201,8 +201,8 @@ if(Variables.ACCOUNT_ID!=null)
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.promo2_tv);
                     holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
-                    holder.call = (Button) convertView.findViewById(R.id.call_btn);
-                    holder.website = (Button) convertView.findViewById(R.id.website_btn);
+                   // holder.call = (Button) convertView.findViewById(R.id.call_btn);
+                 //   holder.website = (Button) convertView.findViewById(R.id.website_btn);
                     holder.shineButton = (ShineButton) convertView.findViewById(R.id.like_btn);
                     convertView.setTag(holder);
                 } else {

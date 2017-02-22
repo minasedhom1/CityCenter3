@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="100dp"
         android:background="@mipmap/baner"
 
 >
@@ -29,9 +29,7 @@
                 android:src="@mipmap/logo"
                 android:layout_gravity="right"
                 android:id="@+id/logo_header"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
+
 
                 />
         </LinearLayout>

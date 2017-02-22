@@ -95,7 +95,7 @@ public class Categories extends Fragment {
         };
         GetDataRequest fetchRequest = new GetDataRequest(responseListener);
         queue.add(fetchRequest);
-        queue.start();
+       // queue.start();
 /*-----------------------------------------------------------------------------------------------------------------------------------*/
 
     //    Methods.toast("hello",getContext());
@@ -203,7 +203,7 @@ public class Categories extends Fragment {
 
     public  ArrayList<Subcategory> getSubs(int catID) {
         final ArrayList<Subcategory> subCat_array = new ArrayList();
-        Volley.newRequestQueue(getContext()).add(new StringRequest(Request.Method.GET, Urls.URL_GET_SELECTED_CATEGORY_SUBCATEGORIES + catID,
+     StringRequest subcatRequest= new StringRequest(Request.Method.GET, Urls.URL_GET_SELECTED_CATEGORY_SUBCATEGORIES + catID,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -227,8 +227,8 @@ public class Categories extends Fragment {
                         }
 
                     }
-                }, null)
-        );
+                }, null) ;
+       queue.add(subcatRequest);
         return subCat_array;
 
     }
@@ -267,8 +267,7 @@ public class Categories extends Fragment {
                             }
                         }
                     }, null);
-            RequestQueue queue= Volley.newRequestQueue(getContext());
-            queue.add(favrequest);
+
         }
     }*/
 

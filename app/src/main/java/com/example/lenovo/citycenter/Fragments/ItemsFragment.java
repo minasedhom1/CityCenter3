@@ -66,10 +66,12 @@ public class ItemsFragment extends Fragment {
     private ArrayAdapter itemAdapter;
     static ArrayList<Item> favouriteList ;
     ArrayList<String>fav_ids;
+    RequestQueue queue;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        queue = Volley.newRequestQueue(getActivity());
 //First: get favourite IDs to compare
         itemArrayList = new ArrayList<>();
         favouriteList=new ArrayList<>();
@@ -102,8 +104,10 @@ public class ItemsFragment extends Fragment {
                             }
                         }
                     }, null);
-            RequestQueue queue = Volley.newRequestQueue(getContext());
-            queue.add(favrequest);
+
+          //  RequestQueue queue = Volley.newRequestQueue(getContext());
+           if(Variables.ACCOUNT_ID!=null)
+           {queue.add(favrequest);}
         }
     }
 
@@ -162,7 +166,6 @@ public class ItemsFragment extends Fragment {
         }
 else {    //if it's empty,request.*/
                 GetDataRequest fetchRequest = new GetDataRequest(responseListener);
-                RequestQueue queue = Volley.newRequestQueue(getActivity());
                 queue.add(fetchRequest);
 
         return view;
@@ -175,7 +178,7 @@ else {    //if it's empty,request.*/
         }
     }
 
-    boolean like=false;
+
     FloatingActionButton fab;
 
     @Override
@@ -233,13 +236,13 @@ else {    //if it's empty,request.*/
                     LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
                     convertView = inflater.inflate(R.layout.item_clicked, parent, false);
 
-                    Item myItem = itemArrayList.get(position);
+                  //  Item myItem = itemArrayList.get(position);
 
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.promo2_tv);
                     holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
-                    holder.call = (Button) convertView.findViewById(R.id.call_btn);
-                    holder.website = (Button) convertView.findViewById(R.id.website_btn);
+                    //holder.call = (Button) convertView.findViewById(R.id.call_btn);
+                   // holder.website = (Button) convertView.findViewById(R.id.website_btn);
                     holder.shineButton = (ShineButton) convertView.findViewById(R.id.like_btn);
                     convertView.setTag(holder);
                 }
@@ -255,7 +258,7 @@ else {    //if it's empty,request.*/
                //  holder.image.setMaxHeight(300);
                 Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl);
 
-
+/*
                 holder.call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -270,23 +273,23 @@ else {    //if it's empty,request.*/
                 holder.website.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        /*Intent i = new Intent(Intent.ACTION_VIEW);
+                        *//*Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(myItem.getSite()));
-                        startActivity(i);*/
+                        startActivity(i);*//*
                         toast(myItem.getPhoto1());
                     }
-                });
+                });*/
 
 
 
                 /*-------------------like btn--------------------*/
-
                 holder.shineButton.init(getActivity());
-                //holder.shineButton.setChecked(myItem.isLike());
-
-                //holder.shineButton.setChecked(itemArrayList.get(position).isLike());
-               // myItem.setLike(myItem.isLike());
                 holder.shineButton.setChecked(myItem.isLike());
+             /*   if (Variables.ACCOUNT_ID==null)
+                {
+                    holder.shineButton.setVisibility(View.INVISIBLE);
+                }*/
+
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
