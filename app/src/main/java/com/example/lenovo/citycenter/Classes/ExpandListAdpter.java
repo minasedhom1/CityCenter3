@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lenovo.citycenter.Assets.Methods;
+import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.squareup.picasso.Picasso;
@@ -106,7 +107,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
 
             holder.shopName.setText(Html.fromHtml(myCat.get_name()), TextView.BufferType.SPANNABLE);
             holder.shopDetails.setText(Html.fromHtml(myCat.get_details()));
-            String logoURL="https://sa3ednymalladmin.azurewebsites.net/IMG/"+ myCat.get_icon();
+            String logoURL= Urls.URL_IMG_PATH + myCat.get_icon();
             Picasso.with(activity).load(logoURL).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.categoryIcon);
             holder.shopName.setTextSize(16f);
             holder.explore.setTypeface(MainActivity.font);

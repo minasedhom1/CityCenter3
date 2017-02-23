@@ -20,19 +20,14 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-       android:navigationIcon="@mipmap/logo"
         app:popupTheme="@style/AppTheme.PopupOverlay"
-
         >
-
-
     </android.support.v7.widget.Toolbar>
 
    <!-- <include layout="@layout/content_main" />-->
-    <include
-        layout="@layout/header_layout"/>
-    <FrameLayout
+    <include layout="@layout/header_layout"/>
 
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="110dp"
@@ -52,7 +47,6 @@
         app:fabSize="mini"
         app:elevation="7dp"
         app:fab_shadow="true"
-
         app:backgroundTint="#cc000000" />
 
 

@@ -174,12 +174,10 @@ public class Categories extends Fragment {
        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
            Category cat = (Category) expandListAdpter.getGroup(groupPosition);
              String subcatID=cat.getSub_array().get(childPosition).getSubcat_id();
-
            Fragment fragment = new ItemsFragment();
            getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
            String url = Urls.URL_GET_SELECTED_SUBCATEGORY_ITEM + subcatID;
             GetDataRequest.setUrl(url );
-
            return false;
        }
    });
@@ -218,7 +216,7 @@ public class Categories extends Fragment {
                                 mySub.setSubcat_id((object.getString("SubCategoryID")));
                                 mySub.setSubCat_name(object.getString("Name_En")); // X
                                 mySub.setSubCat_describtion(object.getString("Description_En")); // X
-                                mySub.setSubCat_icon_url("https://sa3ednymalladmin.azurewebsites.net/IMG/" + object.getString("Photo1"));
+                                mySub.setSubCat_icon_url(Urls.URL_IMG_PATH + object.getString("Photo1"));
                                 subCat_array.add(mySub);
                             }
 

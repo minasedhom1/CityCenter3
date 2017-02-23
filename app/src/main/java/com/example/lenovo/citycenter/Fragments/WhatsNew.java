@@ -78,7 +78,7 @@ JSONArray jsonArray;
                         item.setName(Methods.htmlRender(object.getString("Name_En")));
                         item.setDescription(Methods.htmlRender(object.getString("Description_En")));
                         item.setPhone1(object.getString("Phone1"));
-                        item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/"+object.getString("Photo1"));
+                        item.setPhoto1(Urls.URL_IMG_PATH +object.getString("Photo1"));
                         item.setCategoryName(object.getString("CategoryName_En"));
                         itemArrayList.add(item);
 
@@ -214,7 +214,7 @@ class ViewHolder
                  Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl);
                 //new DownLoadImageTask(image).execute(imageUrl);
 
-                holder.call.setOnClickListener(new View.OnClickListener() {
+              /*  holder.call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent phoneIntent = new Intent(Intent.ACTION_CALL);
@@ -226,12 +226,12 @@ class ViewHolder
                 holder.website.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        /*Intent i = new Intent(Intent.ACTION_VIEW);
+                        *//*Intent i = new Intent(Intent.ACTION_VIEW);
                         i.setData(Uri.parse(myItem.getSite()));
-                        startActivity(i);*/
+                        startActivity(i);*//*
                         toast(myItem.getPhoto1());
                     }
-                });
+                });*/
 
 
                /*-------------------like btn--------------------*/

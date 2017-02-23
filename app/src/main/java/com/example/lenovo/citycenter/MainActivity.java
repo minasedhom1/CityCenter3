@@ -51,6 +51,8 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.share.widget.LikeView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -182,7 +184,6 @@ public  static  Typeface font;
                 }
             });
             loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
-
         }
  /*---------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -199,7 +200,7 @@ public  static  Typeface font;
             faceName.setText("");
         }
 
- /*----------------------------------------------------------Tracks the changes-----------------------------------------------------------------------*/
+ /*----------------------------------------------------------Tracks profile changes-----------------------------------------------------------------------*/
 
         ProfileTracker profileTracker = new ProfileTracker() {
             @Override
@@ -217,18 +218,24 @@ public  static  Typeface font;
         };
         profileTracker.startTracking();
  /*---------------------------------------------------------------------------------------------------------------------------------*/
-       add_device_token();  //add your device token to DB
+      add_device_token();  //add your device token to DB
 
         View image = findViewById(R.id.logo_header);
         image.setSoundEffectsEnabled(false);
-        image.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {signture();}});}
+        image.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {signture();}});
+
+    //Log.d("TOKFB",FirebaseInstanceId.getInstance().getToken());
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+        myRef.setValue(FirebaseInstanceId.getInstance().getToken());
+
+    }
 
 
     @Override
     public void onBackPressed() {
-      //  mainFrag();
-     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
-        Methods.toast(currentFragment.getClass().getSimpleName(),this);
+/*     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
+        Methods.toast(currentFragment.getClass().getSimpleName(),this);*/
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -264,13 +271,11 @@ public  static  Typeface font;
         } else if (id == R.id.nav_fav) {
             fragmentClass = Favourite.class;
 
-
         }/* else if (id == R.id.nav_notify) {
             fragmentClass = Notifications.class;
 
         } */else if (id == R.id.nav_contact_us) {
             fragmentClass = ContactUs.class;
-
         }
         try {
             fragment = (Fragment) fragmentClass.newInstance();
@@ -287,9 +292,6 @@ public  static  Typeface font;
 
 
     int count=0;void signture(){count++;if(count==10){Methods.toast(";)",this);count=0;}}
-
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -327,7 +329,6 @@ public  static  Typeface font;
         }, null);
         queue.add(postReq);
     }
-
     void keyhash() {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
@@ -344,7 +345,6 @@ public  static  Typeface font;
 
         }
 }
-
     void getAccID()
     {
         StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_POST_FBID_GET_ACC_ID + AccessToken.getCurrentAccessToken().getUserId(), new Response.Listener<String>() {
@@ -357,14 +357,11 @@ public  static  Typeface font;
                     JSONObject obj = new JSONObject(response);
                     Variables.ACCOUNT_ID = obj.getString("ID");
                   // mainFrag();
-
                     Log.d("ACCOUNTID", Variables.ACCOUNT_ID);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                //    Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
-
-            }
+           }
         }, null);
         // RequestQueue queue= Volley.newRequestQueue(MainActivity.this);
         queue.add(postReq);

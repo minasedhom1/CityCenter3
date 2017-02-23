@@ -93,7 +93,7 @@ public class ItemsFragment extends Fragment {
                                     item.setId(object.getString("ItemID"));
                                     item.setName(htmlRender(object.getString("Name_En")));
                                     item.setDescription(htmlRender(object.getString("Description_En")));
-                                    item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/" + object.getString("Photo1"));
+                                    item.setPhoto1(Urls.URL_IMG_PATH  + object.getString("Photo1"));
                                     favouriteList.add(item);
                                 }
                                 for (int i = 0; i < favouriteList.size(); i++) {
@@ -110,7 +110,7 @@ public class ItemsFragment extends Fragment {
            {queue.add(favrequest);}
         }
     }
-
+    JSONArray jsonArray;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -124,8 +124,8 @@ public class ItemsFragment extends Fragment {
                 try {
                     JsonElement root=new JsonParser().parse(response);
                     response = root.getAsString();
-                    JSONObject jsonObject=new JSONObject(response);
-                    JSONArray jsonArray=jsonObject.getJSONArray("ItemsList");
+                   JSONObject jsonObject=new JSONObject(response);
+                    jsonArray=jsonObject.getJSONArray("ItemsList");
                     for (int i = 0; i < jsonArray.length(); i++)
                     {
                         JSONObject object = jsonArray.getJSONObject(i);
@@ -134,7 +134,7 @@ public class ItemsFragment extends Fragment {
                         item.setName(htmlRender(object.getString("Name_En")));
                         item.setDescription(htmlRender(object.getString("Description_En")));
                         item.setPhone1(object.getString("Phone1"));
-                        item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/"+object.getString("Photo1"));
+                        item.setPhoto1(Urls.URL_IMG_PATH +object.getString("Photo1"));
                         item.setCategoryName(object.getString("CategoryName_En"));
                         item.setCategoryID(Variables.catID);
                         itemArrayList.add(item);
@@ -151,20 +151,7 @@ public class ItemsFragment extends Fragment {
                 }
             }
         };
-       /* if(itemArrayList.size()!=0) //check the static arraylist, not to re-request.
-        { if(itemArrayList.get(0).getCategoryID()==Urls.catID  )//check if the catId is identical.if so ->|use it to fill adapter|
-            {  itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
-                ItemList.setAdapter(itemAdapter);
-                itemAdapter.setNotifyOnChange(true);
-            }
-            else {  //if not, request new items for that category
-            itemArrayList.clear();
-            GetDataRequest fetchRequest = new GetDataRequest(responseListener);
-            RequestQueue queue = Volley.newRequestQueue(getActivity());
-            queue.add(fetchRequest);
-        }
-        }
-else {    //if it's empty,request.*/
+     //           GetDataRequest.setUrl(Variables.catID);
                 GetDataRequest fetchRequest = new GetDataRequest(responseListener);
                 queue.add(fetchRequest);
 
@@ -241,8 +228,6 @@ else {    //if it's empty,request.*/
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.promo2_tv);
                     holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
-                    //holder.call = (Button) convertView.findViewById(R.id.call_btn);
-                   // holder.website = (Button) convertView.findViewById(R.id.website_btn);
                     holder.shineButton = (ShineButton) convertView.findViewById(R.id.like_btn);
                     convertView.setTag(holder);
                 }

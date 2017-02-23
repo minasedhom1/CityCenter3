@@ -83,7 +83,7 @@ public class GrandCinema extends Fragment {
                         myCategory.set_id(object.getInt("CategoryID"));
                         myCategory.set_name(htmlRender(object.getString("Name_En"))); // X
                         myCategory.set_details(htmlRender(object.getString("Description_En"))); // X
-                        myCategory.set_icon("https://sa3ednymalladmin.azurewebsites.net/IMG/"+ object.getString("Logo")); //filter here
+                        myCategory.set_icon(Urls.URL_IMG_PATH + object.getString("Logo")); //filter here
                         categoryArrayList.add(myCategory);
                     }
 
@@ -113,21 +113,6 @@ public class GrandCinema extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-       /* categoryArrayList = new ArrayList<>();
-
-        *//*-------------------------------------*//*
-
-
-        categoryArrayList.add(new category("<font color=#518c9a >The Great Wall</font>","A Movie Starred by Matt Damon"));
-        categoryArrayList.add(new category("<font color=#518c9a >The Great Wall</font>","A Movie Starred by Matt Damon"));
-        categoryArrayList.add(new category("<font color=#518c9a >The Great Wall</font>","A Movie Starred by Matt Damon"));
-        categoryArrayList.add(new category("<font color=#518c9a >The Great Wall</font>","A Movie Starred by Matt Damon"));
-        categoryArrayList.add(new category("<font color=#518c9a >The Great Wall</font>","A Movie Starred by Matt Damon"));
-        categoryArrayList.add(new category("<font color=#518c9a >The Great Wall</font>","A Movie Starred by Matt Damon"));
-        categoryArrayList.add(new category("<font color=#518c9a >The Great Wall</font>","A Movie Starred by Matt Damon"));
-        categoryArrayList.add(new category("<font color=#518c9a >The Great Wall</font>","A Movie Starred by Matt Damon"));
-*/
-
          fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,12 +139,10 @@ public class GrandCinema extends Fragment {
      @Override
      public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
          Category cat= (Category) myAdapter.getItem(i);
-
-         Variables.catID= String.valueOf(cat.get_id());
-         //  toast(Categories.catID);
-
+         Variables.catID = String.valueOf(cat.get_id());
+         GetDataRequest.setUrl(Urls.URL_GET_SELECTED_CATEGORY_ITEMS+ Variables.catID );
          Fragment  fragment = new ItemsFragment();
-         getFragmentManager().beginTransaction().replace(R.id.frag_holder,fragment ).addToBackStack("tag").commit();
+         getFragmentManager().beginTransaction().replace(R.id.frag_holder,fragment ).commit();
      }
  });
     }
