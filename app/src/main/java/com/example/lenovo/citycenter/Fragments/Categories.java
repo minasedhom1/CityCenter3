@@ -234,6 +234,11 @@ public class Categories extends Fragment {
 
 
 
+
+
+
+
+
    /* public void getFavourtieItems()
 
     {

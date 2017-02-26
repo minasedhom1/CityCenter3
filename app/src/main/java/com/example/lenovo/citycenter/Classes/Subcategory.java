@@ -29,6 +29,7 @@ public class Subcategory {
     }
 
     public void setSubCat_icon_url(String subCat_icon_url) {
+        subCat_icon_url=subCat_icon_url.replace(" ","%20");
         this.subCat_icon_url = subCat_icon_url;
     }
 

@@ -77,10 +77,7 @@ public class MainActivity extends AppCompatActivity
     ImageView imageView;
     Profile profile;
     View navHed;
-    public static ArrayList<Item> fav_items;
-    static ArrayList<Item> all_items;
     RequestQueue queue;
-    public static ArrayList<String> fav_ids;
 public  static  Typeface font;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -329,6 +326,9 @@ public  static  Typeface font;
         }, null);
         queue.add(postReq);
     }
+
+
+
     void keyhash() {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
@@ -379,12 +379,8 @@ public  static  Typeface font;
 
 
 
-
-
 // ATTENTION: This was auto-generated to implement the App Indexing API.
 // See https://g.co/AppIndexing/AndroidStudio for more information.
-
-
 /*if(ACCOUNT_ID!=null)
 {
         StringRequest favrequest =new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID ,
@@ -395,9 +391,7 @@ public  static  Typeface font;
                         response = root.getAsString();
                         try {
                             JSONObject jsonObject= new JSONObject(response);
-
                             jsonArray=jsonObject.getJSONArray("allFav");
-
                             for (int i = 0; i < jsonArray.length(); i++)
                             {
                                 JSONObject object = jsonArray.getJSONObject(i);
@@ -411,31 +405,26 @@ public  static  Typeface font;
                                 // item.setCategoryName(object.getString("CategoryName_En"));
                                 fav_items.add(item);
                             }
-
                         } catch (JSONException e1) {
                             e1.printStackTrace();
                         }
                         for(int i=0;i<fav_items.size();i++)
                         {
                             integers.add(fav_items.get(i).getId());
-                        }
+                       }
                     }
-
                 },null);
         queue.add(favrequest);*/
  /*       StringRequest request_all_items=new StringRequest(Request.Method.GET, Urls.URL_GET_ALL_ITEMS,
                 new Response.Listener<String>() {
-
                     @Override
                     public void onResponse(String response) {
-
                         try {
                             JsonElement root=new JsonParser().parse(response);
                             response = root.getAsString();
                             JSONObject jsonObject=new JSONObject(response);
                             jsonArray=jsonObject.getJSONArray("ItemsList");
                             for (int i = 0; i < jsonArray.length(); i++)
-
                             {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Item item=new Item();
@@ -450,17 +439,12 @@ public  static  Typeface font;
                                     item.setLike(true);
                                 }
                                 all_items.add(item);
-
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 },null);*/
-
-
 //   queue.add(request_all_items);
 
 
@@ -472,17 +456,14 @@ public  static  Typeface font;
    /* public  void getItems()
     {StringRequest request_all_items=new StringRequest(Request.Method.GET, Urls.URL_GET_ALL_ITEMS,
             new Response.Listener<String>() {
-
                 @Override
                 public void onResponse(String response) {
-
                     try {
                         JsonElement root=new JsonParser().parse(response);
                         response = root.getAsString();
                         JSONObject jsonObject=new JSONObject(response);
                         jsonArray=jsonObject.getJSONArray("ItemsList");
                         for (int i = 0; i < jsonArray.length(); i++)
-
                         {
                             JSONObject object = jsonArray.getJSONObject(i);
                             Item item=new Item();
@@ -497,20 +478,16 @@ public  static  Typeface font;
                                 item.setLike(true);
                             }
                             all_items.add(item);
-
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }
             },null);
         queue.add(request_all_items);
     }*/
 
     /*public  void getFavourtieItems()
-
     {
         if(fav_items.size()==0) {
             final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,

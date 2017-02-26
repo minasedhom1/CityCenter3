@@ -93,7 +93,7 @@ public class Favourite extends Fragment {
                         item.setName(htmlRender(object.getString("Name_En")));
                         item.setDescription(htmlRender(object.getString("Description_En")));
                        // item.setPhone1(object.getString("Phone1"));
-                        item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/"+object.getString("Photo1"));
+                        item.setPhoto1(Urls.URL_IMG_PATH+object.getString("Photo1"));
                        // item.setCategoryName(object.getString("CategoryName_En"));
                         itemArrayList.add(item);
                     }
@@ -108,9 +108,12 @@ public class Favourite extends Fragment {
         },null);
 if(Variables.ACCOUNT_ID!=null)
 { RequestQueue queue = Volley.newRequestQueue(getActivity());
-        queue.add(request);}
+        queue.add(request);
+}
         else
-{toast("Login to display your Favourites",getContext());}
+        {
+    toast("Login to display your Favourites",getContext());
+}
 
 
        /* itemList= (ListView) view.findViewById(R.id.favourite_list);
@@ -120,8 +123,6 @@ if(Variables.ACCOUNT_ID!=null)
 
 
         return view;
-
-
     }
 
     @Override
@@ -216,7 +217,7 @@ if(Variables.ACCOUNT_ID!=null)
                 holder.name.setText(Html.fromHtml(myItem.getName()));
                 holder.description.setText(Html.fromHtml(myItem.getDescription()));
                 Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl);
-                holder.call.setOnClickListener(new View.OnClickListener() {
+                /*holder.call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent phoneIntent = new Intent(Intent.ACTION_CALL);
@@ -233,7 +234,7 @@ if(Variables.ACCOUNT_ID!=null)
                         toast(myItem.getPhoto1());
                     }
                 });
-
+*/
 
 
                 /*-------------------like btn--------------------*/

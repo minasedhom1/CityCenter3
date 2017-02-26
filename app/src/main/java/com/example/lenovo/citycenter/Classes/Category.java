@@ -72,6 +72,7 @@ public Category()
     }
 
     public void set_icon(String _icon) {
+        _icon=_icon.replace(" ","%20");
         this._icon = _icon;
     }
 
