@@ -5,15 +5,13 @@
     android:orientation="vertical"
     tools:context="com.example.lenovo.citycenter.Fragments.GrandCinema">
 
-    <ListView
+    <ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listview_category"
+        android:id="@+id/expandded_list_category"
         android:divider="#00000000"
-        android:dividerHeight="10dip"
-        android:paddingTop="6dp"
+        android:dividerHeight="3dp"
         android:cacheColorHint="#00000000"
-        android:entries="@array/rate_values"
         />
 
 

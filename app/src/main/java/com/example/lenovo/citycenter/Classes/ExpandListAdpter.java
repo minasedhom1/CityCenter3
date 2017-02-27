@@ -95,9 +95,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
                 holder.shopName= (TextView) convertView.findViewById(R.id.shopNameTextView); //*******kont nasi el view.
                 holder.shopDetails = (TextView) convertView.findViewById(R.id.shopDetailsTextview);
                 holder.categoryIcon = (ImageView) convertView.findViewById(R.id.shopPic);
-
                 holder.explore = (Button) convertView.findViewById(R.id.explore_btn);
-
                 convertView.setTag(holder);
             }
             else {holder = (ViewHolder) convertView.getTag();
@@ -107,8 +105,8 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
 
             holder.shopName.setText(Html.fromHtml(myCat.get_name()), TextView.BufferType.SPANNABLE);
             holder.shopDetails.setText(Html.fromHtml(myCat.get_details()));
-            String logoURL= Urls.URL_IMG_PATH + myCat.get_icon();
-            Picasso.with(activity).load(logoURL).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.categoryIcon);
+
+            Picasso.with(activity).load(myCat.get_icon()).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.categoryIcon);
             holder.shopName.setTextSize(16f);
             holder.explore.setTypeface(MainActivity.font);
            //  holder.explore.setText("Explore " + "&#xf054;");
@@ -116,7 +114,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-            // explore.setTextSize(13f);
+   /*         // explore.setTextSize(13f);
             holder.explore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -124,7 +122,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
 
 
                 }
-            });
+            });*/
 
             return convertView;
 

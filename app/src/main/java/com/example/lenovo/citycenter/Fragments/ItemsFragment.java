@@ -267,14 +267,9 @@ public class ItemsFragment extends Fragment {
 
 
 
-                /*-------------------like btn--------------------*/
+/*-----------------------------------------------------------------------like btn-----------------------------------------------------------------------------------------*/
                 holder.shineButton.init(getActivity());
                 holder.shineButton.setChecked(myItem.isLike());
-             /*   if (Variables.ACCOUNT_ID==null)
-                {
-                    holder.shineButton.setVisibility(View.INVISIBLE);
-                }*/
-
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -297,7 +292,6 @@ public class ItemsFragment extends Fragment {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-
                                 }
                             }, null);
                             RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -330,59 +324,29 @@ public class ItemsFragment extends Fragment {
                 }
 }
                 );
-
-
-            holder.image.setOnClickListener(new View.OnClickListener() {
+                    holder.image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     final Dialog nagDialog = new Dialog(getContext());
                     nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     nagDialog.setContentView(R.layout.pop_up_item_image);
                     ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.imageView3);
                     Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(ivPreview);  //             //new DownLoadImageTask(image).execute(imageUrl);
-
                     nagDialog.show();
-
-
                 }
             });
-                return convertView;
 
-            } catch (Exception e) {
+                return convertView;
+            }   catch (Exception e) {
                 return null;
             }
         }
 
-
-
-
-  /*    class ViewHolder
-
-        {
-            Button website, call;
-            ImageView image;
-            TextView name, description;
-            ShineButton shineButton;
-
-            public ViewHolder(View view)
-            {
-            name = (TextView) view.findViewById(R.id.name2_tv);
-            description = (TextView) view.findViewById(R.id.promo2_tv);
-            image = (ImageView) view.findViewById(R.id.item_icon);
-            call = (Button) view.findViewById(R.id.call_btn);
-            website = (Button) view.findViewById(R.id.website_btn);
-            shineButton = (ShineButton) view.findViewById(R.id.like_btn);
-            view.setTag(this);
-            }
-        }*/
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
- //       outState.putSerializable("key",myItem);
-
     }
 
     public void toast(String msg){Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();}

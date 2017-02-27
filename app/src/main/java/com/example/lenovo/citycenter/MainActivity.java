@@ -1,12 +1,15 @@
 package com.example.lenovo.citycenter;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +22,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -51,6 +55,7 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.share.widget.LikeView;
+import com.google.android.gms.common.api.BooleanResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -145,16 +150,19 @@ public  static  Typeface font;
 
         if (AccessToken.getCurrentAccessToken() != null)
         {
-            getAccID();
+            Variables.ACCOUNT_ID = PreferenceManager.getDefaultSharedPreferences(this).getString("AccountID", "defaultStringIfNothingFound");
+            Log.d("ACCID",Variables.ACCOUNT_ID);
+
+/*            if(Variables.ACCOUNT_ID==null)
+                getAccID();*/
         }
       else {
             LoginManager loginManager = LoginManager.getInstance();
             loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-                    AccessToken tok;
-                    tok = AccessToken.getCurrentAccessToken();
-                    Log.d("UserID", tok.getUserId());
+
+                    Log.d("UserID", AccessToken.getCurrentAccessToken().getUserId());
                     getAccID();
                 }
                 @Override
@@ -214,17 +222,21 @@ public  static  Typeface font;
             }
         };
         profileTracker.startTracking();
- /*---------------------------------------------------------------------------------------------------------------------------------*/
-      add_device_token();  //add your device token to DB
+ /*-------------------------------------------------------------check if token is saved or not--------------------------------------------------------------------*/
+      Boolean b=PreferenceManager.getDefaultSharedPreferences(this).getBoolean("TOKEN_SAVED",false);
+      if(!b)
+      { add_device_token();}  //add your device token to DB
+ /*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
+ /*------------------------------------------------------Signature-------------------------------------------------------------------------------------*/
         View image = findViewById(R.id.logo_header);
         image.setSoundEffectsEnabled(false);
-        image.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {signture();}});
-
+        image.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {Methods.signture(MainActivity.this);}});
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
     //Log.d("TOKFB",FirebaseInstanceId.getInstance().getToken());
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+/*        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");
-        myRef.setValue(FirebaseInstanceId.getInstance().getToken());
+        myRef.setValue(FirebaseInstanceId.getInstance().getToken());*/
 
     }
 
@@ -241,10 +253,6 @@ public  static  Typeface font;
             super.onBackPressed();
         }
     }
-
-
-
-
 
 
 
@@ -288,7 +296,7 @@ public  static  Typeface font;
     }
 
 
-    int count=0;void signture(){count++;if(count==10){Methods.toast(";)",this);count=0;}}
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -308,7 +316,6 @@ public  static  Typeface font;
 
     public void add_device_token() {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-
         StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_DEVICE_TOKEN + refreshedToken, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -318,6 +325,8 @@ public  static  Typeface font;
                 try {
                     JSONObject obj = new JSONObject(response);
                     String status = obj.getString("Status");
+                    if(status.matches("Success saved")||status.matches("Already Exists"))
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("TOKEN_SAVED", true).apply();
                     Toast.makeText(MainActivity.this, status, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -326,6 +335,7 @@ public  static  Typeface font;
         }, null);
         queue.add(postReq);
     }
+
 
 
 
@@ -345,6 +355,7 @@ public  static  Typeface font;
 
         }
 }
+
     void getAccID()
     {
         StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_POST_FBID_GET_ACC_ID + AccessToken.getCurrentAccessToken().getUserId(), new Response.Listener<String>() {
@@ -356,7 +367,8 @@ public  static  Typeface font;
                 try {
                     JSONObject obj = new JSONObject(response);
                     Variables.ACCOUNT_ID = obj.getString("ID");
-                  // mainFrag();
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("AccountID", Variables.ACCOUNT_ID).apply();
+                    // mainFrag();
                     Log.d("ACCOUNTID", Variables.ACCOUNT_ID);
                 } catch (JSONException e) {
                     e.printStackTrace();

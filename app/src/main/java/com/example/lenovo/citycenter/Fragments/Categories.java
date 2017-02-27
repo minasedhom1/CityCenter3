@@ -1,6 +1,8 @@
 package com.example.lenovo.citycenter.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -42,8 +44,7 @@ public class Categories extends Fragment {
 
     //private ListView customListView;
     private ArrayList<Category> categoryArrayList;
-    private ArrayList<Subcategory> subcategoryAraayList;
-   ExpandListAdpter expandListAdpter;
+    ExpandListAdpter expandListAdpter;
     RequestQueue queue ;
 
 
@@ -67,6 +68,7 @@ public class Categories extends Fragment {
 
             @Override
             public void onResponse(String response) {
+               // categoryArrayList.clear();
                 try {
                     JsonElement root=new JsonParser().parse(response);
                     response = root.getAsString();  //not .toString
@@ -79,7 +81,7 @@ public class Categories extends Fragment {
                         myCategory.set_id(object.getInt("CategoryID"));
                         myCategory.set_name(htmlRender(object.getString("Name_En"))); // X
                         myCategory.set_details(object.getString("Description_En")); // X
-                        myCategory.set_icon(object.getString("Logo")); //filter here
+                        myCategory.set_icon(Urls.URL_IMG_PATH +object.getString("Logo")); //filter here
                         myCategory.setHas_sub(object.getBoolean("AllowSubcategory"));//filter here
                         if(myCategory.isHas_sub())
                         {myCategory.setSub_array(getSubs(object.getInt("CategoryID")));}
@@ -93,10 +95,11 @@ public class Categories extends Fragment {
                 }
             }
         };
+        //if(categoryArrayList.size()==0)
         GetDataRequest fetchRequest = new GetDataRequest(responseListener);
         queue.add(fetchRequest);
        // queue.start();
-/*-----------------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 
     //    Methods.toast("hello",getContext());
 
@@ -104,22 +107,23 @@ public class Categories extends Fragment {
 
     }
 
+
     FloatingActionButton fab;
-
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
        // customListView = (ListView) view.findViewById(R.id.listview_category);
         expand_listView = (ExpandableListView) view.findViewById(R.id.expandded_list_category);
         final View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, expand_listView, false);
-
+/*        footerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://apps-valley.net/")));
+            }
+        });*/
         expand_listView.addFooterView(footerView,null,false);
         expand_listView.setGroupIndicator(null);
-
-
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +132,7 @@ public class Categories extends Fragment {
                 expand_listView.smoothScrollToPositionFromTop(0,0);
             }}
         );
+
 
         expand_listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -142,6 +147,8 @@ public class Categories extends Fragment {
                 else fab.show();
             }
         });
+
+
 
         expand_listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -169,6 +176,8 @@ public class Categories extends Fragment {
             }
         });
 
+
+
           expand_listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
        @Override
        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -186,7 +195,6 @@ public class Categories extends Fragment {
 
 
 
-
     public String htmlRender(String ss)
     {
         ss=ss.replace("span","font");
@@ -196,6 +204,8 @@ public class Categories extends Fragment {
         ss=ss.replaceAll("</p>",""); //********
         return ss;
     }
+
+
 
 
 
@@ -239,6 +249,8 @@ public class Categories extends Fragment {
 
 
 
+
+
    /* public void getFavourtieItems()
 
     {
@@ -273,45 +285,6 @@ public class Categories extends Fragment {
 
         }
     }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,6 +1,8 @@
 package com.example.lenovo.citycenter.Assets;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -38,43 +40,6 @@ public class Methods {
         ss=ss.replaceAll("</p>",""); //********
         return ss;
     }
-
-   public static ArrayList<Item> getFavourites( AppCompatActivity activity) {
-        final ArrayList<Item> subCat_array = new ArrayList();
-
-        Volley.newRequestQueue(activity).add(new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                JsonElement root=new JsonParser().parse(response);
-                response = root.getAsString();
-                JSONArray jsonArray;
-                try {
-                    JSONObject jsonObject= new JSONObject(response);
-
-                    jsonArray=jsonObject.getJSONArray("allFav");
-
-                    for (int i = 0; i < jsonArray.length(); i++)
-
-                    {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        object= object.getJSONObject("fav");
-                        Item item=new Item();
-                        item.setName(htmlRender(object.getString("Name_En")));
-                        item.setDescription(htmlRender(object.getString("Description_En")));
-                       // item.setPhone1(object.getString("Phone1"));
-                        item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/"+object.getString("Photo1"));
-                       // item.setCategoryName(object.getString("CategoryName_En"));
-                        subCat_array.add(item);
-                    }
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-
-            }
-
-        },null)
-        );
-        return subCat_array;
-
-    }
+    static int count=0;
+    public static void signture(Context context){count++;if(count==10){Methods.toast(";)",context);count=0;}}
 }
