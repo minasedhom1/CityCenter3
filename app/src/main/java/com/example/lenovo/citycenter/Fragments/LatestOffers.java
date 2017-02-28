@@ -1,8 +1,6 @@
 package com.example.lenovo.citycenter.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -186,7 +184,7 @@ View view=inflater.inflate(R.layout.fragment_latest_offers, container, false);
 
                 if(convertView==null) {
                     LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-                    convertView = inflater.inflate(R.layout.item_clicked, parent, false);
+                    convertView = inflater.inflate(R.layout.item_layout, parent, false);
 
                     myItem = itemArrayList.get(position);
 

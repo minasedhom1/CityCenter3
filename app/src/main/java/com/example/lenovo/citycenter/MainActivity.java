@@ -131,17 +131,16 @@ public  static  Typeface font;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        //navigationView.getMenu().getItem(0).setChecked(true);
         navHed = navigationView.getHeaderView(0);
         faceName = (TextView) navHed.findViewById(R.id.name_tv);
         imageView = (ImageView) navHed.findViewById(R.id.prof_image);
 
-        View header_view = findViewById(R.id.header_layout);
+       /* View header_view = findViewById(R.id.header_layout);
         final ImageView home_prof = (ImageView) header_view.findViewById(R.id.home_prof);
         final TextView home_name = (TextView) header_view.findViewById(R.id.home_name);
         LikeView likeView = (LikeView) header_view.findViewById(R.id.fb_like_btn);
         likeView.setLikeViewStyle(LikeView.Style.BUTTON);
-        likeView.setObjectIdAndType("https://www.facebook.com/sa3ednyapps/", LikeView.ObjectType.PAGE);
+        likeView.setObjectIdAndType("https://www.facebook.com/sa3ednyapps/", LikeView.ObjectType.PAGE);*/
  /*---------------------------------------------------------------------------------------------------------------------------------*/
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();
@@ -197,9 +196,9 @@ public  static  Typeface font;
         profile = Profile.getCurrentProfile();
         if (profile != null) {
             faceName.setText(profile.getName());
-            home_name.setText("Welcome " + profile.getFirstName() + "!");
+         //   home_name.setText("Welcome " + profile.getFirstName() + "!");
             Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(imageView);
-            Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
+        //    Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
         } else {
             imageView.setImageResource(R.mipmap.prof1);
             faceName.setText("");
@@ -212,9 +211,9 @@ public  static  Typeface font;
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
                 if (currentProfile != null) {
                     faceName.setText(currentProfile.getName());
-                    home_name.setText("Welcome " + currentProfile.getFirstName() + "!");
+                 //   home_name.setText("Welcome " + currentProfile.getFirstName() + "!");
                     Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(imageView);
-                    Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
+               //     Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
                 } else {
                     imageView.setImageResource(R.mipmap.prof1);
                     faceName.setText("");
@@ -230,7 +229,6 @@ public  static  Typeface font;
 
  /*------------------------------------------------------Signature-------------------------------------------------------------------------------------*/
         View image = findViewById(R.id.logo_header);
-        image.setSoundEffectsEnabled(false);
         image.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {Methods.signture(MainActivity.this);}});
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
     //Log.d("TOKFB",FirebaseInstanceId.getInstance().getToken());

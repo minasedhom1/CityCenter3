@@ -10,10 +10,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@mipmap/baner"
+        android:layout_height="110dp"
+        android:background="@mipmap/baner2"
 
 >
+<!--
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -23,17 +24,24 @@
             android:layout_alignParentRight="true"
 
             >
-            <ImageView
+       &lt;!&ndash;     <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/logo"
                 android:layout_gravity="right"
                 android:id="@+id/logo_header"
-
-
-                />
+                />&ndash;&gt;
         </LinearLayout>
-
+-->
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/logo2"
+            android:id="@+id/logo_header"
+android:layout_centerHorizontal="true"
+            android:soundEffectsEnabled="false"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"/>
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
@@ -44,52 +52,55 @@
             android:layout_alignParentStart="true"
             android:layout_marginLeft="13dp"
             android:layout_marginStart="13dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+           />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_alignLeft="@+id/icon_nav"
-            android:layout_alignStart="@+id/icon_nav"
-            android:layout_marginBottom="11dp">
+        <!--     <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@+id/icon_nav"
+                android:layout_alignStart="@+id/icon_nav"
+                android:l_marginBottom="11dp">
 
-            <ImageView
-                android:padding="4dp"
-                android:layout_width="67dp"
-                android:layout_height="67dp"
-                app:srcCompat="@mipmap/prof"
-                android:id="@+id/home_prof"
-                android:background="@drawable/circle_shape_border"
-       />
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="13dp"
-                    android:layout_marginLeft="11dp"
-                    android:id="@+id/linearLayout"
-                    android:layout_marginStart="11dp">
-
-                    <TextView
-                        android:text="ًWelcome!"
+          <ImageView
+                    android:padding="4dp"
+                    android:layout_width="67dp"
+                    android:layout_height="67dp"
+                    app:srcCompat="@mipmap/prof"
+                    android:id="@+id/home_prof"
+                    android:background="@drawable/circle_shape_border"
+                    android:visibility="visible"
+           />
+                <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/home_name"
-                        android:textColor="@android:color/background_light"
-                        android:textStyle="normal|bold"
-                         />
+                        android:orientation="vertical"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginLeft="11dp"
+                        android:id="@+id/linearLayout"
+                        android:layout_marginStart="11dp">
 
-                    <com.facebook.share.widget.LikeView
+                        <TextView
+                            android:text="ًWelcome!"
                             android:layout_width="wrap_content"
-                            android:layout_height="27dp"
-                            app:srcCompat="@mipmap/facelike"
-                            android:id="@+id/fb_like_btn"
-                 />
-                </LinearLayout>
-        </LinearLayout>
+                            android:layout_height="wrap_content"
+                            android:id="@+id/home_name"
+                            android:textColor="@android:color/background_light"
+                            android:textStyle="normal|bold"
+                             />
+
+                        <com.facebook.share.widget.LikeView
+                                android:layout_width="wrap_content"
+                                android:layout_height="27dp"
+                                app:srcCompat="@mipmap/facelike"
+                                android:id="@+id/fb_like_btn"
+                     />
+                    </LinearLayout>
+            </LinearLayout>-->
 
     </RelativeLayout>
 </LinearLayout>

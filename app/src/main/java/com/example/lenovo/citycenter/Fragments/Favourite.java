@@ -3,8 +3,6 @@ package com.example.lenovo.citycenter.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,7 +25,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
-import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
 import com.google.gson.JsonElement;
@@ -197,7 +194,7 @@ if(Variables.ACCOUNT_ID!=null)
 
                 if (convertView == null) {
                     LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-                    convertView = inflater.inflate(R.layout.item_clicked, parent, false);
+                    convertView = inflater.inflate(R.layout.item_layout, parent, false);
                     myItem = itemArrayList.get(position);
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.promo2_tv);

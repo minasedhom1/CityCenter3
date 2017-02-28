@@ -5,11 +5,12 @@
         <item
             android:id="@+id/nav_mallstores"
             android:icon="@drawable/mallstores"
-            android:title="Mall Stores" />
+            android:title="Goods"
+            />
         <item
             android:id="@+id/nav_grandcinema"
             android:icon="@drawable/movie_icon"
-            android:title="Grand Cinema" />
+            android:title="Services" />
         <item
             android:id="@+id/nav_whatsnew"
             android:icon="@drawable/star"

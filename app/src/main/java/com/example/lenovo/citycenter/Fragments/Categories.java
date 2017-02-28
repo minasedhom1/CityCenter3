@@ -90,7 +90,7 @@ public class Categories extends Fragment {
 
                     expandListAdpter=new ExpandListAdpter((AppCompatActivity) getActivity(),categoryArrayList);
                     expand_listView.setAdapter(expandListAdpter);
-                } catch (JSONException e) {
+                }   catch (JSONException e) {
                     e.printStackTrace();
                 }
             }

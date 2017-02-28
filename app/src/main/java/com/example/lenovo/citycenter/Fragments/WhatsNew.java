@@ -2,8 +2,6 @@ package com.example.lenovo.citycenter.Fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -193,7 +191,7 @@ class ViewHolder
             try {
                 if(convertView==null) {
                     LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-                    convertView = inflater.inflate(R.layout.item_clicked, parent, false);
+                    convertView = inflater.inflate(R.layout.item_layout, parent, false);
 
                     myItem = itemArrayList.get(position);
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);

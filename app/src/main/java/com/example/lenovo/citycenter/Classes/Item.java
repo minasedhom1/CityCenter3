@@ -8,9 +8,58 @@ import java.io.Serializable;
 
 public class Item implements Serializable{
 
-   private String id,name,description ,photo1,phone1,categoryName,city,region,site,categoryID;
-    int rate;
+   private String id,name,description ,photo1,phone1,phone2,phone3,phone4,phone5,categoryName,subcategoryName,city,region,site,categoryID;
+   private float rate;
     double lon,lat;
+
+    public String getPhone2() {
+        return phone2;
+    }
+
+    public void setPhone2(String phone2) {
+        this.phone2 = phone2;
+    }
+
+    public String getPhone3() {
+        return phone3;
+    }
+
+    public void setPhone3(String phone3) {
+        this.phone3 = phone3;
+    }
+
+    public String getPhone4() {
+        return phone4;
+    }
+
+    public void setPhone4(String phone4) {
+        this.phone4 = phone4;
+    }
+
+    public String getPhone5() {
+        return phone5;
+    }
+
+    public void setPhone5(String phone5) {
+        this.phone5 = phone5;
+    }
+
+    public String getSubcategoryName() {
+        return subcategoryName;
+    }
+
+    public void setSubcategoryName(String subcategoryName) {
+        this.subcategoryName = subcategoryName;
+    }
+
+    public float getRate() {
+        return rate;
+    }
+
+    public void setRate(float rate) {
+
+        this.rate = Math.round(rate);
+    }
 
     public String getCategoryID() {
         return categoryID;

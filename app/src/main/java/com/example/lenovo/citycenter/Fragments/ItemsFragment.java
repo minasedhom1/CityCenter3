@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
+import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
@@ -132,8 +134,15 @@ public class ItemsFragment extends Fragment {
                         Item item=new Item();
                         item.setId(object.getString("ItemID"));
                         item.setName(htmlRender(object.getString("Name_En")));
-                        item.setDescription(htmlRender(object.getString("Description_En")));
+                        item.setDescription(object.getString("Description_En"));
                         item.setPhone1(object.getString("Phone1"));
+                        item.setPhone2(object.getString("Phone2"));
+                        item.setPhone3(object.getString("Phone3"));
+                        item.setPhone4(object.getString("Phone4"));
+                        item.setPhone5(object.getString("Phone5"));
+/*                      //  item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
+                         if(object.getString("Rate")!="null")
+                             Log.d("rate",Float.valueOf(object.getString("Rate")).toString());*/
                         item.setPhoto1(Urls.URL_IMG_PATH +object.getString("Photo1"));
                         item.setCategoryName(object.getString("CategoryName_En"));
                         item.setCategoryID(Variables.catID);
@@ -221,10 +230,8 @@ public class ItemsFragment extends Fragment {
 
                 if(convertView==null) {
                     LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-                    convertView = inflater.inflate(R.layout.item_clicked, parent, false);
-
-                  //  Item myItem = itemArrayList.get(position);
-
+                    convertView = inflater.inflate(R.layout.item_layout, parent, false);
+                    holder.call= (Button) convertView.findViewById(R.id.item_call_btn);
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.promo2_tv);
                     holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
@@ -236,14 +243,13 @@ public class ItemsFragment extends Fragment {
                 final Item myItem = itemArrayList.get(position);
 
 /*------------------------------------set values and action to views----------------------------------------*/
-
                 holder.name.setText(Html.fromHtml(myItem.getName()));
                 holder. description.setText(Html.fromHtml(myItem.getDescription()));
-
                //  holder.image.setMaxHeight(300);
-                Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl);
+                Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl)
+                 holder.call.setTypeface(MainActivity.font);
 
-/*
+
                 holder.call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -254,7 +260,7 @@ public class ItemsFragment extends Fragment {
                 });
 
 
-
+/*
                 holder.website.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

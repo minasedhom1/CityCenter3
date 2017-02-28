@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="175dp"
+    android:layout_height="160dp"
     android:background="@drawable/customshape"
     android:paddingLeft="10dp"
     android:descendantFocusability="blocksDescendants"
+
     >
     <TextView
         android:layout_width="wrap_content"
@@ -23,47 +24,45 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+>
 
-            <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:id="@+id/shopPic"
-                android:src="@mipmap/jewelry"
-                android:scaleType="fitXY"
-                android:cropToPadding="false"
-                android:layout_marginTop="7dp"
-                android:focusable="false"
-                android:clickable="false"
-                android:focusableInTouchMode="false"
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="115dp"
+            android:id="@+id/shopPic"
+            android:src="@mipmap/jewelry"
+            android:scaleType="fitXY"
+            android:cropToPadding="false"
+            android:layout_marginTop="7dp"
+            android:focusable="false"
+            android:clickable="false"
+            android:focusableInTouchMode="false"
 
-                />
-
+            />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="right"
+            android:gravity="end"
+            android:focusable="false"
+            android:clickable="false"
+            android:focusableInTouchMode="false"
             >
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="95dp"
                 android:text="shop detail"
-                android:gravity="left"
+                android:gravity="start"
                 android:id="@+id/shopDetailsTextview"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
-                android:focusable="false"
-                android:clickable="false"
-                android:focusableInTouchMode="false"
                 android:textColor="@android:color/black"
-                android:textStyle="bold"
+                android:textSize="14sp"
                 />
 
             <Button
@@ -77,9 +76,6 @@
                 android:background="@drawable/rounded_corner_btn"
                 android:layout_marginRight="10dp"
                 android:textAllCaps="false"
-                android:focusable="false"
-                android:clickable="false"
-                android:focusableInTouchMode="false"
 
                 />
         </LinearLayout>
