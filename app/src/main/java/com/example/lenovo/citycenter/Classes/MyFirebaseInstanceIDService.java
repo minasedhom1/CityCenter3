@@ -1,11 +1,25 @@
 package com.example.lenovo.citycenter.classes;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
+import com.example.lenovo.citycenter.MainActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by mido on 2/14/2017.
@@ -22,7 +36,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         Log.d("tok",refreshedToken);
         Variables.DEVICE_TOKEN=refreshedToken;
         // Saving reg id to shared preferences
-       // storeRegIdInPref(refreshedToken);
+         storeRegIdInPref(refreshedToken);
 
         // sending reg id to your server
         sendRegistrationToServer(refreshedToken);
@@ -30,13 +44,53 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     private void sendRegistrationToServer(final String token) {
         // sending gcm token to server
+        StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_DEVICE_TOKEN + token, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JsonElement root = new JsonParser().parse(response);
+                root = new JsonParser().parse(root.getAsString());   //double parse
+                response = root.getAsString();
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    String status = obj.getString("Status");
+                    if(status.matches("Success saved")||status.matches("Already Exists"))
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("TOKEN_SAVED", true).apply();
+                    Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, null);
+        RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
+        Boolean b=PreferenceManager.getDefaultSharedPreferences(this).getBoolean("TOKEN_SAVED",false);
+        if(!b){queue.add(postReq);}
         Log.e(TAG, "sendRegistrationToServer: " + token);
     }
 
-/*    private void storeRegIdInPref(String token) {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString("regId", token);
-        editor.commit();
+  private void storeRegIdInPref(String token)
+  {
+      PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("TOKEN",token).apply();
+  }
+
+   /* public void add_device_token() {
+        StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_DEVICE_TOKEN + DEVICE_TOKEN, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JsonElement root = new JsonParser().parse(response);
+                root = new JsonParser().parse(root.getAsString());   //double parse
+                response = root.getAsString();
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    String status = obj.getString("Status");
+                    if(status.matches("Success saved")||status.matches("Already Exists"))
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("TOKEN_SAVED", true).apply();
+                    Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, null);
+        RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
+        queue.add(postReq);
     }*/
 }

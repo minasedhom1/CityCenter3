@@ -9,5 +9,6 @@ public class Variables {
     public  static String catID;
     public  static String DEVICE_TOKEN;
     public static String ACCOUNT_ID;
+    public  static  String ITEM_PATH;
 }
 

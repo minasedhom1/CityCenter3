@@ -1,5 +1,6 @@
 package com.example.lenovo.citycenter.classes;
 
+import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -34,11 +35,11 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, MainActivity.class), 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this.getApplicationContext());
-                        mBuilder.setSmallIcon(R.mipmap.logo)
+                        mBuilder.setSmallIcon(getApplicationInfo().icon) //get application icon
                         //    .setNumber(++increase)
                         .setAutoCancel(true)
                         .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
-                        .setContentTitle("City Center")
+                        .setContentTitle("Sa3edny")
                         .setContentText(msg);
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(1, mBuilder.build());

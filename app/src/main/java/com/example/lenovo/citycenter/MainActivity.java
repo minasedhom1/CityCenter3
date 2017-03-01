@@ -83,15 +83,17 @@ public class MainActivity extends AppCompatActivity
     Profile profile;
     View navHed;
     RequestQueue queue;
-public  static  Typeface font;
+    public  static  Typeface font;
+    private static String DEVICE_TOKEN;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainFrag();
-
+     //    DEVICE_TOKEN = FirebaseInstanceId.getInstance().getToken();
          font= Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf" );
-
+         Log.d("token_device",PreferenceManager.getDefaultSharedPreferences(this).getString("TOKEN","null")) ;
 
 /*---------------------------------------------------------------------------------------------------------------------------------*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -187,7 +189,7 @@ public  static  Typeface font;
                     Methods.toast("Error happend",MainActivity.this);
                 }
             });
-            loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
+         //   loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
  /*---------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -222,9 +224,9 @@ public  static  Typeface font;
         };
         profileTracker.startTracking();
  /*-------------------------------------------------------------check if token is saved or not--------------------------------------------------------------------*/
-      Boolean b=PreferenceManager.getDefaultSharedPreferences(this).getBoolean("TOKEN_SAVED",false);
-      if(!b)
-      { add_device_token();}  //add your device token to DB
+      //Boolean b=PreferenceManager.getDefaultSharedPreferences(this).getBoolean("TOKEN_SAVED",false);
+      //  add_device_token();  //add your device token to DB
+       // add_device_token();
  /*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
  /*------------------------------------------------------Signature-------------------------------------------------------------------------------------*/
@@ -294,8 +296,6 @@ public  static  Typeface font;
     }
 
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -312,9 +312,8 @@ public  static  Typeface font;
         fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).commit();
     }
 
-    public void add_device_token() {
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_DEVICE_TOKEN + refreshedToken, new Response.Listener<String>() {
+    /*public void add_device_token() {
+        StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_DEVICE_TOKEN + DEVICE_TOKEN, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 JsonElement root = new JsonParser().parse(response);
@@ -332,7 +331,7 @@ public  static  Typeface font;
             }
         }, null);
         queue.add(postReq);
-    }
+    }*/
 
 
 

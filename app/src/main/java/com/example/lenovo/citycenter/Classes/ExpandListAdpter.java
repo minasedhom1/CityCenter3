@@ -103,7 +103,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
 
             final Category myCat=catArray.get(groupPosition); //final for each element
 
-            holder.shopName.setText(Html.fromHtml(myCat.get_name()), TextView.BufferType.SPANNABLE);
+            holder.shopName.setText(Html.fromHtml(Methods.htmlRender(myCat.get_name())), TextView.BufferType.SPANNABLE);
             holder.shopDetails.setText(Html.fromHtml(myCat.get_details()));
 
             Picasso.with(activity).load(myCat.get_icon()).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.categoryIcon);

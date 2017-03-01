@@ -113,10 +113,15 @@ public class ItemsFragment extends Fragment {
         }
     }
     JSONArray jsonArray;
+
+
+    TextView path;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_items, container, false);
+         path= (TextView) view.findViewById(R.id.item_path_tv);
         ItemList= (ListView) view.findViewById(R.id.clickedItem_customList);
         //Second: get items for that category id (get from cat frag.), then compare with  fav IDs
             Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -145,6 +150,7 @@ public class ItemsFragment extends Fragment {
                              Log.d("rate",Float.valueOf(object.getString("Rate")).toString());*/
                         item.setPhoto1(Urls.URL_IMG_PATH +object.getString("Photo1"));
                         item.setCategoryName(object.getString("CategoryName_En"));
+                        item.setSubcategoryName(object.getString("SubcategoryName_En"));
                         item.setCategoryID(Variables.catID);
                         itemArrayList.add(item);
                         if(fav_ids.size()!=0 && fav_ids.contains(item.getId()))
@@ -163,8 +169,7 @@ public class ItemsFragment extends Fragment {
      //           GetDataRequest.setUrl(Variables.catID);
                 GetDataRequest fetchRequest = new GetDataRequest(responseListener);
                 queue.add(fetchRequest);
-
-        return view;
+                 return view;
    }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -207,8 +212,14 @@ public class ItemsFragment extends Fragment {
                 else fab.show();
             }
         });
-    }
 
+
+
+
+        path.setTextSize(16);
+        path.setText(Html.fromHtml(Variables.ITEM_PATH));
+
+    }
     public class MyCustomListAdapter extends ArrayAdapter<Item> {
 
 

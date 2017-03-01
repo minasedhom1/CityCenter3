@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
@@ -41,12 +43,10 @@ import java.util.ArrayList;
 public class Categories extends Fragment {
 
     private ExpandableListView expand_listView;
-
     //private ListView customListView;
     private ArrayList<Category> categoryArrayList;
     ExpandListAdpter expandListAdpter;
     RequestQueue queue ;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class Categories extends Fragment {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Category myCategory=new Category();
                         myCategory.set_id(object.getInt("CategoryID"));
-                        myCategory.set_name(htmlRender(object.getString("Name_En"))); // X
+                        myCategory.set_name(object.getString("Name_En")); // X
                         myCategory.set_details(object.getString("Description_En")); // X
                         myCategory.set_icon(Urls.URL_IMG_PATH +object.getString("Logo")); //filter here
                         myCategory.setHas_sub(object.getBoolean("AllowSubcategory"));//filter here
@@ -137,7 +137,6 @@ public class Categories extends Fragment {
         expand_listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
-
             }
 
             @Override
@@ -167,6 +166,7 @@ public class Categories extends Fragment {
 
                 if(!cat.isHas_sub())
                 {
+                    Variables.ITEM_PATH=String.valueOf(Html.fromHtml(cat.get_name()));
                     Variables.catID = String.valueOf(cat.get_id());
                 Fragment fragment = new ItemsFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
@@ -177,35 +177,22 @@ public class Categories extends Fragment {
         });
 
 
-
           expand_listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
        @Override
        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
            Category cat = (Category) expandListAdpter.getGroup(groupPosition);
              String subcatID=cat.getSub_array().get(childPosition).getSubcat_id();
-           Fragment fragment = new ItemsFragment();
+           String subcatName=cat.getSub_array().get(childPosition).getSubCat_name();
+          //  subcatName=subcatName.replace("\n","");
+            Variables.ITEM_PATH= String.valueOf(Html.fromHtml(cat.get_name())+"> "+String.valueOf(Html.fromHtml(subcatName)));
+            Fragment fragment = new ItemsFragment();
            getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
            String url = Urls.URL_GET_SELECTED_SUBCATEGORY_ITEM + subcatID;
             GetDataRequest.setUrl(url );
            return false;
        }
    });
-
-    }
-
-
-
-    public String htmlRender(String ss)
-    {
-        ss=ss.replace("span","font");
-        ss=ss.replace("style=\"color: ","color=");
-        ss=ss.replace(";\"","");
-        ss=ss.replaceAll("<p>","");
-        ss=ss.replaceAll("</p>",""); //********
-        return ss;
-    }
-
-
+}
 
 
 
@@ -238,7 +225,6 @@ public class Categories extends Fragment {
                 }, null) ;
        queue.add(subcatRequest);
         return subCat_array;
-
     }
 
 
