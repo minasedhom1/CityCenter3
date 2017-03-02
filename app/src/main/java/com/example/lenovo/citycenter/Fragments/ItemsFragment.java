@@ -14,7 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,6 +31,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
@@ -123,8 +128,7 @@ public class ItemsFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_items, container, false);
          path= (TextView) view.findViewById(R.id.item_path_tv);
         ItemList= (ListView) view.findViewById(R.id.clickedItem_customList);
-        //Second: get items for that category id (get from cat frag.), then compare with  fav IDs
-            Response.Listener<String> responseListener = new Response.Listener<String>() {
+        Response.Listener<String> responseListener = new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -145,9 +149,11 @@ public class ItemsFragment extends Fragment {
                         item.setPhone3(object.getString("Phone3"));
                         item.setPhone4(object.getString("Phone4"));
                         item.setPhone5(object.getString("Phone5"));
-/*                      //  item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
+                        item.setPdf_url(object.getString("PDF_URL"));
                          if(object.getString("Rate")!="null")
-                             Log.d("rate",Float.valueOf(object.getString("Rate")).toString());*/
+                         {item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
+                             Log.d("rate",Float.valueOf(object.getString("Rate")).toString());}
+
                         item.setPhoto1(Urls.URL_IMG_PATH +object.getString("Photo1"));
                         item.setCategoryName(object.getString("CategoryName_En"));
                         item.setSubcategoryName(object.getString("SubcategoryName_En"));
@@ -158,6 +164,7 @@ public class ItemsFragment extends Fragment {
                             item.setLike(true);
                         }
                     }
+
                     itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
                     ItemList.setAdapter(itemAdapter);
                     itemAdapter.setNotifyOnChange(true);
@@ -202,9 +209,7 @@ public class ItemsFragment extends Fragment {
         ItemList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
-
             }
-
             @Override
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
                 if(i==0)
@@ -212,9 +217,6 @@ public class ItemsFragment extends Fragment {
                 else fab.show();
             }
         });
-
-
-
 
         path.setTextSize(16);
         path.setText(Html.fromHtml(Variables.ITEM_PATH));
@@ -228,9 +230,9 @@ public class ItemsFragment extends Fragment {
         }
    class ViewHolder
    {
-        Button website, call;
+        Button share, call,comment,menu;
         ImageView image;
-        TextView name, description;
+        TextView name, description,rate;
         ShineButton shineButton;
     }
         @Override
@@ -243,10 +245,14 @@ public class ItemsFragment extends Fragment {
                     LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
                     convertView = inflater.inflate(R.layout.item_layout, parent, false);
                     holder.call= (Button) convertView.findViewById(R.id.item_call_btn);
+                    holder.share=(Button) convertView.findViewById(R.id.item_share_btn);
+                    holder.comment=(Button) convertView.findViewById(R.id.item_comment_btn);
+                    holder.menu=(Button) convertView.findViewById(R.id.item_view_menu);
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.promo2_tv);
                     holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
                     holder.shineButton = (ShineButton) convertView.findViewById(R.id.like_btn);
+                    holder.rate=(TextView) convertView.findViewById(R.id.item_rate_value);
                     convertView.setTag(holder);
                 }
                 else {holder = (ViewHolder) convertView.getTag();}
@@ -254,34 +260,58 @@ public class ItemsFragment extends Fragment {
                 final Item myItem = itemArrayList.get(position);
 
 /*------------------------------------set values and action to views----------------------------------------*/
+                holder.call.setTypeface(MainActivity.font);
+                holder.share.setTypeface(MainActivity.font);
+                holder.comment.setTypeface(MainActivity.font);
+                holder.menu.setTypeface(MainActivity.font);
+
                 holder.name.setText(Html.fromHtml(myItem.getName()));
-                holder. description.setText(Html.fromHtml(myItem.getDescription()));
+                String des=String.valueOf(Html.fromHtml(myItem.getDescription()));
+                des= des.replace("\n\n","\n");
+                holder. description.setText(des);
+
+                holder.rate.setText(String.valueOf(myItem.getRate()));
                //  holder.image.setMaxHeight(300);
                 Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl)
-                 holder.call.setTypeface(MainActivity.font);
 
-
+                final ArrayAdapter<String> phones_adapter =
+                new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, myItem.getPhones());
                 holder.call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+
+                        if(myItem.getPhones().size()==1)
+                        {
+                            Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+                            phoneIntent.setData(Uri.parse("tel:" + myItem.getPhone1()));
+                            startActivity(phoneIntent);
+                        }
+
+                        else if(myItem.getPhones().size()>1) {
+                            final Dialog nagDialog = new Dialog(getContext());
+                            nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            nagDialog.setContentView(R.layout.popup_phone_numbers_for_item);
+                            ListView listView1 = (ListView) nagDialog.findViewById(R.id.phones_list);
+                            listView1.setAdapter(phones_adapter);
+                            nagDialog.show();
+                            listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+                                    phoneIntent.setData(Uri.parse("tel:" + phones_adapter.getItem(position)));
+                                    startActivity(phoneIntent);
+                                }
+                            });
+                        }
+                        else {
+                            Methods.toast("No Phone numbers for tis item!",getContext());}
+
+                       /* Intent phoneIntent = new Intent(Intent.ACTION_CALL);
                         phoneIntent.setData(Uri.parse("tel:" + myItem.getPhone1()));
-                        startActivity(phoneIntent);
+
+                        startActivity(phoneIntent);*/
                     }
                 });
-
-
-/*
-                holder.website.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        *//*Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(myItem.getSite()));
-                        startActivity(i);*//*
-                        toast(myItem.getPhoto1());
-                    }
-                });*/
-
 
 
 /*-----------------------------------------------------------------------like btn-----------------------------------------------------------------------------------------*/
@@ -290,7 +320,6 @@ public class ItemsFragment extends Fragment {
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //  MainActivity.fav_items.add(myItem);
                         if (!myItem.isLike()) {
                             StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_TO_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
                                 @Override
@@ -302,10 +331,10 @@ public class ItemsFragment extends Fragment {
                                         JSONObject obj = new JSONObject(response);
                                         String status = obj.getString("Status");
                                         if (status.matches("Success") || status.matches("Already Exists")) {
-                                           // myItem.setLike(true);
+                                            // myItem.setLike(true);
                                             toast("Added to Favorites list!");
                                         }
-                                         else toast(status);
+                                      else toast(status);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -315,6 +344,7 @@ public class ItemsFragment extends Fragment {
                             queue.add(postReq);
                             myItem.setLike(true);
                         }
+
                     else {
                             StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
                                 @Override
@@ -341,7 +371,7 @@ public class ItemsFragment extends Fragment {
                 }
 }
                 );
-                    holder.image.setOnClickListener(new View.OnClickListener() {
+                holder.image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     final Dialog nagDialog = new Dialog(getContext());
@@ -350,15 +380,33 @@ public class ItemsFragment extends Fragment {
                     ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.imageView3);
                     Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(ivPreview);  //             //new DownLoadImageTask(image).execute(imageUrl);
                     nagDialog.show();
+
                 }
             });
+holder.menu.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        final Dialog nagDialog = new Dialog(getContext());
+        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        nagDialog.setContentView(R.layout.popup_item_load_menu_pdf_url);
+        WebView webView = (WebView) nagDialog.findViewById(R.id.item_menu_webview_);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient());
+        webView.loadUrl(myItem.getPdf_url());
+        nagDialog.show();
+    }
+});
 
                 return convertView;
             }   catch (Exception e) {
                 return null;
             }
-        }
 
+        }
     }
 
     @Override

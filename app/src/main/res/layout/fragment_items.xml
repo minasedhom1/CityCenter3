@@ -15,11 +15,12 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:text="Anchor test > subcat1"
-          android:textSize="18sp"
+          android:textSize="17sp"
           android:layout_marginLeft="15dp"
           android:id="@+id/item_path_tv"
           android:textColor="#3f3f3f"/>
   </FrameLayout>
+
 
     <ListView
         android:layout_width="match_parent"
