@@ -7,9 +7,17 @@ import java.util.ArrayList;
  */
 public class Category {
  private int _id;
-
+ private boolean isRaty;
    private String _name,_details,_icon;
    private ArrayList<Subcategory> sub_array= new ArrayList<>();
+
+    public boolean isRaty() {
+        return isRaty;
+    }
+
+    public void setRaty(boolean raty) {
+        isRaty = raty;
+    }
 
     public ArrayList<Subcategory> getSub_array() {
         return sub_array;

@@ -10,5 +10,6 @@ public class Variables {
     public  static String DEVICE_TOKEN;
     public static String ACCOUNT_ID;
     public  static  String ITEM_PATH;
+    public  static boolean IS_RATY_CATEGORY;
 }
 

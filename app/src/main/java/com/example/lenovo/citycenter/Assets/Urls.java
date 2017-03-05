@@ -38,9 +38,10 @@ public class Urls {
     public  static final  String URL_ADD_DEVICE_TOKEN="http://sa3ednyservice.azurewebsites.net/Sodic/Device/AddDevice/Add?DeviceType=2&DeviceToken=";
     public  static  final String URL_IMG_PATH="https://sodicadmin.azurewebsites.net/IMG/";
 
-
-
-
-
+    public static String USER_RATE_ATTRS(String itemID,int star)
+    {
+        String URL_USER_RATE_FOR_ITEM= "http://sodicservice.azurewebsites.net/sodic/Rate/UpdateAccountRate/Updata?itemID="+itemID+"&star="+star+"&AccountID="+Variables.ACCOUNT_ID+"";
+        return URL_USER_RATE_FOR_ITEM;
+    }
 
 }

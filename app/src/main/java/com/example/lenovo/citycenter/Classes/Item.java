@@ -9,17 +9,17 @@ import java.util.ArrayList;
 
 public class Item implements Serializable{
 
-   private String id,name,description ,photo1,phone1,phone2,phone3,phone4,phone5,categoryName,subcategoryName,city,region,site,categoryID,pdf_url;
+   private String id,name,description ,photo1,phone1,phone2,phone3,phone4,phone5,categoryName,subcategoryName,city,region,site,categoryID,menu_url;
    private float rate;
     double lon,lat;
 
 
-    public String getPdf_url() {
-        return pdf_url;
+    public String getMenu_url() {
+        return menu_url;
     }
 
-    public void setPdf_url(String pdf_url) {
-        this.pdf_url = "https://docs.google.com/gview?url=https://sodicadmin.azurewebsites.net/PDF/"+pdf_url+"&embedded=true";
+    public void setMenu_url(String menu_url) {
+        this.menu_url = menu_url;
     }
 
     ArrayList<String> phones=new ArrayList<>();

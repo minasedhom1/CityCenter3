@@ -38,10 +38,11 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/logo2"
             android:id="@+id/logo_header"
-android:layout_centerHorizontal="true"
+android:layout_alignParentRight="true"
             android:soundEffectsEnabled="false"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"/>
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:layout_marginRight="-60dp"/>
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"

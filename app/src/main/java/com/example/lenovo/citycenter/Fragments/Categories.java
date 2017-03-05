@@ -85,6 +85,7 @@ public class Categories extends Fragment {
                         myCategory.setHas_sub(object.getBoolean("AllowSubcategory"));//filter here
                         if(myCategory.isHas_sub())
                         {myCategory.setSub_array(getSubs(object.getInt("CategoryID")));}
+                        myCategory.setRaty(object.getBoolean("IsRaty"));
                         categoryArrayList.add(myCategory);
                     }
 
@@ -163,11 +164,11 @@ public class Categories extends Fragment {
                     explore.setText(getString(R.string.arrow_bottom));
 
                 Category cat = (Category) expandListAdpter.getGroup(groupPosition);
-
+                Variables.IS_RATY_CATEGORY=cat.isRaty();//****new*****
                 if(!cat.isHas_sub())
                 {
-                    Variables.ITEM_PATH=String.valueOf(Html.fromHtml(cat.get_name()));
-                    Variables.catID = String.valueOf(cat.get_id());
+                Variables.ITEM_PATH=String.valueOf(Html.fromHtml(cat.get_name()));
+                Variables.catID = String.valueOf(cat.get_id());
                 Fragment fragment = new ItemsFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
                 GetDataRequest.setUrl(Urls.URL_GET_SELECTED_CATEGORY_ITEMS+ Variables.catID ); //set the clicked cat id to fetch it's items
@@ -181,7 +182,9 @@ public class Categories extends Fragment {
        @Override
        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
            Category cat = (Category) expandListAdpter.getGroup(groupPosition);
-             String subcatID=cat.getSub_array().get(childPosition).getSubcat_id();
+           Variables.IS_RATY_CATEGORY=cat.isRaty(); //****new*****
+
+           String subcatID=cat.getSub_array().get(childPosition).getSubcat_id();
            String subcatName=cat.getSub_array().get(childPosition).getSubCat_name();
           //  subcatName=subcatName.replace("\n","");
             Variables.ITEM_PATH= String.valueOf(Html.fromHtml(cat.get_name())+"> "+String.valueOf(Html.fromHtml(subcatName)));

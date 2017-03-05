@@ -104,6 +104,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:entries="@array/rate_values"
+        android:id="@+id/rate_spinner"
         >
     </Spinner>
     </LinearLayout>
@@ -111,7 +112,7 @@
         android:text="One of the most dignfied hyper ddddddddddddddddddddddddddddmarkets, it will surely fascinate you !!"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/promo2_tv"
+        android:id="@+id/item_description"
         android:layout_marginLeft="10dp"
         android:textSize="16sp"
         android:textColor="@color/colorPrimaryDark"/>

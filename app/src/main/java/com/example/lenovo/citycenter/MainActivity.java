@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity
                     Methods.toast("Error happend",MainActivity.this);
                 }
             });
-         //   loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
+          loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
  /*---------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -462,7 +462,7 @@ public class MainActivity extends AppCompatActivity
 //  mainFrag();
 
 
-   /* public  void getItems()
+ /* public  void getItems()
     {StringRequest request_all_items=new StringRequest(Request.Method.GET, Urls.URL_GET_ALL_ITEMS,
             new Response.Listener<String>() {
                 @Override
