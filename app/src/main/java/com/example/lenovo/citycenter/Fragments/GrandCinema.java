@@ -26,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
@@ -69,8 +70,7 @@ public class GrandCinema extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_grandcinema, container, false);
-
-       customListView = (ExpandableListView)view.findViewById(R.id.expandded_list_category);
+        customListView = (ExpandableListView)view.findViewById(R.id.expandded_list_category);
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, customListView, false);
         customListView.addFooterView(footerView,null,false);
         categoryArrayList = new ArrayList<>();
@@ -92,8 +92,8 @@ public class GrandCinema extends Fragment {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Category myCategory=new Category();
                         myCategory.set_id(object.getInt("CategoryID"));
-                        myCategory.set_name(htmlRender(object.getString("Name_En"))); // X
-                        myCategory.set_details(htmlRender(object.getString("Description_En"))); // X
+                        myCategory.set_name(Methods.htmlRender(object.getString("Name_En"))); // X
+                        myCategory.set_details(Methods.htmlRender(object.getString("Description_En"))); // X
                         myCategory.set_icon(Urls.URL_IMG_PATH + object.getString("Logo"));
                         myCategory.setHas_sub(object.getBoolean("AllowSubcategory"));//filter here
                         if(myCategory.isHas_sub())
@@ -118,7 +118,6 @@ public class GrandCinema extends Fragment {
 /*-----------------------------------------------------------------------------------------------------------------------------------*/
 
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -135,7 +134,6 @@ public class GrandCinema extends Fragment {
         customListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
-
             }
 
             @Override
@@ -146,16 +144,6 @@ public class GrandCinema extends Fragment {
             }
         });
 
- /*customListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-     @Override
-     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-         Category cat= (Category) myAdapter.getItem(i);
-         Variables.catID = String.valueOf(cat.get_id());
-         GetDataRequest.setUrl(Urls.URL_GET_SELECTED_CATEGORY_ITEMS+ Variables.catID );
-         Fragment  fragment = new ItemsFragment();
-         getFragmentManager().beginTransaction().replace(R.id.frag_holder,fragment ).commit();
-     }
- });*/
         customListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
@@ -198,10 +186,9 @@ public class GrandCinema extends Fragment {
     }
 
 
-    public  ArrayList<Subcategory> getSubs(int catID) {
+        public  ArrayList<Subcategory> getSubs(int catID) {
         final ArrayList<Subcategory> subCat_array = new ArrayList();
         RequestQueue queue=Volley.newRequestQueue(getContext());
-
         StringRequest subcatRequest= new StringRequest(Request.Method.GET, Urls.URL_GET_SELECTED_CATEGORY_SUBCATEGORIES + catID,
                 new Response.Listener<String>() {
                     @Override
@@ -229,128 +216,6 @@ public class GrandCinema extends Fragment {
                 }, null) ;
         queue.add(subcatRequest);
         return subCat_array;
-
-    }
-
-  /*   public class MyCustomListAdapter extends ArrayAdapter<Category> {
-
-        class ViewHolder {
-            Button explore;
-            TextView shopName, shopDetails;
-            ImageView categoryIcon;
-        }
-
-       public MyCustomListAdapter(Context context, int resource, int textViewResourceId, List<Category> objects) {
-            super(context, resource, textViewResourceId, objects);
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-
-           ViewHolder holder = new ViewHolder();
-            try {
-
-
-
-                if(convertView==null)
-                {
-                    LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-                    convertView = inflater.inflate(R.layout.category_group, parent, false);
-
-                    holder.shopName= (TextView) convertView.findViewById(R.id.shopNameTextView); /*//*******kont nasi el view.
-                    holder.shopDetails = (TextView) convertView.findViewById(R.id.shopDetailsTextview);
-                    holder. categoryIcon = (ImageView) convertView.findViewById(R.id.shopPic);
-                    holder.explore = (Button) convertView.findViewById(R.id.explore_btn);
-                    convertView.setTag(holder);
-
-                }
-                else {holder = (ViewHolder) convertView.getTag();}
-                final Category myCat=categoryArrayList.get(position); //final for each element
-                holder.shopName.setText(Html.fromHtml(myCat.get_name()), TextView.BufferType.SPANNABLE);
-                holder.shopDetails.setText(Html.fromHtml(myCat.get_details()));
-               // String logoURL="https://sa3ednymalladmin.azurewebsites.net/IMG/"+ myCat.get_icon();
-
-                Picasso.with(getContext()).load(myCat.get_icon()).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.categoryIcon);
-*//*                holder.categoryIcon.setMaxHeight(200);
-                holder.categoryIcon.setScaleType(ImageView.ScaleType.FIT_XY);*//*
-                holder.shopName.setTextSize(16f);
-                holder.explore.setTextSize(13f);
-                holder.explore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                });
-
-                return convertView;
-
-            } catch (Exception e) {
-                return null;
-            }
-
-
-          *//*  Picasso.with(getContext()).load(imageUrl).into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-
-                        Bitmap imageRounded=   Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
-                        Canvas canvas = new Canvas(imageRounded);
-                        Paint mpaint = new Paint();
-                        mpaint.setAntiAlias(true);
-                        mpaint.setShader(new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-
-                        canvas.drawRoundRect((new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight())), 20, 20, mpaint);
-                        categoryIcon.setImageBitmap(imageRounded);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
-                        categoryIcon.setImageBitmap(bm);
-                    }
-                });*//*
-            //new DownLoadImageTask(image).execute(imageUrl);
-
-
-            //  categoryIcon.setImageResource(myCategory.get_icon());
-            *//*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*//*
-
-*//*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*//*
-       *//*         Bitmap mbitmap = ((BitmapDrawable) getResources().getDrawable(myCategory.get_icon())).getBitmap();
-                Bitmap imageRounded = Bitmap.createBitmap(mbitmap.getWidth(), mbitmap.getHeight(), mbitmap.getConfig());
-                Canvas canvas = new Canvas(imageRounded);
-                Paint mpaint = new Paint();
-                mpaint.setAntiAlias(true);
-                mpaint.setShader(new BitmapShader(mbitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-                canvas.drawRoundRect((new RectF(0, 0, mbitmap.getWidth(), mbitmap.getHeight())), 20, 20, mpaint);// Round Image Corner 100 100 100 100
-                categoryIcon.setImageBitmap(imageRounded);
-                categoryIcon.setPadding(10,10,10,10);*//*
-*//*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*//*
-
-
-*//*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*//*
-        }
-
-
-    }*/
-    public String htmlRender(String ss)
-    {
-        ss=ss.replace("span","font");
-        ss=ss.replace("style=\"color: ","color=");
-        ss=ss.replace(";\"","");
-        ss=ss.replaceAll("<p>","");
-        ss=ss.replaceAll("</p>",""); //********
-        return ss;
-    }
-
-    public void toast(String s)
-    {
-        Toast.makeText(getContext(),s,Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -10,6 +10,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.example.lenovo.citycenter.Assets.Urls;
+import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.R;
 
 /**
@@ -34,8 +36,7 @@ View view =inflater.inflate(R.layout.fragment_contact_us, container, false);
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(true);
 
-        webViewl.loadUrl("https://www.google.com/maps/d/viewer?mid=1Xe4NoLjHr3ftUvinoY8v8UhyxjA&ll=30.072141670076693%2C31.144612250000023&z=11");
-
+        webViewl.loadUrl(Urls.URL_CONTACT_US_MAP);
         return  view;
     }
 

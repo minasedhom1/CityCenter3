@@ -484,21 +484,7 @@ public class ItemsFragment extends Fragment {
             } catch (Exception e) {
                 return null;
             }
-
-
-
-
-
-
-
-
         }
-
-
-
-
-
-
     }
 
     @Override

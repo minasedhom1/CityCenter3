@@ -43,7 +43,6 @@ import java.util.ArrayList;
 public class Categories extends Fragment {
 
     private ExpandableListView expand_listView;
-    //private ListView customListView;
     private ArrayList<Category> categoryArrayList;
     ExpandListAdpter expandListAdpter;
     RequestQueue queue ;
@@ -161,8 +160,7 @@ public class Categories extends Fragment {
 
                 }
                  else
-                    explore.setText(getString(R.string.arrow_bottom));
-
+                explore.setText(getString(R.string.arrow_bottom));
                 Category cat = (Category) expandListAdpter.getGroup(groupPosition);
                 Variables.IS_RATY_CATEGORY=cat.isRaty();//****new*****
                 if(!cat.isHas_sub())
@@ -183,7 +181,6 @@ public class Categories extends Fragment {
        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
            Category cat = (Category) expandListAdpter.getGroup(groupPosition);
            Variables.IS_RATY_CATEGORY=cat.isRaty(); //****new*****
-
            String subcatID=cat.getSub_array().get(childPosition).getSubcat_id();
            String subcatName=cat.getSub_array().get(childPosition).getSubCat_name();
           //  subcatName=subcatName.replace("\n","");
@@ -229,152 +226,5 @@ public class Categories extends Fragment {
        queue.add(subcatRequest);
         return subCat_array;
     }
-
-
-
-
-
-
-
-
-
-
-
-   /* public void getFavourtieItems()
-
-    {
-        if(favouriteList.size()==0) {
-            final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            JsonElement root = new JsonParser().parse(response);
-                            response = root.getAsString();
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                jsonArray = jsonObject.getJSONArray("allFav");
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject object = jsonArray.getJSONObject(i);
-                                    object = object.getJSONObject("fav");
-                                    Item item = new Item();
-                                    item.setId(object.getString("ItemID"));
-                                    item.setName(htmlRender(object.getString("Name_En")));
-                                    item.setDescription(htmlRender(object.getString("Description_En")));
-                                    item.setPhoto1("https://sa3ednymalladmin.azurewebsites.net/IMG/" + object.getString("Photo1"));
-                                    favouriteList.add(item);
-                                }
-                                for (int i = 0; i < favouriteList.size(); i++) {
-                                    fav_ids.add(favouriteList.get(i).getId());
-                                }
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                    }, null);
-
-        }
-    }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //onItem click
-       // customListView.setDescendantFocusability(customListView.getBottom());
-       /* customListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-           *//*     if(i != adapterView.getLastVisiblePosition()) //not footer
-                {*//*
-                    Category cat = (Category) myAdapter.getItem(i);
-                    Urls.catID = String.valueOf(cat.get_id());
-                    Fragment fragment = new ItemsFragment();
-                    getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
-           *//*     }
-                else {}
-*//*
-// Commit the transaction
-            }
-        });*/
-
-
-
-        //ExpandListAdpter expandListAdpter=new ExpandListAdpter(getActivity(),categoryArrayList,subcategoryAraayList);
-
-
-
-
-
-   /* public class MyCustomListAdapter extends ArrayAdapter<Category> {
-
-        class ViewHolder {
-            Button explore;
-            TextView shopName, shopDetails;
-            ImageView categoryIcon;
-            ListView listView;
-        }
-        public MyCustomListAdapter(Context context, int resource, int textViewResourceId, List<Category> objects) {
-            super(context, resource, textViewResourceId, objects);
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = new ViewHolder();
-            try {
-
-
-
-                if(convertView==null)
-                   {LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-                    convertView = inflater.inflate(R.layout.category_group, parent, false);
-
-
-
-
-                holder.shopName= (TextView) convertView.findViewById(R.id.shopNameTextView); /*//*******kont nasi el view.
-                holder.shopDetails = (TextView) convertView.findViewById(R.id.shopDetailsTextview);
-                holder.categoryIcon = (ImageView) convertView.findViewById(R.id.shopPic);
-                holder.explore = (Button) convertView.findViewById(R.id.explore_btn);
-                       convertView.setTag(holder);
-            }
-                else {holder = (ViewHolder) convertView.getTag();}
-                final Category myCat=categoryArrayList.get(position); //final for each element
-                holder.shopName.setText(Html.fromHtml(myCat.get_name()), TextView.BufferType.SPANNABLE);
-                holder.shopDetails.setText(Html.fromHtml(myCat.get_details()));
-                String logoURL="https://sa3ednymalladmin.azurewebsites.net/IMG/"+ myCat.get_icon();
-                Picasso.with(getContext()).load(logoURL).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.categoryIcon);
-                holder.shopName.setTextSize(16f);
-                holder.explore.setTextSize(13f);
-*//*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*//*
-
-                // explore.setTextSize(13f);
-                holder.explore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        toast(myCat.get_name());
-
-                    }
-                });
-
-                return convertView;
-
-            } catch (Exception e) {
-                return null;
-            }
-        }
-    }*/
-
 
 }

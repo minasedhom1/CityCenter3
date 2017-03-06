@@ -66,7 +66,6 @@ public Category()
         this._name = _name;
     }
 
-
     public String get_details() {
         return _details;
     }

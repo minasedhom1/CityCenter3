@@ -31,7 +31,6 @@ public class Methods {
         Toast.makeText(context,s,Toast.LENGTH_SHORT).show();
     }
     public static String htmlRender(String ss)
-
     {
         ss=ss.replace("span","font");
         ss=ss.replace("style=\"color:","color=");
@@ -41,5 +40,5 @@ public class Methods {
         return ss;
     }
     static int count=0;
-    public static void signture(Context context){count++;if(count==10){Methods.toast(";)",context);count=0;}}
+    public static void signture(Context context){count++;if(count==10){Methods.toast("Apps-V@lley",context);count=0;}}
 }

@@ -23,6 +23,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.classes.Item;
@@ -68,8 +69,7 @@ public class Favourite extends Fragment {
         final View view=inflater.inflate(R.layout.fragment_favourite, container, false);
         itemList= (ListView) view.findViewById(R.id.favourite_list);
 
-
-       StringRequest request=new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID, new Response.Listener<String>() {
+                StringRequest request=new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 JsonElement root=new JsonParser().parse(response);
@@ -81,7 +81,6 @@ public class Favourite extends Fragment {
                     jsonArray=jsonObject.getJSONArray("allFav");
 
                     for (int i = 0; i < jsonArray.length(); i++)
-
                     {
                         JSONObject object = jsonArray.getJSONObject(i);
                         object= object.getJSONObject("fav");
@@ -99,81 +98,30 @@ public class Favourite extends Fragment {
                 } catch (JSONException e1) {
                     e1.printStackTrace();
                 }
-
             }
 
         },null);
-if(Variables.ACCOUNT_ID!=null)
-{ RequestQueue queue = Volley.newRequestQueue(getActivity());
-        queue.add(request);
-}
+
+          if(Variables.ACCOUNT_ID!=null)
+            { RequestQueue queue = Volley.newRequestQueue(getActivity());
+              queue.add(request);
+            }
         else
         {
-    toast("Login to display your Favourites",getContext());
+          toast("Login to display your Favourites",getContext());
 }
-
-
-       /* itemList= (ListView) view.findViewById(R.id.favourite_list);
-        itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,MainActivity.fav_items);
-        itemList.setAdapter(itemAdapter);*/
-        //Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
-
-
-        return view;
+          return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-         /*itemArrayList=MainActivity.fav_items;
-        itemList= (ListView) view.findViewById(R.id.favourite_list);
-        itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
-        itemList.setAdapter(itemAdapter);*/
-
-     //   View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, itemList, false);
-    //    itemList.addFooterView(footerView,null,false);
-
-        // toast(myItem.name);
-   /*     this.itemArrayList = ItemsFragment.favouriteList;
-
-        if (itemArrayList.size() != 0) {
-            ItemList = (ListView) getActivity().findViewById(R.id.clickedItem_customList);
-            View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, ItemList, false);
-            ItemList.addFooterView(footerView);
-            itemAdapter = new MyCustomListAdapter(getContext(), android.R.layout.simple_list_item_1, R.id.shopNameTextView, itemArrayList);
-            ItemList.setAdapter(itemAdapter);
-            itemAdapter.notifyDataSetChanged();
-
-        }*/
-        //**********
-        //this.myItem = ItemsFragment.myItem;
-        //    int y=ItemsFragment.itemArrayList.size();
-        // ArrayList<Item> itemArrayList2=ItemsFragment.itemArrayList;
-        //  itemArrayList.add(new Item("Carrefour","a7la klam","https://sa3ednymalladmin.azurewebsites.net/IMG/636177604271948352carrefour-logo-9D3FDB68F7-seeklogo.com.gif","01275791088","www.google.com",true));
-       /*if(ItemsFragment.itemArrayList.size()!=0) {
-           for(int i=0; i<itemArrayList.size();i++)
-           {
-               myItem = ItemsFragment.itemArrayList.get(i);
-
-           if(myItem.isLike())
-           {
-              //itemArrayList.add(myItem);
-           }
-               else{
-               itemArrayList.remove(myItem);
-           }
-       }
-       }*/
-
         /*----------------------------------------------APi favoutrite handle----------------------------------------------------*/
-
-
 
     }
 
     public class MyCustomListAdapter extends ArrayAdapter<Item> {
-
 
         public MyCustomListAdapter(Context context, int resource, int textViewResourceId, List<Item> objects) {
             super(context, resource, textViewResourceId, objects);
@@ -252,7 +200,7 @@ if(Variables.ACCOUNT_ID!=null)
                                    String status = obj.getString("Status");
                                    if(status.matches("Success"))
                                    {
-                                       toast("Removed from Favorites list!");}
+                                       Methods.toast("Removed from Favorites list!",getContext());}
                                } catch (JSONException e) {
                                    e.printStackTrace();
                                }
@@ -272,21 +220,14 @@ if(Variables.ACCOUNT_ID!=null)
                         nagDialog.setContentView(R.layout.pop_up_item_image);
                         ImageView ivPreview = (ImageView) nagDialog.findViewById(R.id.imageView3);
                         Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(ivPreview);  //             //new DownLoadImageTask(image).execute(imageUrl);
-
                         nagDialog.show();
-
-
-                    }
+              }
                 });
                 return convertView;
 
             } catch (Exception e) {
                 return null;
             }
-        }
-
-        public void toast(String msg) {
-            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         }
     }
 }

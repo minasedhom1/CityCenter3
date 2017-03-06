@@ -38,7 +38,6 @@ android:orientation="vertical"
         <com.facebook.share.widget.LikeView
             android:layout_width="wrap_content"
             android:layout_height="27dp"
-            app:srcCompat="@mipmap/facelike"
             android:id="@+id/fb_like_btn"
             android:layout_toRightOf="@+id/prof_image"
           android:layout_below="@+id/name_tv"
