@@ -17,6 +17,5 @@ public class GetDataRequest extends StringRequest {
 
     public GetDataRequest(Response.Listener<String> listener) {
         super(Method.GET, REQUEST_URL, listener, null);
-
     }}
 

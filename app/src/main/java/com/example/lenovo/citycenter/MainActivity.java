@@ -272,6 +272,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_fav) {
             fragmentClass = Favourite.class;
 
+
         }/* else if (id == R.id.nav_notify) {
             fragmentClass = Notifications.class;
 
@@ -284,7 +285,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 //.addToBackStack(fragment.getClass().getName()) //for back stack
-
+        Variables.ITEM_PATH=item.getTitle().toString();
         fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START, true);

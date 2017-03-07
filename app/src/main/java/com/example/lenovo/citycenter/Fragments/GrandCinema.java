@@ -158,7 +158,7 @@ public class GrandCinema extends Fragment {
                     explore.setText(getString(R.string.arrow_bottom));
 
                 Category cat = (Category) myAdapter.getGroup(groupPosition);
-
+                Variables.ITEM_PATH=String.valueOf(Html.fromHtml(cat.get_name()));
                 if(!cat.isHas_sub())
                 {
                     Variables.catID = String.valueOf(cat.get_id());
@@ -175,6 +175,8 @@ public class GrandCinema extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Category cat = (Category) myAdapter.getGroup(groupPosition);
                 String subcatID=cat.getSub_array().get(childPosition).getSubcat_id();
+                String subcatName=cat.getSub_array().get(childPosition).getSubCat_name();
+                Variables.ITEM_PATH= String.valueOf(Html.fromHtml(cat.get_name())+"> "+String.valueOf(Html.fromHtml(subcatName)));
                 Fragment fragment = new ItemsFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
                 String url = Urls.URL_GET_SELECTED_SUBCATEGORY_ITEM + subcatID;

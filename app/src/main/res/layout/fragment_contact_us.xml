@@ -4,6 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.lenovo.citycenter.Fragments.ContactUs">
     <!-- TODO: Update blank fragment layout -->
+
+    <include layout="@layout/path_layout"/>
+
     <WebView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -7,14 +7,12 @@
     android:layout_height="160dp"
     android:background="@drawable/customshape"
     android:paddingLeft="10dp"
-    android:descendantFocusability="blocksDescendants"
-
-    >
+    android:descendantFocusability="blocksDescendants">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="shop Name"
+        android:text="Category Name"
         android:id="@+id/shopNameTextView"
         android:textStyle="bold"
         android:focusable="false"
@@ -25,8 +23,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
->
+        android:orientation="horizontal">
+
 
         <ImageView
             android:layout_width="120dp"
@@ -56,7 +54,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="95dp"
-                android:text="shop detail"
+                android:text="Category detail"
                 android:gravity="start"
                 android:id="@+id/shopDetailsTextview"
                 android:layout_marginTop="5dp"
@@ -76,7 +74,9 @@
                 android:background="@drawable/rounded_corner_btn"
                 android:layout_marginRight="10dp"
                 android:textAllCaps="false"
-
+                android:focusable="false"
+                android:clickable="false"
+                android:selectAllOnFocus="true"
                 />
         </LinearLayout>
 

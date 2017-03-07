@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,11 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
+import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
+import com.example.lenovo.citycenter.classes.MyItemAdapter;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sackcentury.shinebuttonlib.ShineButton;
@@ -41,14 +44,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
 public class LatestOffers extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
 
     public LatestOffers() {
@@ -59,25 +55,17 @@ public class LatestOffers extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     ListView ItemList;
     private ArrayList<Item> itemArrayList;
-    private ArrayAdapter itemAdapter;
-    Item myItem;
-
-
+    private MyItemAdapter  itemAdapter;
     JSONArray jsonArray;
-
+    FloatingActionButton fab;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-View view=inflater.inflate(R.layout.fragment_latest_offers, container, false);
-
+        View view=inflater.inflate(R.layout.fragment_latest_offers, container, false);
         ItemList= (ListView) view.findViewById(R.id.clickedItem_customList);
         itemArrayList = new ArrayList<>();
 
@@ -86,71 +74,67 @@ View view=inflater.inflate(R.layout.fragment_latest_offers, container, false);
 
             @Override
             public void onResponse(String response) {
-
                 try {
                     JsonElement root=new JsonParser().parse(response);
                     response = root.getAsString();
                     JSONObject jsonObject=new JSONObject(response);
                     jsonArray=jsonObject.getJSONArray("ItemsList");
                     for (int i = 0; i < jsonArray.length(); i++)
-
                     {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Item item=new Item();
+                        item.setId(object.getString("ItemID"));
                         item.setName(Methods.htmlRender(object.getString("Name_En")));
-                        item.setDescription(Methods.htmlRender(object.getString("Description_En")));
+                        item.setDescription(object.getString("Description_En"));
                         item.setPhone1(object.getString("Phone1"));
+                        item.setPhone2(object.getString("Phone2"));
+                        item.setPhone3(object.getString("Phone3"));
+                        item.setPhone4(object.getString("Phone4"));
+                        item.setPhone5(object.getString("Phone5"));
+                        item.setMenu_url(object.getString("PDF_URL"));
+                        if(object.getString("Rate")!="null")
+                        {item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
+                            Log.d("rate",Float.valueOf(object.getString("Rate")).toString());}
                         item.setPhoto1(Urls.URL_IMG_PATH +object.getString("Photo1"));
                         item.setCategoryName(object.getString("CategoryName_En"));
+                        item.setSubcategoryName(object.getString("SubcategoryName_En"));
+                        item.setCategoryID(Variables.catID);
+
+                   /*     if(fav_ids.size()!=0 && fav_ids.contains(item.getId()))
+                        {
+                            item.setLike(true);
+                        }*/
                         itemArrayList.add(item);
-
                     }
-
-                    itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
+                    itemAdapter=new MyItemAdapter(getContext(),android.R.layout.simple_list_item_1,itemArrayList);
                     ItemList.setAdapter(itemAdapter);
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         };
-
         GetDataRequest fetchRequest = new GetDataRequest(responseListener);
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         queue.add(fetchRequest);
-
         return view;
     }
 
-    FloatingActionButton fab;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-  //      itemArrayList = new ArrayList<>();
-        //itemArrayList.add(new Item("Carrefour","a7la klam","https://sa3ednymalladmin.azurewebsites.net/IMG/636177604271948352carrefour-logo-9D3FDB68F7-seeklogo.com.gif","01275791088","www.google.com",true));
-
-      //  ItemList = (ListView) getActivity().findViewById(R.id.clickedItem_customList);
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, ItemList, false);
         ItemList.addFooterView(footerView,null,false);
-
-     /*   itemAdapter = new MyCustomListAdapter(getContext(), android.R.layout.simple_list_item_1, R.id.shopNameTextView, itemArrayList);
-        ItemList.setAdapter(itemAdapter);
-        itemAdapter.notifyDataSetChanged();*/
         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ItemList.smoothScrollToPosition(0);
-
-                // customListView.setSelection(0); //listView.smoothScrollToPosition(listView.getTop());
-
             }}
         );
         ItemList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
-
             }
 
             @Override
@@ -160,103 +144,7 @@ View view=inflater.inflate(R.layout.fragment_latest_offers, container, false);
                 else fab.show();
             }
         });
-
+        Methods.setPath(view);
     }
-    boolean like=false;
-
-    public class MyCustomListAdapter extends ArrayAdapter<Item> {
-
-
-        public MyCustomListAdapter(Context context, int resource, int textViewResourceId, List<Item> objects) {
-            super(context, resource, textViewResourceId, objects);
-        }
-        class ViewHolder
-        {
-            Button website, call;
-            ImageView image;
-            TextView name, description;
-            ShineButton shineButton;
-        }
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            MyCustomListAdapter.ViewHolder holder=new MyCustomListAdapter.ViewHolder();
-            try {
-
-                if(convertView==null) {
-                    LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
-                    convertView = inflater.inflate(R.layout.item_layout, parent, false);
-
-                    myItem = itemArrayList.get(position);
-
-                    holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
-                    holder.description = (TextView) convertView.findViewById(R.id.item_description);
-                    holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
-                   // holder.call = (Button) convertView.findViewById(R.id.call_btn);
-                  //  holder.website = (Button) convertView.findViewById(R.id.website_btn);
-                    holder.shineButton = (ShineButton) convertView.findViewById(R.id.like_btn);
-                    convertView.setTag(holder);
-                }
-                else {holder = (ViewHolder) convertView.getTag();}
-                final Item myItem = itemArrayList.get(position);
-
-/*------------------------------------set values and action to views----------------------------------------*/
-
-                holder.name.setText(Html.fromHtml(myItem.getName()));
-                holder. description.setText(Html.fromHtml(myItem.getDescription()));
-
-
-                Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl);
-
-
-           /*     holder.call.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-                        phoneIntent.setData(Uri.parse("tel:" + myItem.getPhone1()));
-                        startActivity(phoneIntent);
-                    }
-                });
-
-
-
-                holder.website.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        *//*Intent i = new Intent(Intent.ACTION_VIEW);
-                        i.setData(Uri.parse(myItem.getSite()));
-                        startActivity(i);*//*
-                        toast(myItem.getPhoto1());
-                    }
-                });
-*/
-
-
-                /*-------------------like btn--------------------*/
-
-                holder.shineButton.init(getActivity());
-
-
-                //holder.shineButton.setChecked(itemArrayList.get(position).isLike());
-
-
-                holder.shineButton.setOnClickListener(new View.OnClickListener() {
-                                                          @Override
-                                                          public void onClick(View view) {
-
-                                                          }
-                                                      }
-                );
-
-
-                return convertView;
-
-            } catch (Exception e) {
-                return null;
-            }
-        }
-        }
-
-    public void toast(String msg){
-        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();}
 
 }
