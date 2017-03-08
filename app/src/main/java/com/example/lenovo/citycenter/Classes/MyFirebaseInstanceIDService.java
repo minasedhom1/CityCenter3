@@ -72,25 +72,5 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
       PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("TOKEN",token).apply();
   }
 
-   /* public void add_device_token() {
-        StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_DEVICE_TOKEN + DEVICE_TOKEN, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                JsonElement root = new JsonParser().parse(response);
-                root = new JsonParser().parse(root.getAsString());   //double parse
-                response = root.getAsString();
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    String status = obj.getString("Status");
-                    if(status.matches("Success saved")||status.matches("Already Exists"))
-                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("TOKEN_SAVED", true).apply();
-                    Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, null);
-        RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
-        queue.add(postReq);
-    }*/
+
 }

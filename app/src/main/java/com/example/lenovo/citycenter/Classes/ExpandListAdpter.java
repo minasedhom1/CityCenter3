@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lenovo.citycenter.Assets.Methods;
-import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.squareup.picasso.Picasso;
@@ -109,21 +108,6 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
             Picasso.with(activity).load(myCat.get_icon()).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.categoryIcon);
             holder.shopName.setTextSize(16f);
             holder.explore.setTypeface(MainActivity.font);
-           //  holder.explore.setText("Explore " + "&#xf054;");
-            /*holder.explore.setTextSize(11f);*/
-
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-
-   /*         // explore.setTextSize(13f);
-            holder.explore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                   Methods.toast(myCat.get_name(),activity);
-
-
-                }
-            });*/
-
             return convertView;
 
         } catch (Exception e) {
@@ -147,7 +131,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
             Picasso.with(activity).load(subcategories.get(childPosition).getSubCat_icon_url()).
                     transform(new RoundedCornersTransformation(20,0)).fit().into(child_icon);
 
-/*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++----------------------------------------------------------+++++++++++++++++++++++++++++++++++++++*/
 
             return convertView;
 

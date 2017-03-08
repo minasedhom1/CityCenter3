@@ -37,15 +37,7 @@ public class Category {
         this.has_sub = has_sub;
     }
 
-    public Category(String _name, String _details, String _icon) {
-        this._name = _name;
-       this._details=_details;
-        this._icon = _icon;
-    }
-    public Category(String _name, String _details) {
-        this._name = _name;
-        this._details=_details;
-    }
+
 public Category()
 {}
 

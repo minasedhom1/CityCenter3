@@ -1,6 +1,5 @@
 package com.example.lenovo.citycenter.classes;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -306,11 +305,43 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 });
 
 
+/*--------------------------------------------------------------------------------------------------------------------------------------------*/
+                holder.comment.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        final Dialog nagDialog = new Dialog(getContext());
+                        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        nagDialog.setContentView(R.layout.popup_comment_item);
+                        WebView webView = (WebView) nagDialog.findViewById(R.id.item_comment_webview_);
+                        webView.getSettings().setJavaScriptEnabled(true);
+                        webView.getSettings().setLoadWithOverviewMode(true);
+                        webView.getSettings().setUseWideViewPort(true);
+                        webView.getSettings().setBuiltInZoomControls(true);
+                        webView.setWebViewClient(new WebViewClient());
+                        webView.setWebChromeClient(new WebChromeClient());
+                        webView.loadDataWithBaseURL("http://www.facebook.com",
+                                "<div id=\"fb-root\"></div>\n" +
+                                        "<script>(function(d, s, id) {\n" +
+                                        "  var js, fjs = d.getElementsByTagName(s)[0];\n" +
+                                        "  if (d.getElementById(id)) return;\n" +
+                                        "  js = d.createElement(s); js.id = id;\n" +
+                                        "  js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=245162305681302\";\n" +
+                                        "  fjs.parentNode.insertBefore(js, fjs);\n" +
+                                        "}(document, 'script', 'facebook-jssdk'));</script><div class=\"fb-comments\" data-href=\"https://sodicclient.azurewebsites.net/#/home\" data-numposts=\"3\"></div>", "text/html", null, null);
+                        nagDialog.show();
+
+                    }});
+
                 return convertView;
 
             } catch (Exception e) {
                 return null;
             }
+
+
+
         }
     }
 
