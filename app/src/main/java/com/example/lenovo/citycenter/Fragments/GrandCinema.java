@@ -21,15 +21,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
+import com.example.lenovo.citycenter.classes.CacheRequest;
 import com.example.lenovo.citycenter.classes.ExpandListAdpter;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Category;
@@ -74,15 +77,21 @@ public class GrandCinema extends Fragment {
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, customListView, false);
         customListView.addFooterView(footerView,null,false);
         categoryArrayList = new ArrayList<>();
-        /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
-        GetDataRequest.setUrl(Urls.URL_GET_CATEGORIES_SERVICES);
         RequestQueue queue = Volley.newRequestQueue(getContext());
+
+        /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
+      /*  GetDataRequest.setUrl(Urls.URL_GET_CATEGORIES_SERVICES);
 
         Response.Listener<String> responseListener = new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
+                try {*/
+        CacheRequest cacheRequest = new CacheRequest(Request.Method.GET,Urls.URL_GET_CATEGORIES_SERVICES, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse allresponse) {
                 try {
+                    String response = new String(allresponse.data);
                     JsonElement root=new JsonParser().parse(response);
                     response = root.getAsString();  //not .toString
                     jsonArray = new JSONArray(response) ;
@@ -109,9 +118,16 @@ public class GrandCinema extends Fragment {
                     e.printStackTrace();
                 }
             }
-        };
-        GetDataRequest fetchRequest = new GetDataRequest(responseListener);
-        queue.add(fetchRequest);
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+      //  GetDataRequest fetchRequest = new GetDataRequest(responseListener);
+      //  queue.add(fetchRequest);
+  queue.add(cacheRequest);
+
         return view;
     }
 
@@ -150,12 +166,8 @@ public class GrandCinema extends Fragment {
                 Button explore = (Button) v.findViewById(R.id.explore_btn);
                 explore.setTypeface(MainActivity.font);
                 if(customListView.isGroupExpanded(groupPosition))
-                {
-                    explore.setText(getString(R.string.arrow_left));
-
-                }
-                else
-                    explore.setText(getString(R.string.arrow_bottom));
+                {explore.setText(getString(R.string.arrow_left));}
+                else explore.setText(getString(R.string.arrow_bottom));
 
                 Category cat = (Category) myAdapter.getGroup(groupPosition);
                 Variables.ITEM_PATH=String.valueOf(Html.fromHtml(cat.get_name()));

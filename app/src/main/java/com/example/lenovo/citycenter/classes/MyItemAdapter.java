@@ -249,7 +249,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         // Methods.toast(String.valueOf(position), getContext());
-
                         String url = Urls.USER_RATE_ATTRS(myItem.getId(), position);
                         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -267,10 +266,9 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
                             }
-                        }
-                                , null);
+                        } , null);
+
                         if (Variables.ACCOUNT_ID != null) {
                             if (position > 0) {
                                 RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -298,7 +296,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                                     .setImageUrl(Uri.parse(myItem.getPhoto1()))
                                     .setContentUrl(Uri.parse("https://sodicclient.azurewebsites.net/#/Itemid?id="+myItem.getId()))
                                     .build();
-
                             shareDialog.show(linkContent);
                         }
                     }
@@ -310,7 +307,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
                     @Override
                     public void onClick(View v) {
-
                         final Dialog nagDialog = new Dialog(getContext());
                         nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         nagDialog.setContentView(R.layout.popup_comment_item);
@@ -329,7 +325,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                                         "  js = d.createElement(s); js.id = id;\n" +
                                         "  js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=245162305681302\";\n" +
                                         "  fjs.parentNode.insertBefore(js, fjs);\n" +
-                                        "}(document, 'script', 'facebook-jssdk'));</script><div class=\"fb-comments\" data-href=\"https://sodicclient.azurewebsites.net/#/home\" data-numposts=\"3\"></div>", "text/html", null, null);
+                                        "}(document, 'script', 'facebook-jssdk'));</script><div class=\"fb-comments\" data-href=\"https://sodicclient.azurewebsites.net/#/home\" data-numposts=\"3\"></div>", "text/html",null, null);
                         nagDialog.show();
 
                     }});

@@ -15,7 +15,7 @@ public class GetDataRequest extends StringRequest {
         REQUEST_URL = RequestUrl;
     }
 
-    public GetDataRequest(Response.Listener<String> listener) {
-        super(Method.GET, REQUEST_URL, listener, null);
+    public GetDataRequest(Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        super(Method.GET, REQUEST_URL, listener, errorListener);
     }}
 

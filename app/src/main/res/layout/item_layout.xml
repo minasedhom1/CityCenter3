@@ -135,25 +135,29 @@
             android:background="?android:attr/selectableItemBackground"
             />
         </FrameLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Share &#xf1e0;"
-        android:id="@+id/item_share_btn"
-        /><!--android:text="Share &#xf1e0;"-->
-    <Button
-        android:layout_width="match_parent"
-        android:text="Menu &#xf03a;"
-        android:layout_height="wrap_content"
-        android:id="@+id/item_view_menu"
 
-        /><!--android:text="Menu &#xf03a;"-->
+
     <Button
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
+        android:layout_height="43dp"
+        android:background="@mipmap/commentbtn"
         android:id="@+id/item_comment_btn"
-        android:text="Comment &#xf040;"
+
         />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Share &#xf1e0;"
+            android:id="@+id/item_share_btn"
+
+            /><!--android:text="Share &#xf1e0;"-->
+        <Button
+            android:layout_width="match_parent"
+            android:text="Menu &#xf03a;"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_view_menu"
+
+            /><!--android:text="Menu &#xf03a;"-->
+        <!--android:text="Comment &#xf040;"-->
     </LinearLayout>
 </LinearLayout>

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
@@ -57,7 +58,7 @@ public class ItemsFragment extends Fragment {
     ListView ItemList;
    static ArrayList<Item> itemArrayList ;
    // private ArrayAdapter itemAdapter;
-    static ArrayList<Item> favouriteList ;
+  //  static ArrayList<Item> favouriteList ;
     ArrayList<String>fav_ids;
     RequestQueue queue;
     MyItemAdapter itemAdapter1;
@@ -72,9 +73,9 @@ public class ItemsFragment extends Fragment {
 
 //First: get favourite IDs to compare
         itemArrayList = new ArrayList<>();
-        favouriteList=new ArrayList<>();
+     //   favouriteList=new ArrayList<>();
         fav_ids=new ArrayList<>();
-        if (favouriteList.size() == 0) {
+      //  if (favouriteList.size() == 0) {
             final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,
                     new Response.Listener<String>() {
                         @Override
@@ -87,27 +88,27 @@ public class ItemsFragment extends Fragment {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject object = jsonArray.getJSONObject(i);
                                     object = object.getJSONObject("fav");
-                                    Item item = new Item();
-                                    item.setId(object.getString("ItemID"));
-                                    item.setName(Methods.htmlRender(object.getString("Name_En")));
-                                    item.setDescription(Methods.htmlRender(object.getString("Description_En")));
-                                    item.setPhoto1(Urls.URL_IMG_PATH  + object.getString("Photo1"));
-                                    favouriteList.add(item);
+                                    fav_ids.add(object.getString("ItemID"));
                                 }
-                                for (int i = 0; i < favouriteList.size(); i++) {
-                                    fav_ids.add(favouriteList.get(i).getId());
-                                }
+
                             } catch (JSONException e1) {
                                 e1.printStackTrace();
                             }
                         }
-                    }, null);
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
+                }
+            });
 
           //  RequestQueue queue = Volley.newRequestQueue(getContext());
            if(Variables.ACCOUNT_ID!=null)
            {queue.add(favrequest);}
+
+
         }
-    }
+
 
 
     @Override
@@ -162,8 +163,14 @@ public class ItemsFragment extends Fragment {
                 }
             }
         };
+        Response.ErrorListener errorListener= new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Methods.toast(error.toString(),getContext());
+            }
+        };
      //           GetDataRequest.setUrl(Variables.catID);
-                GetDataRequest fetchRequest = new GetDataRequest(responseListener);
+                GetDataRequest fetchRequest = new GetDataRequest(responseListener,errorListener);
                 queue.add(fetchRequest);
                  return view;
    }

@@ -17,8 +17,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
@@ -58,12 +61,11 @@ MyItemAdapter itemAdapter;
         ItemList= (ListView) view.findViewById(R.id.clickedItem_customList);
         itemArrayList = new ArrayList<>();
 
-        GetDataRequest.setUrl(Urls.URL_GET_NEW_ITEMS );
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
+        StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_GET_NEW_ITEMS,
+                new Response.Listener<String>() {
 
-            @Override
-            public void onResponse(String response) {
-
+                    @Override
+                    public void onResponse(String response) {
                 try {
                     JsonElement root=new JsonParser().parse(response);
                     response = root.getAsString();
@@ -107,10 +109,14 @@ MyItemAdapter itemAdapter;
                 }
 
             }
-        };
-        GetDataRequest fetchRequest = new GetDataRequest(responseListener);
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        queue.add(fetchRequest);
+        queue.add(request);
         return view;
     }
 

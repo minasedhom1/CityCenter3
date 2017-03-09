@@ -15,16 +15,21 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
+import com.android.volley.Cache;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
+import com.example.lenovo.citycenter.classes.CacheRequest;
 import com.example.lenovo.citycenter.classes.Category;
 import com.example.lenovo.citycenter.classes.ExpandListAdpter;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
@@ -54,8 +59,7 @@ public class Categories extends Fragment {
         JSONArray jsonArray;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
        // getFavourtieItems();
         categoryArrayList = new ArrayList<>();
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -63,17 +67,19 @@ public class Categories extends Fragment {
         GetDataRequest.setUrl(Urls.URL_GET_CATEGORIES_GOODS);
          queue = Volley.newRequestQueue(getContext());
 
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
-
+      /*  Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(String response) {*/
                // categoryArrayList.clear();
+            CacheRequest cacheRequest = new CacheRequest(Request.Method.GET, Urls.URL_GET_CATEGORIES_GOODS, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse allresponse) {
                 try {
+                    String response = new String(allresponse.data);
                     JsonElement root=new JsonParser().parse(response);
                     response = root.getAsString();  //not .toString
                     jsonArray = new JSONArray(response) ;
                     for (int i = 0; i < jsonArray.length(); i++)
-
                     {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Category myCategory=new Category();
@@ -87,18 +93,31 @@ public class Categories extends Fragment {
                         myCategory.setRaty(object.getBoolean("IsRaty"));
                         categoryArrayList.add(myCategory);
                     }
-
                     expandListAdpter=new ExpandListAdpter((AppCompatActivity) getActivity(),categoryArrayList);
                     expand_listView.setAdapter(expandListAdpter);
                 }   catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        };
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
         //if(categoryArrayList.size()==0)
-        GetDataRequest fetchRequest = new GetDataRequest(responseListener);
-        queue.add(fetchRequest);
+   //     GetDataRequest fetchRequest = new GetDataRequest(responseListener);
+     /*   Cache.Entry entry=queue.getCache().get(Urls.URL_GET_CATEGORIES_GOODS);
+        if(queue.getCache().get(Urls.URL_GET_CATEGORIES_GOODS)!=null){
+            //response exists
+          String cachedResponse = new String(queue.getCache().get(Urls.URL_GET_CATEGORIES_GOODS).data);
+
+        }else {
+        queue.add(fetchRequest);}*/
        // queue.start();
+         queue.getCache().clear();
+         queue.add(cacheRequest);
 /*------------------------------------------------------------------------------------------------------------------------------------------------*/
 
     //    Methods.toast("hello",getContext());
@@ -107,9 +126,7 @@ public class Categories extends Fragment {
 
     }
 
-
     FloatingActionButton fab;
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -157,7 +174,6 @@ public class Categories extends Fragment {
                 if(expand_listView.isGroupExpanded(groupPosition))
                 {
                     explore.setText(getString(R.string.arrow_left));
-
                 }
                  else
                 explore.setText(getString(R.string.arrow_bottom));
@@ -197,12 +213,13 @@ public class Categories extends Fragment {
 
 
     public  ArrayList<Subcategory> getSubs(int catID) {
+
+
         final ArrayList<Subcategory> subCat_array = new ArrayList();
-     StringRequest subcatRequest= new StringRequest(Request.Method.GET, Urls.URL_GET_SELECTED_CATEGORY_SUBCATEGORIES + catID,
+        StringRequest subcatRequest= new StringRequest(Request.Method.GET, Urls.URL_GET_SELECTED_CATEGORY_SUBCATEGORIES + catID,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         try {
                             JsonElement root = new JsonParser().parse(response);
                             response = root.getAsString();  //not .toString
@@ -216,13 +233,13 @@ public class Categories extends Fragment {
                                 mySub.setSubCat_icon_url(Urls.URL_IMG_PATH + object.getString("Photo1"));
                                 subCat_array.add(mySub);
                             }
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
+
                 }, null) ;
+
        queue.add(subcatRequest);
         return subCat_array;
     }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,13 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
+import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
 import com.google.gson.JsonElement;
@@ -86,10 +89,18 @@ public class Favourite extends Fragment {
                         object= object.getJSONObject("fav");
                         Item item=new Item();
                         item.setId(object.getString("ItemID"));
-                        item.setName(htmlRender(object.getString("Name_En")));
+                        item.setName(htmlRender(object.getString("ItemNameEn")));
                         item.setDescription(htmlRender(object.getString("Description_En")));
-                       // item.setPhone1(object.getString("Phone1"));
+                        item.setPhone1(object.getString("Phone1"));
                         item.setPhoto1(Urls.URL_IMG_PATH+object.getString("Photo1"));
+                        if(object.getString("Rate")!="null")
+                        {item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
+                            Log.d("rate",Float.valueOf(object.getString("Rate")).toString());}
+                        item.setMenu_url(object.getString("PDF_URL"));
+                        item.setCategoryID(object.getString("CategoryID"));
+                        item.setCategoryName(object.getString("CategoryName"));
+
+
                        // item.setCategoryName(object.getString("CategoryName_En"));
                         itemArrayList.add(item);
                     }
@@ -100,7 +111,12 @@ public class Favourite extends Fragment {
                 }
             }
 
-        },null);
+        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Methods.toast(error.toString(),getContext());
+                            }
+                        });
 
           if(Variables.ACCOUNT_ID!=null)
             { RequestQueue queue = Volley.newRequestQueue(getActivity());
@@ -147,45 +163,25 @@ public class Favourite extends Fragment {
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.item_description);
                     holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
+
                    // holder.call = (Button) convertView.findViewById(R.id.call_btn);
-                 //   holder.website = (Button) convertView.findViewById(R.id.website_btn);
+                  // holder.website = (Button) convertView.findViewById(R.id.website_btn);
                     holder.shineButton = (ShineButton) convertView.findViewById(R.id.like_btn);
                     convertView.setTag(holder);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
-
                 final Item myItem = itemArrayList.get(position);
-
 /*------------------------------------set values and action to views----------------------------------------*/
 
                 holder.name.setText(Html.fromHtml(myItem.getName()));
                 holder.description.setText(Html.fromHtml(myItem.getDescription()));
-                Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl);
-                /*holder.call.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-                        phoneIntent.setData(Uri.parse("tel:" + myItem.getPhone1()));
-                        startActivity(phoneIntent);
-                    }
-                });
-
-
-                holder.website.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        toast(myItem.getPhoto1());
-                    }
-                });
-*/
-
-
+                Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);
+                //             //new DownLoadImageTask(image).execute(imageUrl);
                 /*-------------------like btn--------------------*/
-
                 holder.shineButton.init(getActivity());
                 holder.shineButton.setChecked(true);
+
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
                    @Override
                     public void onClick(View v) {
@@ -205,14 +201,19 @@ public class Favourite extends Fragment {
                                    e.printStackTrace();
                                }
                            }
-                       }, null);
+                       }, new Response.ErrorListener() {
+                           @Override
+                           public void onErrorResponse(VolleyError error) {
+                               Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
+                           }
+                       });
                        RequestQueue queue = Volley.newRequestQueue(getContext());
                        queue.add(postReq);
                        itemAdapter.remove(myItem);
                        itemAdapter.setNotifyOnChange(true);
                     }});
 
-                    holder.image.setOnClickListener(new View.OnClickListener() {
+                        holder.image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         final Dialog nagDialog = new Dialog(getContext());
@@ -223,6 +224,7 @@ public class Favourite extends Fragment {
                         nagDialog.show();
               }
                 });
+
                 return convertView;
 
             } catch (Exception e) {
