@@ -1,8 +1,10 @@
 package com.example.lenovo.citycenter.classes;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -10,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -18,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -51,11 +56,12 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class MyItemAdapter extends ArrayAdapter<Item> {
 
+
     Context context;
     List<Item> itemsList;
 
     ShareDialog shareDialog;
-
+    ProgressBar progressBar;
     public MyItemAdapter(Context context, int resource, List<Item> itemsList) {
         super(context, resource,itemsList);
         this.context= context;
@@ -249,6 +255,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         // Methods.toast(String.valueOf(position), getContext());
+
                         String url = Urls.USER_RATE_ATTRS(myItem.getId(), position);
                         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -310,7 +317,42 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                         final Dialog nagDialog = new Dialog(getContext());
                         nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         nagDialog.setContentView(R.layout.popup_comment_item);
+                        //ProgressDialog pd = ProgressDialog.show(getContext(), "", "being processed...",, true);
+
+
+                     //   progressBar= (ProgressBar) nagDialog.findViewById(R.id.progress_bar);
                         WebView webView = (WebView) nagDialog.findViewById(R.id.item_comment_webview_);
+                        CookieSyncManager.createInstance(getContext());
+                        CookieManager cm = CookieManager.getInstance();
+                        cm.removeAllCookie();
+                        webView.getSettings().setBuiltInZoomControls(true);
+                        webView.zoomOut();
+                        webView.getSettings().setJavaScriptEnabled(true);
+                        webView.getSettings().setDomStorageEnabled(true);
+                        String url="https://sodicclient.azurewebsites.net/#/Itemid?id="+myItem.getId();
+                        String html = "<!doctype html> <html lang=\"en\"> <head></head> <body> " +
+                                "<div id=\"fb-root\"></div> <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=245162305681302\"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script> " +
+                                "<div class=\"fb-comments\" data-href=\"" + url  + "\" " +
+                                "data-numposts=\"" + 3 + "\" data-order-by=\"reverse_time\">" +
+                                "</div> </body> </html>";
+                        webView.loadDataWithBaseURL("http://www.nothing.com",html, "text/html", null, null);
+                        webView.setWebViewClient(new WebViewClient()
+                        {
+
+                            @Override
+                            public void onPageStarted(WebView view, String url, Bitmap favicon)
+                            {
+                           //    progressBar.setVisibility(View.VISIBLE);
+                            }
+                            @Override
+                            public void onPageFinished(WebView view, String url) {
+                         //       progressBar.setVisibility(View.GONE);
+
+                            }
+                        });
+
+                        nagDialog.show();
+                     /*
                         webView.getSettings().setJavaScriptEnabled(true);
                         webView.getSettings().setLoadWithOverviewMode(true);
                         webView.getSettings().setUseWideViewPort(true);
@@ -325,8 +367,8 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                                         "  js = d.createElement(s); js.id = id;\n" +
                                         "  js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=245162305681302\";\n" +
                                         "  fjs.parentNode.insertBefore(js, fjs);\n" +
-                                        "}(document, 'script', 'facebook-jssdk'));</script><div class=\"fb-comments\" data-href=\"https://sodicclient.azurewebsites.net/#/home\" data-numposts=\"3\"></div>", "text/html",null, null);
-                        nagDialog.show();
+                                        "}(document, 'script', 'facebook-jssdk'));</script><div class=\"fb-comments\" data-href=\"https://sodicclient.azurewebsites.net/#/home\" data-numposts=\"3\"></div>", "text/html",null, null);*/
+
 
                     }});
 
@@ -335,7 +377,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
             } catch (Exception e) {
                 return null;
             }
-
 
 
         }

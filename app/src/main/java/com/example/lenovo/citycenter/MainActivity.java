@@ -208,7 +208,6 @@ public class MainActivity extends AppCompatActivity
         }
 
  /*----------------------------------------------------------Tracks profile changes-----------------------------------------------------------------------*/
-
         ProfileTracker profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
