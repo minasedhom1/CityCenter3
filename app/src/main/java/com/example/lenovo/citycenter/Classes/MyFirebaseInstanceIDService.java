@@ -61,9 +61,12 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
                 }
             }
         }, null);
-        RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
+       // RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
         Boolean b=PreferenceManager.getDefaultSharedPreferences(this).getBoolean("TOKEN_SAVED",false);
-        if(!b){queue.add(postReq);}
+        if(!b){
+          //  queue.add(postReq);
+            VolleySingleton.getInstance().addToRequestQueue(postReq);
+        }
         Log.e(TAG, "sendRegistrationToServer: " + token);
     }
 

@@ -1,11 +1,13 @@
 package com.example.lenovo.citycenter.classes;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.view.Window;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
@@ -55,12 +58,12 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
  */
 
 public class MyItemAdapter extends ArrayAdapter<Item> {
+    ShareDialog shareDialog ;
 
 
     Context context;
     List<Item> itemsList;
 
-    ShareDialog shareDialog;
     ProgressBar progressBar;
     public MyItemAdapter(Context context, int resource, List<Item> itemsList) {
         super(context, resource,itemsList);
@@ -78,7 +81,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
         }
         @Override
         public View getView(final int position, View convertView, final ViewGroup parent) {
-          ViewHolder holder = new ViewHolder();
+            ViewHolder holder = new ViewHolder();
 
             try {
 
@@ -88,7 +91,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                     holder.call = (Button) convertView.findViewById(R.id.item_call_btn);
                     holder.share = (Button) convertView.findViewById(R.id.item_share_btn);
                     holder.comment = (Button) convertView.findViewById(R.id.item_comment_btn);
-                    holder.menu = (Button) convertView.findViewById(R.id.item_view_menu);
+                    holder.menu = (Button) convertView.findViewById(R.id.item_view_menu_btn);
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.item_description);
                     holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
@@ -99,7 +102,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
-
                 final Item myItem = itemsList.get(position);
 
 /*------------------------------------set values and action to views----------------------------------------*/
@@ -131,9 +133,8 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                     public void onClick(View view) {
 
                         if (myItem.getPhones().size() == 1) {
-                            Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-                            phoneIntent.setData(Uri.parse("tel:" + myItem.getPhone1()));
-                            context.startActivity(phoneIntent);
+                            context.startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:" + myItem.getPhone1())));
+
                         } else if (myItem.getPhones().size() > 1) {
                             final Dialog nagDialog = new Dialog(getContext());
                             nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -144,9 +145,10 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                             listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    Intent phoneIntent = new Intent(Intent.ACTION_CALL);
+                              /*      Intent phoneIntent = new Intent(Intent.ACTION_CALL);
                                     phoneIntent.setData(Uri.parse("tel:" + phones_adapter.getItem(position)));
-                                    context.startActivity(phoneIntent);
+                                    context.startActivity(phoneIntent);*/
+                               context.startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:" + phones_adapter.getItem(position))));
                                 }
                             });
                         } else {
@@ -154,6 +156,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                         }
                     }
                 });
+
 /*-----------------------------------------------------------------------like btn-----------------------------------------------------------------------------------------*/
                 holder.shineButton.init((AppCompatActivity) context);
                 holder.shineButton.setChecked(myItem.isLike());
@@ -179,8 +182,10 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                                     }
                                 }
                             }, null);
-                            RequestQueue queue = Volley.newRequestQueue(getContext());
-                            queue.add(postReq);
+                           // RequestQueue queue = Volley.newRequestQueue(getContext());
+                           // queue.add(postReq);
+                            VolleySingleton.getInstance().addToRequestQueue(postReq);
+
                             myItem.setLike(true);
                         } else {
                             StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
@@ -200,9 +205,11 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                                     }
                                 }
                             }, null);
-                            RequestQueue queue = Volley.newRequestQueue(getContext());
-                            queue.add(postReq);
-                           // itemAdapter.setNotifyOnChange(true);
+                           /* RequestQueue queue = Volley.newRequestQueue(getContext());
+                            queue.add(postReq);*/
+                            VolleySingleton.getInstance().addToRequestQueue(postReq);
+
+                            // itemAdapter.setNotifyOnChange(true);
                         }
                     }
                 });
@@ -211,44 +218,28 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 holder.image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        final Dialog nagDialog = new Dialog(getContext());
-                        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        nagDialog.setContentView(R.layout.pop_up_item_image);
-                        ImageView ivPreview = (ImageView) nagDialog.findViewById(R.id.imageView3);
-
-                        Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(ivPreview);  //             //new DownLoadImageTask(image).execute(imageUrl);
-
-                        nagDialog.show();
+                        popUpPhoto(myItem.getPhoto1());
 
                     }
                 });
-/*--------------------------------------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 
- /*---------------------------------------------------------------------Menu btn-----------------------------------------------------------------------*/
+/*---------------------------------------------------------------------Menu btn-----------------------------------------------------------------------*/
 
                 if (myItem.getMenu_url().matches("null")) {
                     holder.menu.setVisibility(View.GONE);
                 } else {
                     holder.menu.setVisibility(View.VISIBLE);
                 }
+
                 holder.menu.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final Dialog nagDialog = new Dialog(getContext());
-                        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        nagDialog.setContentView(R.layout.popup_item_load_menu_pdf_url);
-                        WebView webView = (WebView) nagDialog.findViewById(R.id.item_menu_webview_);
-                        webView.getSettings().setJavaScriptEnabled(true);
-                        webView.getSettings().setLoadWithOverviewMode(true);
-                        webView.getSettings().setUseWideViewPort(true);
-                        webView.getSettings().setBuiltInZoomControls(true);
-                        webView.setWebViewClient(new WebViewClient());
-                        webView.setWebChromeClient(new WebChromeClient());
-                        String url = "https://docs.google.com/gview?url=https://sodicadmin.azurewebsites.net/PDF/" + myItem.getMenu_url() + "&embedded=true";
-                        webView.loadUrl(url);
-                        nagDialog.show();
+                 popupMenu(myItem.getMenu_url());
                     }
                 });
+
+
    /*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
                 holder.rateSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -278,10 +269,12 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
                         if (Variables.ACCOUNT_ID != null) {
                             if (position > 0) {
-                                RequestQueue queue = Volley.newRequestQueue(getContext());
-                                queue.add(request);
+                            //    RequestQueue queue = Volley.newRequestQueue(getContext());
+                            //    queue.add(request);
+                                VolleySingleton.getInstance().addToRequestQueue(request);
+
                             }
-                            //  else {Methods.toast("please select a value",getContext());}
+                            // else {Methods.toast("please select a value",getContext());}
                         } else {
                             Methods.toast("You Must login First!", getContext());
                         }
@@ -296,15 +289,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 holder.share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (ShareDialog.canShow(ShareLinkContent.class)) {
-                            ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                                    .setContentTitle(Html.fromHtml(myItem.getName()).toString())
-                                    .setContentDescription(Html.fromHtml(myItem.getDescription()).toString())
-                                    .setImageUrl(Uri.parse(myItem.getPhoto1()))
-                                    .setContentUrl(Uri.parse("https://sodicclient.azurewebsites.net/#/Itemid?id="+myItem.getId()))
-                                    .build();
-                            shareDialog.show(linkContent);
-                        }
+                 shareItem(myItem);
                     }
                 });
 
@@ -314,62 +299,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
                     @Override
                     public void onClick(View v) {
-                        final Dialog nagDialog = new Dialog(getContext());
-                        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        nagDialog.setContentView(R.layout.popup_comment_item);
-                        //ProgressDialog pd = ProgressDialog.show(getContext(), "", "being processed...",, true);
-
-
-                     //   progressBar= (ProgressBar) nagDialog.findViewById(R.id.progress_bar);
-                        WebView webView = (WebView) nagDialog.findViewById(R.id.item_comment_webview_);
-                        CookieSyncManager.createInstance(getContext());
-                        CookieManager cm = CookieManager.getInstance();
-                        cm.removeAllCookie();
-                        webView.getSettings().setBuiltInZoomControls(true);
-                        webView.zoomOut();
-                        webView.getSettings().setJavaScriptEnabled(true);
-                        webView.getSettings().setDomStorageEnabled(true);
-                        String url="https://sodicclient.azurewebsites.net/#/Itemid?id="+myItem.getId();
-                        String html = "<!doctype html> <html lang=\"en\"> <head></head> <body> " +
-                                "<div id=\"fb-root\"></div> <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=245162305681302\"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script> " +
-                                "<div class=\"fb-comments\" data-href=\"" + url  + "\" " +
-                                "data-numposts=\"" + 3 + "\" data-order-by=\"reverse_time\">" +
-                                "</div> </body> </html>";
-                        webView.loadDataWithBaseURL("http://www.nothing.com",html, "text/html", null, null);
-                        webView.setWebViewClient(new WebViewClient()
-                        {
-
-                            @Override
-                            public void onPageStarted(WebView view, String url, Bitmap favicon)
-                            {
-                           //    progressBar.setVisibility(View.VISIBLE);
-                            }
-                            @Override
-                            public void onPageFinished(WebView view, String url) {
-                         //       progressBar.setVisibility(View.GONE);
-
-                            }
-                        });
-
-                        nagDialog.show();
-                     /*
-                        webView.getSettings().setJavaScriptEnabled(true);
-                        webView.getSettings().setLoadWithOverviewMode(true);
-                        webView.getSettings().setUseWideViewPort(true);
-                        webView.getSettings().setBuiltInZoomControls(true);
-                        webView.setWebViewClient(new WebViewClient());
-                        webView.setWebChromeClient(new WebChromeClient());
-                        webView.loadDataWithBaseURL("http://www.facebook.com",
-                                "<div id=\"fb-root\"></div>\n" +
-                                        "<script>(function(d, s, id) {\n" +
-                                        "  var js, fjs = d.getElementsByTagName(s)[0];\n" +
-                                        "  if (d.getElementById(id)) return;\n" +
-                                        "  js = d.createElement(s); js.id = id;\n" +
-                                        "  js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=245162305681302\";\n" +
-                                        "  fjs.parentNode.insertBefore(js, fjs);\n" +
-                                        "}(document, 'script', 'facebook-jssdk'));</script><div class=\"fb-comments\" data-href=\"https://sodicclient.azurewebsites.net/#/home\" data-numposts=\"3\"></div>", "text/html",null, null);*/
-
-
+                  popComment(myItem.getId());
                     }});
 
                 return convertView;
@@ -377,8 +307,97 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
             } catch (Exception e) {
                 return null;
             }
+/*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
         }
+
+
+
+
+    private void popUpPhoto(String photoUrl) {
+        final Dialog nagDialog = new Dialog(getContext());
+        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        nagDialog.setContentView(R.layout.pop_up_item_image);
+        ImageView ivPreview = (ImageView) nagDialog.findViewById(R.id.imageView3);
+        Picasso.with(getContext()).load(photoUrl).error(R.mipmap.ic_launcher).into(ivPreview);  //             //new DownLoadImageTask(image).execute(imageUrl);
+        nagDialog.show();
+    }
+
+    private void popupMenu(String menuUrl) {
+        final Dialog nagDialog = new Dialog(getContext());
+        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        nagDialog.setContentView(R.layout.popup_item_load_menu_pdf_url);
+        WebView webView = (WebView) nagDialog.findViewById(R.id.item_menu_webview_);
+        progressBar= (ProgressBar) nagDialog.findViewById(R.id.progressBar);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setBuiltInZoomControls(true);
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+        webView.setWebChromeClient(new WebChromeClient());
+        String url = "https://docs.google.com/gview?url=https://sodicadmin.azurewebsites.net/PDF/" + menuUrl  + "&embedded=true";
+        webView.loadUrl(url);
+        nagDialog.show();
+    }
+
+
+    private void shareItem(Item myItem) {
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            shareDialog = new ShareDialog((Activity) context);
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentTitle(Html.fromHtml(myItem.getName()).toString())
+                    .setContentDescription(Html.fromHtml(myItem.getDescription()).toString())
+                    .setImageUrl(Uri.parse(myItem.getPhoto1()))
+                    .setContentUrl(Uri.parse("https://sodicclient.azurewebsites.net/#/Itemid?id="+myItem.getId()))
+                    .build();
+            shareDialog.show(linkContent);
+        }
+    }
+
+
+    private void popComment(String item_id)
+{
+    final Dialog nagDialog = new Dialog(getContext());
+    nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    nagDialog.setContentView(R.layout.popup_comment_item);
+    progressBar= (ProgressBar) nagDialog.findViewById(R.id.progressBarrr);
+    WebView mWebViewComments = (WebView) nagDialog.findViewById(R.id.item_comment_webview_);
+    mWebViewComments.setWebViewClient(new WebViewClient(){
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            progressBar.setVisibility(View.GONE);
+        }
+    });
+    mWebViewComments.setWebChromeClient(new WebChromeClient());
+    mWebViewComments.getSettings().setJavaScriptEnabled(true);
+    mWebViewComments.getSettings().setAppCacheEnabled(true);
+    mWebViewComments.getSettings().setDomStorageEnabled(true);
+    mWebViewComments.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+    mWebViewComments.getSettings().setSupportMultipleWindows(true);
+    mWebViewComments.getSettings().setSupportZoom(false);
+    mWebViewComments.getSettings().setBuiltInZoomControls(false);
+    CookieManager.getInstance().setAcceptCookie(true);
+    if (Build.VERSION.SDK_INT >= 21) {
+        mWebViewComments.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        CookieManager.getInstance().setAcceptThirdPartyCookies(mWebViewComments, true);
+    }
+    // facebook comment widget including the article url
+    String html = "<!doctype html> <html lang=\"en\"> <head></head> <body> " +
+            "<div id=\"fb-root\"></div> <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=245162305681302\"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script> " +
+            "<div class=\"fb-comments\" data-href=\"" + "https://sodicclient.azurewebsites.net/#/Itemid?id="+item_id+ "\" " +
+            "data-numposts=\"" +"3"+ "\" data-order-by=\"reverse_time\">" +
+            "</div> </body> </html>";
+    mWebViewComments.loadDataWithBaseURL("http://www.nothing.com", html, "text/html", "UTF-8", null);
+    nagDialog.setCanceledOnTouchOutside(true);
+    nagDialog.show();
+}
     }
 

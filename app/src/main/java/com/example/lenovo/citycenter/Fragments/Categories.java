@@ -35,6 +35,7 @@ import com.example.lenovo.citycenter.classes.ExpandListAdpter;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Subcategory;
 import com.example.lenovo.citycenter.R;
+import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -240,7 +241,7 @@ public class Categories extends Fragment {
 
                 }, null) ;
 
-       queue.add(subcatRequest);
+        VolleySingleton.getInstance().addToRequestQueue(subcatRequest);
         return subCat_array;
     }
 

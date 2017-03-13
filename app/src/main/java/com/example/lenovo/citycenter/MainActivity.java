@@ -46,6 +46,7 @@ import com.example.lenovo.citycenter.Fragments.GrandCinema;
 import com.example.lenovo.citycenter.Fragments.LatestOffers;
 import com.example.lenovo.citycenter.Fragments.Notifications;
 import com.example.lenovo.citycenter.Fragments.WhatsNew;
+import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity
     ImageView imageView;
     Profile profile;
     View navHed;
-    RequestQueue queue;
+  //  RequestQueue queue;
     public  static  Typeface font;
     private static String DEVICE_TOKEN;
 
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity
  /*---------------------------------------------------------------------------------------------------------------------------------*/
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();
-        queue = Volley.newRequestQueue(MainActivity.this);
+      //  queue = Volley.newRequestQueue(MainActivity.this);
  /*---------------------------------------------------------------------------------------------------------------------------------*/
 
         if (AccessToken.getCurrentAccessToken() != null)
@@ -241,6 +242,8 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {
 /*     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
         Methods.toast(currentFragment.getClass().getSimpleName(),this);*/
+       // fragmentManager.popBackStackImmediate();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -276,7 +279,8 @@ public class MainActivity extends AppCompatActivity
         }/* else if (id == R.id.nav_notify) {
             fragmentClass = Notifications.class;
 
-        } */else if (id == R.id.nav_contact_us) {
+        } */
+        else if (id == R.id.nav_contact_us) {
             fragmentClass = ContactUs.class;
         }
         try {
@@ -306,7 +310,7 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e) {
             e.printStackTrace();
         }
-        fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).commit();
+        fragmentManager.beginTransaction().addToBackStack("cat").replace(R.id.frag_holder, fragment).commit();
     }
 
     /*public void add_device_token() {
@@ -375,7 +379,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
         // RequestQueue queue= Volley.newRequestQueue(MainActivity.this);
-        queue.add(postReq);
+     //   queue.add(postReq);
+        VolleySingleton.getInstance().addToRequestQueue(postReq);
        // queue.start();
     }
 }

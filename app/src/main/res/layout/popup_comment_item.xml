@@ -2,17 +2,16 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:id="@+id/item_comment_webview_" />
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/progressBarrr"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="10dp" />
-    <WebView
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_gravity="center"
-        android:id="@+id/item_comment_webview_" />
-
+        android:layout_marginBottom="10dp"
+        />
 </FrameLayout>

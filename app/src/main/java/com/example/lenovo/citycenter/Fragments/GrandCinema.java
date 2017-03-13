@@ -38,6 +38,7 @@ import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Category;
 import com.example.lenovo.citycenter.R;
 import com.example.lenovo.citycenter.classes.Subcategory;
+import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
@@ -77,7 +78,7 @@ public class GrandCinema extends Fragment {
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, customListView, false);
         customListView.addFooterView(footerView,null,false);
         categoryArrayList = new ArrayList<>();
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+      //  RequestQueue queue = Volley.newRequestQueue(getContext());
 
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
       /*  GetDataRequest.setUrl(Urls.URL_GET_CATEGORIES_SERVICES);
@@ -126,7 +127,8 @@ public class GrandCinema extends Fragment {
         });
       //  GetDataRequest fetchRequest = new GetDataRequest(responseListener);
       //  queue.add(fetchRequest);
-  queue.add(cacheRequest);
+//  queue.add(cacheRequest);
+        VolleySingleton.getInstance().addToRequestQueue(cacheRequest);
 
         return view;
     }
@@ -202,7 +204,7 @@ public class GrandCinema extends Fragment {
 
         public  ArrayList<Subcategory> getSubs(int catID) {
         final ArrayList<Subcategory> subCat_array = new ArrayList();
-        RequestQueue queue=Volley.newRequestQueue(getContext());
+      //  RequestQueue queue=Volley.newRequestQueue(getContext());
         StringRequest subcatRequest= new StringRequest(Request.Method.GET, Urls.URL_GET_SELECTED_CATEGORY_SUBCATEGORIES + catID,
                 new Response.Listener<String>() {
                     @Override
@@ -228,8 +230,9 @@ public class GrandCinema extends Fragment {
 
                     }
                 }, null) ;
-        queue.add(subcatRequest);
-        return subCat_array;
+
+            VolleySingleton.getInstance().addToRequestQueue(subcatRequest);
+            return subCat_array;
     }
 
 }

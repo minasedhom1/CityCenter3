@@ -30,6 +30,7 @@ import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
 import com.example.lenovo.citycenter.classes.MyItemAdapter;
+import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sackcentury.shinebuttonlib.ShineButton;
@@ -115,8 +116,10 @@ MyItemAdapter itemAdapter;
                 Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
             }
         });
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        queue.add(request);
+      /*  RequestQueue queue = Volley.newRequestQueue(getActivity());
+        queue.add(request);*/
+        VolleySingleton.getInstance().addToRequestQueue(request);
+
         return view;
     }
 

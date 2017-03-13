@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
 <uses-permission android:name="android.permission.INTERNET"/>
     <application
-
+       android:name=".classes.VolleySingleton"
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:supportsRtl="true"

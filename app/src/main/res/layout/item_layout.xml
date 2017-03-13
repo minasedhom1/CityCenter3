@@ -111,7 +111,7 @@
     </Spinner>
     </LinearLayout>
     <TextView
-        android:text="One of the most dignfied hyper ddddddddddddddddddddddddddddmarkets, it will surely fascinate you !!"
+        android:text="One of the most dignfied hyper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_description"
@@ -128,44 +128,54 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/call"
+            android:background="@mipmap/callnew"
             android:layout_marginTop="3dp"
            >
         <Button
             android:layout_width="match_parent"
-            android:layout_height="43dp"
+            android:layout_height="wrap_content"
             android:id="@+id/item_call_btn"
-            android:nextFocusUp="@mipmap/call"
+            android:background="?android:attr/selectableItemBackground"
+            />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/share"
+            android:layout_marginTop="3dp"
+            >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_share_btn"
             android:background="?android:attr/selectableItemBackground"
             />
         </FrameLayout>
 
 
-
-        <Button
-            android:layout_marginTop="3dp"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="43dp"
-           android:background="@mipmap/share"
-            android:id="@+id/item_share_btn"
-
-            /><!--android:text="Share &#xf1e0;"-->
-        <Button
-            android:layout_marginTop="3dp"
-            android:layout_width="match_parent"
-            android:layout_height="43dp"
+            android:layout_height="wrap_content"
             android:background="@mipmap/comment"
+            android:layout_marginTop="3dp"
+            >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
             android:id="@+id/item_comment_btn"
+            android:background="?android:attr/selectableItemBackground"
             />
+                </FrameLayout>
 
         <Button
             android:layout_marginTop="3dp"
             android:layout_width="match_parent"
-            android:background="@mipmap/menu"
             android:layout_height="43dp"
-            android:id="@+id/item_view_menu"
-
+            android:background="@mipmap/menu"
+            android:id="@+id/item_view_menu_btn"
             /><!--android:text="Menu &#xf03a;"-->
         <!--android:text="Comment &#xf040;"-->
+
     </LinearLayout>
 </LinearLayout>

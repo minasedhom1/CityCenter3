@@ -29,6 +29,7 @@ import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
 import com.example.lenovo.citycenter.classes.MyItemAdapter;
+import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.facebook.share.widget.ShareDialog;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -60,7 +61,7 @@ public class ItemsFragment extends Fragment {
    // private ArrayAdapter itemAdapter;
   //  static ArrayList<Item> favouriteList ;
     ArrayList<String>fav_ids;
-    RequestQueue queue;
+  //  RequestQueue queue;
     MyItemAdapter itemAdapter1;
     JSONArray jsonArray;
     TextView path;
@@ -69,7 +70,7 @@ public class ItemsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         shareDialog=new ShareDialog(getActivity());
-        queue = Volley.newRequestQueue(getActivity());
+      //  queue = Volley.newRequestQueue(getActivity());
 
 //First: get favourite IDs to compare
         itemArrayList = new ArrayList<>();
@@ -104,7 +105,9 @@ public class ItemsFragment extends Fragment {
 
           //  RequestQueue queue = Volley.newRequestQueue(getContext());
            if(Variables.ACCOUNT_ID!=null)
-           {queue.add(favrequest);}
+           {//queue.add(favrequest);
+               VolleySingleton.getInstance().addToRequestQueue(favrequest);
+                }
 
 
         }
@@ -171,7 +174,8 @@ public class ItemsFragment extends Fragment {
         };
      //           GetDataRequest.setUrl(Variables.catID);
                 GetDataRequest fetchRequest = new GetDataRequest(responseListener,errorListener);
-                queue.add(fetchRequest);
+               // queue.add(fetchRequest);
+               VolleySingleton.getInstance().addToRequestQueue(fetchRequest);
                  return view;
    }
 

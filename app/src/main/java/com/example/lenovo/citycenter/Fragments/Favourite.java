@@ -31,6 +31,7 @@ import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
+import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.sackcentury.shinebuttonlib.ShineButton;
@@ -207,8 +208,9 @@ public class Favourite extends Fragment {
                                Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
                            }
                        });
-                       RequestQueue queue = Volley.newRequestQueue(getContext());
-                       queue.add(postReq);
+                      /* RequestQueue queue = Volley.newRequestQueue(getContext());
+                       queue.add(postReq);*/
+                       VolleySingleton.getInstance().addToRequestQueue(postReq);
                        itemAdapter.remove(myItem);
                        itemAdapter.setNotifyOnChange(true);
                     }});
