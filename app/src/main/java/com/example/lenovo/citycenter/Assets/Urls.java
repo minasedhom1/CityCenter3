@@ -37,7 +37,7 @@ public class Urls {
     public  static final  String URL_DELETE_FROM_FAVORITES_ITEM="http://sodicservice.azurewebsites.net/sodic/Favourite/DeleteFromFavourite/Delete?AccountID="+Variables.ACCOUNT_ID+"&itemID=";//**
     public  static final  String URL_ADD_DEVICE_TOKEN="http://sa3ednyservice.azurewebsites.net/Sodic/Device/AddDevice/Add?DeviceType=2&DeviceToken=";
     public  static  final String URL_IMG_PATH="https://sodicadmin.azurewebsites.net/IMG/";
-
+    public  static  final String URL_PDF_PATH="https://sodicadmin.azurewebsites.net/PDF/";
     public  static  final String URL_CONTACT_US_MAP = "https://www.google.com/maps/d/viewer?mid=1Xe4NoLjHr3ftUvinoY8v8UhyxjA&ll=30.072141670076693%2C31.144612250000023&z=11";
 
     public static String USER_RATE_ATTRS(String itemID,int star)

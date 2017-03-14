@@ -102,7 +102,7 @@ public class Item implements Serializable{
 
     public void setRate(float rate) {
 
-        this.rate = Math.round(rate);
+        this.rate = (float) (Math.round(rate*10.0)/10.0);
     }
 
     public String getCategoryID() {

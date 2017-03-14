@@ -1,8 +1,6 @@
 package com.example.lenovo.citycenter.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,20 +14,14 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
-
-import com.android.volley.Cache;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
-import com.example.lenovo.citycenter.classes.CacheRequest;
 import com.example.lenovo.citycenter.classes.Category;
 import com.example.lenovo.citycenter.classes.ExpandListAdpter;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
@@ -38,12 +30,9 @@ import com.example.lenovo.citycenter.R;
 import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.net.URL;
 import java.util.ArrayList;
 
 public class Categories extends Fragment {
@@ -51,32 +40,18 @@ public class Categories extends Fragment {
     private ExpandableListView expand_listView;
     private ArrayList<Category> categoryArrayList;
     ExpandListAdpter expandListAdpter;
-    RequestQueue queue ;
+    JSONArray jsonArray;
+//    FloatingActionButton fab;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-        JSONArray jsonArray;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-       // getFavourtieItems();
         categoryArrayList = new ArrayList<>();
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
-        //GetDataRequest.setUrl(Urls.URL_GET_CATEGORIES_GOODS);
-        GetDataRequest.setUrl(Urls.URL_GET_CATEGORIES_GOODS);
-         queue = Volley.newRequestQueue(getContext());
-
-      /*  Response.Listener<String> responseListener = new Response.Listener<String>() {
+          StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_GET_CATEGORIES_GOODS,new Response.Listener<String>() {
             @Override
-            public void onResponse(String response) {*/
-               // categoryArrayList.clear();
-            CacheRequest cacheRequest = new CacheRequest(Request.Method.GET, Urls.URL_GET_CATEGORIES_GOODS, new Response.Listener<NetworkResponse>() {
-            @Override
-            public void onResponse(NetworkResponse allresponse) {
-                try {
-                    String response = new String(allresponse.data);
+            public void onResponse(String response) {
+                 try{
                     JsonElement root=new JsonParser().parse(response);
                     response = root.getAsString();  //not .toString
                     jsonArray = new JSONArray(response) ;
@@ -96,7 +71,8 @@ public class Categories extends Fragment {
                     }
                     expandListAdpter=new ExpandListAdpter((AppCompatActivity) getActivity(),categoryArrayList);
                     expand_listView.setAdapter(expandListAdpter);
-                }   catch (JSONException e) {
+                }
+                  catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -117,17 +93,14 @@ public class Categories extends Fragment {
         }else {
         queue.add(fetchRequest);}*/
        // queue.start();
-         queue.getCache().clear();
-         queue.add(cacheRequest);
-/*------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-    //    Methods.toast("hello",getContext());
-
+/*         queue.getCache().clear();
+         queue.add(cacheRequest);*/
+        VolleySingleton.getInstance().addToRequestQueue(request);
         return inflater.inflate(R.layout.fragment_categories, container, false);
 
     }
+/*------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-    FloatingActionButton fab;
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -142,30 +115,10 @@ public class Categories extends Fragment {
         });*/
         expand_listView.addFooterView(footerView,null,false);
         expand_listView.setGroupIndicator(null);
-        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               // customListView.smoothScrollToPositionFromTop(0,0);
-                expand_listView.smoothScrollToPositionFromTop(0,0);
-            }}
-        );
+      //fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
 
-        expand_listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-                if(i==0)
-                    fab.hide();
-                else fab.show();
-            }
-        });
-
-
+        FabToList();
 
         expand_listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
@@ -213,9 +166,18 @@ public class Categories extends Fragment {
 
 
 
-    public  ArrayList<Subcategory> getSubs(int catID) {
 
 
+
+
+
+
+
+
+
+/*--------------------------------------------------------------get subcategories----------------------------------------------------------------------------------*/
+
+        public  ArrayList<Subcategory> getSubs(int catID) {
         final ArrayList<Subcategory> subCat_array = new ArrayList();
         StringRequest subcatRequest= new StringRequest(Request.Method.GET, Urls.URL_GET_SELECTED_CATEGORY_SUBCATEGORIES + catID,
                 new Response.Listener<String>() {
@@ -244,5 +206,26 @@ public class Categories extends Fragment {
         VolleySingleton.getInstance().addToRequestQueue(subcatRequest);
         return subCat_array;
     }
+
+
+   void FabToList(){
+       MainActivity.fab.setOnClickListener(new View.OnClickListener() {
+                                               @Override
+                                               public void onClick(View view) {
+                                                   expand_listView.smoothScrollToPositionFromTop(0,0);}
+                                           }
+
+       );
+       expand_listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+           @Override
+           public void onScrollStateChanged(AbsListView absListView, int i) {
+           }
+           @Override
+           public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+               if(i==0)  MainActivity.fab.hide();
+               else  MainActivity.fab.show();
+           }
+       });
+   }
 
 }

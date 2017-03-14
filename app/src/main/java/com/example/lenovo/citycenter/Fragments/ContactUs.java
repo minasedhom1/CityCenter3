@@ -10,6 +10,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.R;
@@ -29,6 +30,7 @@ WebView  webViewl;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 View view =inflater.inflate(R.layout.fragment_contact_us, container, false);
+        Methods.setPath(view);
 
        webViewl= (WebView) view.findViewById(R.id.contact_us_web_view);
         webViewl.setWebViewClient(new WebViewClient());
@@ -37,6 +39,7 @@ View view =inflater.inflate(R.layout.fragment_contact_us, container, false);
         settings.setBuiltInZoomControls(true);
 
         webViewl.loadUrl(Urls.URL_CONTACT_US_MAP);
+
         return  view;
     }
 

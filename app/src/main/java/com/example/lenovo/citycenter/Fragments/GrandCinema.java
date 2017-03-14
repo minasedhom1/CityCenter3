@@ -63,7 +63,7 @@ public class GrandCinema extends Fragment {
     private ArrayList<Category> categoryArrayList;
     private ExpandListAdpter myAdapter;
 
-    FloatingActionButton fab;
+    //FloatingActionButton fab;
 
     public GrandCinema() {
         // Required empty public constructor
@@ -141,8 +141,8 @@ public class GrandCinema extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         customListView.setGroupIndicator(null);
 
-         fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+      //   fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        MainActivity.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                // customListView.setSmoothScrollbarEnabled(true);
@@ -157,8 +157,8 @@ public class GrandCinema extends Fragment {
             @Override
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
                 if(i==0)
-                    fab.hide();
-                else fab.show();
+                    MainActivity.fab.hide();
+                else  MainActivity.fab.show();
             }
         });
 

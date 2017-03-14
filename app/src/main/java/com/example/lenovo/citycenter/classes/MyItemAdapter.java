@@ -23,6 +23,7 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -73,7 +74,8 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
     class ViewHolder
         {
-            Button share, call,comment,menu;
+            Button share, call,comment;
+            ImageButton menu;
             ImageView image;
             TextView name, description,rate;
             ShineButton shineButton;
@@ -91,7 +93,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                     holder.call = (Button) convertView.findViewById(R.id.item_call_btn);
                     holder.share = (Button) convertView.findViewById(R.id.item_share_btn);
                     holder.comment = (Button) convertView.findViewById(R.id.item_comment_btn);
-                    holder.menu = (Button) convertView.findViewById(R.id.item_view_menu_btn);
+                    holder.menu = (ImageButton) convertView.findViewById(R.id.item_view_menu_btn);
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.item_description);
                     holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
@@ -108,7 +110,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 holder.call.setTypeface(MainActivity.font);
                 holder.share.setTypeface(MainActivity.font);
                 holder.comment.setTypeface(MainActivity.font);
-                holder.menu.setTypeface(MainActivity.font);
+           //     holder.menu.setTypeface(MainActivity.font);
 
 
                 holder.name.setText(Html.fromHtml(myItem.getName()));
@@ -332,7 +334,9 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
         progressBar= (ProgressBar) nagDialog.findViewById(R.id.progressBar);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
+        webView.setFitsSystemWindows(true);
         webView.getSettings().setUseWideViewPort(true);
+
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setWebViewClient(new WebViewClient(){
             @Override
@@ -342,7 +346,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
             }
         });
         webView.setWebChromeClient(new WebChromeClient());
-        String url = "https://docs.google.com/gview?url=https://sodicadmin.azurewebsites.net/PDF/" + menuUrl  + "&embedded=true";
+        String url = "https://docs.google.com/gview?url=" + menuUrl  + "&embedded=true";
         webView.loadUrl(url);
         nagDialog.show();
     }

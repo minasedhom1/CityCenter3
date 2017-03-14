@@ -25,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
+import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
@@ -50,7 +51,6 @@ public class ItemsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
 
     public ItemsFragment() {
         // Required empty public constructor
@@ -65,7 +65,7 @@ public class ItemsFragment extends Fragment {
     MyItemAdapter itemAdapter1;
     JSONArray jsonArray;
     TextView path;
-    FloatingActionButton fab;
+   // FloatingActionButton fab;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,7 +140,7 @@ public class ItemsFragment extends Fragment {
                         item.setPhone3(object.getString("Phone3"));
                         item.setPhone4(object.getString("Phone4"));
                         item.setPhone5(object.getString("Phone5"));
-                        item.setMenu_url(object.getString("PDF_URL"));
+                        item.setMenu_url(Urls.URL_PDF_PATH +object.getString("PDF_URL"));
                          if(object.getString("Rate")!="null")
                          {item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
                              Log.d("rate",Float.valueOf(object.getString("Rate")).toString());}
@@ -179,12 +179,7 @@ public class ItemsFragment extends Fragment {
                  return view;
    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -192,8 +187,8 @@ public class ItemsFragment extends Fragment {
       //  ItemList = (ListView) getActivity().findViewById(R.id.clickedItem_customList);
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, ItemList, false);
         ItemList.addFooterView(footerView,null,false);
-        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+       // fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        MainActivity.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
         ItemList.smoothScrollToPosition(0);
@@ -210,8 +205,8 @@ public class ItemsFragment extends Fragment {
             @Override
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
                 if(i==0)
-                    fab.hide();
-                else fab.show();
+                    MainActivity.fab.hide();
+                else  MainActivity.fab.show();
             }
         });
 
@@ -223,14 +218,6 @@ public class ItemsFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
-    public void toast(String msg){Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show();}
-
-
-        public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
 
 
 }

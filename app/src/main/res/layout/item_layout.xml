@@ -128,7 +128,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/callnew"
+            android:background="@mipmap/call"
             android:layout_marginTop="3dp"
            >
         <Button
@@ -162,16 +162,17 @@
             >
         <Button
             android:layout_width="match_parent"
-            android:layout_height="43dp"
+            android:layout_height="wrap_content"
             android:id="@+id/item_comment_btn"
+
             android:background="?android:attr/selectableItemBackground"
             />
                 </FrameLayout>
 
-        <Button
+        <ImageButton
             android:layout_marginTop="3dp"
             android:layout_width="match_parent"
-            android:layout_height="43dp"
+            android:layout_height="wrap_content"
             android:background="@mipmap/menu"
             android:id="@+id/item_view_menu_btn"
             /><!--android:text="Menu &#xf03a;"-->

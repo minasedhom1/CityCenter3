@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -88,10 +89,15 @@ public class MainActivity extends AppCompatActivity
     public  static  Typeface font;
     private static String DEVICE_TOKEN;
 
+   public static FloatingActionButton fab;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
         mainFrag();
      //    DEVICE_TOKEN = FirebaseInstanceId.getInstance().getToken();
          font= Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf" );

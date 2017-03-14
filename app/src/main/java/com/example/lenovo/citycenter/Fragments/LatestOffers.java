@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
+import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
@@ -55,7 +56,7 @@ public class LatestOffers extends Fragment {
         // Required empty public constructor
     }
 
-
+   // FloatingActionButton fab;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +66,7 @@ public class LatestOffers extends Fragment {
     private ArrayList<Item> itemArrayList;
     private MyItemAdapter  itemAdapter;
     JSONArray jsonArray;
-    FloatingActionButton fab;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -137,8 +138,8 @@ public class LatestOffers extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, ItemList, false);
         ItemList.addFooterView(footerView,null,false);
-        fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+       // fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        MainActivity.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ItemList.smoothScrollToPosition(0);
@@ -152,8 +153,8 @@ public class LatestOffers extends Fragment {
             @Override
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
                 if(i==0)
-                    fab.hide();
-                else fab.show();
+                    MainActivity.fab.hide();
+                else  MainActivity.fab.show();
             }
         });
         Methods.setPath(view);
