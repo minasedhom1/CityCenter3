@@ -19,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
@@ -145,7 +146,7 @@ public class Categories extends Fragment {
             }
         });
 
-
+        Methods.toast("",getContext());
           expand_listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
        @Override
        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -212,9 +213,8 @@ public class Categories extends Fragment {
        MainActivity.fab.setOnClickListener(new View.OnClickListener() {
                                                @Override
                                                public void onClick(View view) {
-                                                   expand_listView.smoothScrollToPositionFromTop(0,0);}
+      expand_listView.smoothScrollToPositionFromTop(0,0);}
                                            }
-
        );
        expand_listView.setOnScrollListener(new AbsListView.OnScrollListener() {
            @Override

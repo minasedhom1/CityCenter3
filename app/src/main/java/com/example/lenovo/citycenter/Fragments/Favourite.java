@@ -31,6 +31,7 @@ import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.R;
+import com.example.lenovo.citycenter.classes.MyItemAdapter;
 import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -56,7 +57,7 @@ public class Favourite extends Fragment {
 
     ListView itemList;
     ArrayList<Item> itemArrayList = new ArrayList<>();
-    private ArrayAdapter itemAdapter;
+    MyItemAdapter itemAdapter;
     Item myItem;
     JSONArray jsonArray;
     @Override
@@ -74,40 +75,45 @@ public class Favourite extends Fragment {
         itemList= (ListView) view.findViewById(R.id.favourite_list);
 
                 StringRequest request=new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                JsonElement root=new JsonParser().parse(response);
-                response = root.getAsString();
 
-                try {
-                    JSONObject jsonObject= new JSONObject(response);
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JsonElement root=new JsonParser().parse(response);
+                            response = root.getAsString();
+                            JSONObject jsonObject=new JSONObject(response);
+                            jsonArray=jsonObject.getJSONArray("ItemsList");
+                            for (int i = 0; i < jsonArray.length(); i++)
+                            {
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                Item item=new Item();
+                                item.setId(object.getString("ItemID"));
+                                item.setName(Methods.htmlRender(object.getString("Name_En")));
+                                item.setDescription(object.getString("Description_En"));
+                                item.setPhone1(object.getString("Phone1"));
+                                item.setPhone2(object.getString("Phone2"));
+                                item.setPhone3(object.getString("Phone3"));
+                                item.setPhone4(object.getString("Phone4"));
+                                item.setPhone5(object.getString("Phone5"));
+                                item.setMenu_url(object.getString("PDF_URL"));
+                                if(object.getString("Rate")!="null")
+                                {item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
+                                    Log.d("rate",Float.valueOf(object.getString("Rate")).toString());}
 
-                    jsonArray=jsonObject.getJSONArray("allFav");
+                                item.setPhoto1(Urls.URL_IMG_PATH +object.getString("Photo1"));
+                                item.setCategoryName(object.getString("CategoryName_En"));
+                                item.setSubcategoryName(object.getString("SubcategoryName_En"));
+                                item.setCategoryID(Variables.catID);
+                                item.setLike(true);
 
-                    for (int i = 0; i < jsonArray.length(); i++)
-                    {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        object= object.getJSONObject("fav");
-                        Item item=new Item();
-                        item.setId(object.getString("ItemID"));
-                        item.setName(htmlRender(object.getString("ItemNameEn")));
-                        item.setDescription(htmlRender(object.getString("Description_En")));
-                        item.setPhone1(object.getString("Phone1"));
-                        item.setPhoto1(Urls.URL_IMG_PATH+object.getString("Photo1"));
-                        if(object.getString("Rate")!="null")
-                        {item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
-                            Log.d("rate",Float.valueOf(object.getString("Rate")).toString());}
-                        item.setMenu_url(object.getString("PDF_URL"));
-                        item.setCategoryID(object.getString("CategoryID"));
-                        item.setCategoryName(object.getString("CategoryName"));
-
-
-                       // item.setCategoryName(object.getString("CategoryName_En"));
-                        itemArrayList.add(item);
-                    }
-                    itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
+                                itemArrayList.add(item);
+                            }
+                 itemAdapter= new MyItemAdapter(getContext(),android.R.layout.simple_list_item_1,itemArrayList);
                     itemList.setAdapter(itemAdapter);
+                            itemAdapter.notifyDataSetChanged();
+                            itemAdapter.setNotifyOnChange(true);
                 } catch (JSONException e1) {
+                    Methods.toast(e1.getMessage().toString(),getContext());
                     e1.printStackTrace();
                 }
             }
@@ -120,8 +126,8 @@ public class Favourite extends Fragment {
                         });
 
           if(Variables.ACCOUNT_ID!=null)
-            { RequestQueue queue = Volley.newRequestQueue(getActivity());
-              queue.add(request);
+            {
+                VolleySingleton.getInstance().addToRequestQueue(request);
             }
         else
         {
@@ -133,6 +139,7 @@ public class Favourite extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Methods.setPath(view);
 
         /*----------------------------------------------APi favoutrite handle----------------------------------------------------*/
 

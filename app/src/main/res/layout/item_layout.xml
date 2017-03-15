@@ -99,7 +99,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_cornenr_spinner"
     android:layout_marginBottom="5dp"
-    android:layout_marginLeft="5dp"
+    android:layout_marginLeft="10dp"
     >
     <Spinner
         android:layout_width="150dp"
@@ -115,7 +115,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/item_description"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="15dp"
         android:textSize="16sp"
         android:textColor="@color/colorPrimaryDark"/>
 
@@ -125,56 +125,58 @@
         android:orientation="vertical"
         android:paddingBottom="10dp"
 >
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/call"
+
+        <ImageButton
             android:layout_marginTop="3dp"
-           >
-        <Button
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/item_call_btn"
-            android:background="?android:attr/selectableItemBackground"
-            />
-        </FrameLayout>
+            android:src="@mipmap/call"
+            android:background="@null"
+            android:layout_gravity="center_horizontal"
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/share"
+            />
+
+
+
+        <ImageButton
             android:layout_marginTop="3dp"
-            >
-        <Button
-            android:layout_width="match_parent"
+
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/item_share_btn"
-            android:background="?android:attr/selectableItemBackground"
+            android:src="@mipmap/share"
+            android:background="@null"
+            android:layout_gravity="center_horizontal"
+
             />
-        </FrameLayout>
+
 
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/comment"
             android:layout_marginTop="3dp"
             >
-        <Button
-            android:layout_width="match_parent"
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/item_comment_btn"
-
-            android:background="?android:attr/selectableItemBackground"
+            android:background="@null"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/comment"
             />
                 </FrameLayout>
 
         <ImageButton
             android:layout_marginTop="3dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/menu"
+            android:src="@mipmap/menu"
             android:id="@+id/item_view_menu_btn"
+            android:background="@null"
+            android:layout_gravity="center_horizontal"
+
             /><!--android:text="Menu &#xf03a;"-->
         <!--android:text="Comment &#xf040;"-->
 

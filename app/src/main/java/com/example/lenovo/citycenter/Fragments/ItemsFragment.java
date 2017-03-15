@@ -1,12 +1,9 @@
 package com.example.lenovo.citycenter.Fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,11 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
@@ -62,7 +57,7 @@ public class ItemsFragment extends Fragment {
   //  static ArrayList<Item> favouriteList ;
     ArrayList<String>fav_ids;
   //  RequestQueue queue;
-    MyItemAdapter itemAdapter1;
+    MyItemAdapter itemAdapter;
     JSONArray jsonArray;
     TextView path;
    // FloatingActionButton fab;
@@ -140,7 +135,7 @@ public class ItemsFragment extends Fragment {
                         item.setPhone3(object.getString("Phone3"));
                         item.setPhone4(object.getString("Phone4"));
                         item.setPhone5(object.getString("Phone5"));
-                        item.setMenu_url(Urls.URL_PDF_PATH +object.getString("PDF_URL"));
+                        item.setMenu_url(object.getString("PDF_URL"));
                          if(object.getString("Rate")!="null")
                          {item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
                              Log.d("rate",Float.valueOf(object.getString("Rate")).toString());}
@@ -158,9 +153,10 @@ public class ItemsFragment extends Fragment {
                     }
 
                   //  itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
-                    itemAdapter1=new MyItemAdapter(getContext(),android.R.layout.simple_list_item_1,itemArrayList);
-                    ItemList.setAdapter(itemAdapter1);
-                    itemAdapter1.setNotifyOnChange(true);
+                    itemAdapter =new MyItemAdapter(getContext(),android.R.layout.simple_list_item_1,itemArrayList);
+                    ItemList.setAdapter(itemAdapter);
+
+                  //  itemAdapter.setNotifyOnChange(true);
                 }   catch (JSONException e) {
                     e.printStackTrace();
                 }

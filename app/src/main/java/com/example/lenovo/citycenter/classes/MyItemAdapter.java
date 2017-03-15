@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
@@ -74,12 +75,13 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
     class ViewHolder
         {
-            Button share, call,comment;
-            ImageButton menu;
+
+            ImageButton menu,share, call,comment;
             ImageView image;
             TextView name, description,rate;
             ShineButton shineButton;
             Spinner rateSpin;
+
         }
         @Override
         public View getView(final int position, View convertView, final ViewGroup parent) {
@@ -90,9 +92,9 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 if (convertView == null) {
                     LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
                     convertView = inflater.inflate(R.layout.item_layout, parent, false);
-                    holder.call = (Button) convertView.findViewById(R.id.item_call_btn);
-                    holder.share = (Button) convertView.findViewById(R.id.item_share_btn);
-                    holder.comment = (Button) convertView.findViewById(R.id.item_comment_btn);
+                    holder.call = (ImageButton) convertView.findViewById(R.id.item_call_btn);
+                    holder.share = (ImageButton) convertView.findViewById(R.id.item_share_btn);
+                    holder.comment = (ImageButton) convertView.findViewById(R.id.item_comment_btn);
                     holder.menu = (ImageButton) convertView.findViewById(R.id.item_view_menu_btn);
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.item_description);
@@ -107,10 +109,10 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 final Item myItem = itemsList.get(position);
 
 /*------------------------------------set values and action to views----------------------------------------*/
-                holder.call.setTypeface(MainActivity.font);
+           /*     holder.call.setTypeface(MainActivity.font);
                 holder.share.setTypeface(MainActivity.font);
                 holder.comment.setTypeface(MainActivity.font);
-           //     holder.menu.setTypeface(MainActivity.font);
+                holder.menu.setTypeface(MainActivity.font);*/
 
 
                 holder.name.setText(Html.fromHtml(myItem.getName()));
@@ -128,12 +130,15 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 if (!Variables.IS_RATY_CATEGORY) holder.rateSpin.setVisibility(View.GONE);
    /*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
+
+
    /*----------------------------------------------------------call btn popup nums----------------------------------------------------------------------------------*/
 
                 holder.call.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        AlphaAnimation buttonClick = new AlphaAnimation(3F, 0.8F);
+                        view.setAnimation(buttonClick);
                         if (myItem.getPhones().size() == 1) {
                             context.startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:" + myItem.getPhone1())));
 
@@ -210,8 +215,12 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                            /* RequestQueue queue = Volley.newRequestQueue(getContext());
                             queue.add(postReq);*/
                             VolleySingleton.getInstance().addToRequestQueue(postReq);
+                            if(Variables.ITEM_PATH.matches("Favorite")){
+                            itemsList.remove(myItem);
+                             setNotifyOnChange(true);
+                             notifyDataSetChanged();
+                            }
 
-                            // itemAdapter.setNotifyOnChange(true);
                         }
                     }
                 });
@@ -233,15 +242,12 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 } else {
                     holder.menu.setVisibility(View.VISIBLE);
                 }
-
                 holder.menu.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                  popupMenu(myItem.getMenu_url());
                     }
                 });
-
-
    /*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
                 holder.rateSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -301,7 +307,8 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
                     @Override
                     public void onClick(View v) {
-                  popComment(myItem.getId());
+
+                        popComment(myItem.getId());
                     }});
 
                 return convertView;
@@ -326,6 +333,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
         nagDialog.show();
     }
 
+
     private void popupMenu(String menuUrl) {
         final Dialog nagDialog = new Dialog(getContext());
         nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -346,10 +354,11 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
             }
         });
         webView.setWebChromeClient(new WebChromeClient());
-        String url = "https://docs.google.com/gview?url=" + menuUrl  + "&embedded=true";
+        String url = "https://docs.google.com/gview?url=" + Urls.URL_PDF_PATH +menuUrl  + "&embedded=true";
         webView.loadUrl(url);
         nagDialog.show();
     }
+
 
 
     private void shareItem(Item myItem) {
@@ -380,6 +389,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
             progressBar.setVisibility(View.GONE);
         }
     });
+
     mWebViewComments.setWebChromeClient(new WebChromeClient());
     mWebViewComments.getSettings().setJavaScriptEnabled(true);
     mWebViewComments.getSettings().setAppCacheEnabled(true);
