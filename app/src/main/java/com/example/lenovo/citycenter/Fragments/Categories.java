@@ -47,7 +47,7 @@ public class Categories extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        categoryArrayList = new ArrayList<>();
+         categoryArrayList = new ArrayList<>();
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
           StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_GET_CATEGORIES_GOODS,new Response.Listener<String>() {
             @Override
@@ -84,6 +84,9 @@ public class Categories extends Fragment {
             }
         });
 
+        if (categoryArrayList.isEmpty())
+        { VolleySingleton.getInstance().addToRequestQueue(request);}
+        return inflater.inflate(R.layout.fragment_categories, container, false);
         //if(categoryArrayList.size()==0)
    //     GetDataRequest fetchRequest = new GetDataRequest(responseListener);
      /*   Cache.Entry entry=queue.getCache().get(Urls.URL_GET_CATEGORIES_GOODS);
@@ -96,8 +99,8 @@ public class Categories extends Fragment {
        // queue.start();
 /*         queue.getCache().clear();
          queue.add(cacheRequest);*/
-        VolleySingleton.getInstance().addToRequestQueue(request);
-        return inflater.inflate(R.layout.fragment_categories, container, false);
+        //if(categoryArrayList.size())
+
 
     }
 /*------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -146,7 +149,6 @@ public class Categories extends Fragment {
             }
         });
 
-        Methods.toast("",getContext());
           expand_listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
        @Override
        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {

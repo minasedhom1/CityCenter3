@@ -37,30 +37,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ItemsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
     ShareDialog shareDialog;
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-
-    public ItemsFragment() {
-        // Required empty public constructor
-    }
-
     ListView ItemList;
    static ArrayList<Item> itemArrayList ;
-   // private ArrayAdapter itemAdapter;
-  //  static ArrayList<Item> favouriteList ;
     ArrayList<String>fav_ids;
-  //  RequestQueue queue;
     MyItemAdapter itemAdapter;
     JSONArray jsonArray;
-    TextView path;
-   // FloatingActionButton fab;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,45 +52,11 @@ public class ItemsFragment extends Fragment {
 
 //First: get favourite IDs to compare
         itemArrayList = new ArrayList<>();
-     //   favouriteList=new ArrayList<>();
         fav_ids=new ArrayList<>();
-      //  if (favouriteList.size() == 0) {
-            final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            JsonElement root = new JsonParser().parse(response);
-                            response = root.getAsString();
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                JSONArray jsonArray = jsonObject.getJSONArray("allFav");
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject object = jsonArray.getJSONObject(i);
-                                    object = object.getJSONObject("fav");
-                                    fav_ids.add(object.getString("ItemID"));
-                                }
 
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
-                }
-            });
-
-          //  RequestQueue queue = Volley.newRequestQueue(getContext());
-           if(Variables.ACCOUNT_ID!=null)
-           {//queue.add(favrequest);
-               VolleySingleton.getInstance().addToRequestQueue(favrequest);
-                }
-
+         getFavIds();
 
         }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -176,21 +125,17 @@ public class ItemsFragment extends Fragment {
    }
 
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-      //  ItemList = (ListView) getActivity().findViewById(R.id.clickedItem_customList);
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, ItemList, false);
         ItemList.addFooterView(footerView,null,false);
-       // fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         MainActivity.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
         ItemList.smoothScrollToPosition(0);
-
-                // customListView.setSelection(0); //listView.smoothScrollToPosition(listView.getTop());
-
             }}
         );
 
@@ -207,6 +152,37 @@ public class ItemsFragment extends Fragment {
         });
 
        Methods.setPath(view);
+
+    }
+    private void getFavIds() {
+        final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JsonElement root = new JsonParser().parse(response);
+                            response = root.getAsString();
+                            JSONObject jsonObject=new JSONObject(response);
+                            jsonArray=jsonObject.getJSONArray("ItemsList");
+                            for (int i = 0; i < jsonArray.length(); i++)
+                            {
+                                jsonObject = jsonArray.getJSONObject(i);
+                                fav_ids.add(jsonObject.getString("ItemID"));
+                            }
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        if(Variables.ACCOUNT_ID!=null)
+        { VolleySingleton.getInstance().addToRequestQueue(favrequest);}
 
     }
 

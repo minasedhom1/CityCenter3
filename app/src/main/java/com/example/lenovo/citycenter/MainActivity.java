@@ -7,6 +7,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -22,10 +24,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.EventLogTags;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,23 +89,25 @@ public class MainActivity extends AppCompatActivity
     ImageView imageView;
     Profile profile;
     View navHed;
-  //  RequestQueue queue;
-    public  static  Typeface font;
+    Button tryConnect;
+    //  RequestQueue queue;
+    public static Typeface font;
     private static String DEVICE_TOKEN;
 
-   public static FloatingActionButton fab;
+    public static FloatingActionButton fab;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tryConnect= (Button) findViewById(R.id.try_connect_btn);
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        mainFrag();
-     //    DEVICE_TOKEN = FirebaseInstanceId.getInstance().getToken();
-         font= Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf" );
-         Log.d("token_device",PreferenceManager.getDefaultSharedPreferences(this).getString("TOKEN","null")) ;
+        //    DEVICE_TOKEN = FirebaseInstanceId.getInstance().getToken();
+        font = Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf");
+     //   Log.d("token_device", PreferenceManager.getDefaultSharedPreferences(this).getString("TOKEN", "null"));
 
 /*---------------------------------------------------------------------------------------------------------------------------------*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -154,18 +160,49 @@ public class MainActivity extends AppCompatActivity
  /*---------------------------------------------------------------------------------------------------------------------------------*/
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();
-      //  queue = Volley.newRequestQueue(MainActivity.this);
+        //  queue = Volley.newRequestQueue(MainActivity.this);
  /*---------------------------------------------------------------------------------------------------------------------------------*/
-
-        if (AccessToken.getCurrentAccessToken() != null)
+      //  isNetworkAvailable();
+        if(isNetworkAvailable())
         {
-            Variables.ACCOUNT_ID = PreferenceManager.getDefaultSharedPreferences(this).getString("AccountID", "defaultStringIfNothingFound");
-            Log.d("ACCID",Variables.ACCOUNT_ID);
+            everyThing();
+            tryConnect.setVisibility(View.GONE);
+        }
+        else
+        {
+        tryConnect.setVisibility(View.VISIBLE);
+            Toast.makeText(MainActivity.this,"No connection, Open it and try again",Toast.LENGTH_LONG).show();
+        }
+
+        tryConnect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isNetworkAvailable())
+                {   tryConnect.setVisibility(View.GONE);
+                    everyThing();}
+                else
+                {Methods.toast("No connection, Open it and try again",MainActivity.this);}
+            }
+        });
+
+    }
+
+void everyThing()
+{
+  /*  if(isNetworkAvailable())
+    {*/
+        mainFrag();
+        if (AccessToken.getCurrentAccessToken() != null) {
+            Variables.ACCOUNT_ID = PreferenceManager.getDefaultSharedPreferences(this).getString("AccountID", "NothingFound");
+            if (Variables.ACCOUNT_ID.matches("NothingFound")) {
+                getAccID();
+            } else Log.d("ACCID", Variables.ACCOUNT_ID);
+
+
 
 /*            if(Variables.ACCOUNT_ID==null)
-                getAccID();*/
-        }
-      else {
+               */
+        } else {
             LoginManager loginManager = LoginManager.getInstance();
             loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
@@ -174,30 +211,32 @@ public class MainActivity extends AppCompatActivity
                     Log.d("UserID", AccessToken.getCurrentAccessToken().getUserId());
                     getAccID();
                 }
+
                 @Override
                 public void onCancel() {
-                    AlertDialog.Builder alertDialog =new AlertDialog.Builder(MainActivity.this) ;
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
                     alertDialog.setMessage("Are you sure you do NOT want to login?")
                             .setIcon(R.mipmap.staron)
-                    .setNegativeButton("No,I'll Signin next time", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    })
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
-                    });
+                            .setNegativeButton("No,I'll Signin next time", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            })
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
                     alertDialog.show();
-                    Methods.toast("Login Cancelled",MainActivity.this);
+                    Methods.toast("Login Cancelled", MainActivity.this);
                 }
+
                 @Override
                 public void onError(FacebookException error) {
-                    Methods.toast("Error happend",MainActivity.this);
+                    Methods.toast("Error happend", MainActivity.this);
                 }
             });
-          loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
+            loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
         }
  /*---------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -206,9 +245,9 @@ public class MainActivity extends AppCompatActivity
         profile = Profile.getCurrentProfile();
         if (profile != null) {
             faceName.setText(profile.getName());
-         //   home_name.setText("Welcome " + profile.getFirstName() + "!");
+            //   home_name.setText("Welcome " + profile.getFirstName() + "!");
             Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(imageView);
-        //    Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
+            //    Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
         } else {
             imageView.setImageResource(R.mipmap.prof1);
             faceName.setText("");
@@ -220,9 +259,9 @@ public class MainActivity extends AppCompatActivity
             protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
                 if (currentProfile != null) {
                     faceName.setText(currentProfile.getName());
-                 //   home_name.setText("Welcome " + currentProfile.getFirstName() + "!");
+                    //   home_name.setText("Welcome " + currentProfile.getFirstName() + "!");
                     Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(imageView);
-               //     Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
+                    //     Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
                 } else {
                     imageView.setImageResource(R.mipmap.prof1);
                     faceName.setText("");
@@ -231,34 +270,39 @@ public class MainActivity extends AppCompatActivity
         };
         profileTracker.startTracking();
  /*-------------------------------------------------------------check if token is saved or not--------------------------------------------------------------------*/
-      //Boolean b=PreferenceManager.getDefaultSharedPreferences(this).getBoolean("TOKEN_SAVED",false);
-      //  add_device_token();  //add your device token to DB
-       // add_device_token();
+        //Boolean b=PreferenceManager.getDefaultSharedPreferences(this).getBoolean("TOKEN_SAVED",false);
+        //  add_device_token();  //add your device token to DB
+        // add_device_token();
  /*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
  /*------------------------------------------------------Signature-------------------------------------------------------------------------------------*/
         View image = findViewById(R.id.logo_header);
-        image.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {Methods.signture(MainActivity.this);}});
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Methods.signture(MainActivity.this);
+            }
+        });
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 
-    }
+
+}
+
 
 
     @Override
     public void onBackPressed() {
 /*     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
         Methods.toast(currentFragment.getClass().getSimpleName(),this);*/
-       // fragmentManager.popBackStackImmediate();
+        // fragmentManager.popBackStackImmediate();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
-
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -285,8 +329,7 @@ public class MainActivity extends AppCompatActivity
         }/* else if (id == R.id.nav_notify) {
             fragmentClass = Notifications.class;
 
-        } */
-        else if (id == R.id.nav_contact_us) {
+        } */ else if (id == R.id.nav_contact_us) {
             fragmentClass = ContactUs.class;
         }
         try {
@@ -295,7 +338,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 //.addToBackStack(fragment.getClass().getName()) //for back stack
-        Variables.ITEM_PATH=item.getTitle().toString();
+        Variables.ITEM_PATH = item.getTitle().toString();
         fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START, true);
@@ -308,7 +351,7 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-
+    
     void mainFrag() {
         fragmentClass = Categories.class;
         try {
@@ -318,6 +361,7 @@ public class MainActivity extends AppCompatActivity
         }
         fragmentManager.beginTransaction().addToBackStack("cat").replace(R.id.frag_holder, fragment).commit();
     }
+
 
     /*public void add_device_token() {
         StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_DEVICE_TOKEN + DEVICE_TOKEN, new Response.Listener<String>() {
@@ -340,8 +384,25 @@ public class MainActivity extends AppCompatActivity
         queue.add(postReq);
     }*/
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+ /*   void isNetworkAvailable() {
+        ConnectivityManager connectivityManager  = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+       // return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        if (activeNetworkInfo == null){
+            Methods.toast("No connection",MainActivity.this);
+        }else{
+            Methods.toast("there is connection",MainActivity.this);
 
-
+        }
+          *//*  dialog = ProgressDialog.show(WelcomePage.this, "", "Loading...", true,false);
+            new Welcome_Page().execute();*//*
+    }*/
 
     void keyhash() {
         try {

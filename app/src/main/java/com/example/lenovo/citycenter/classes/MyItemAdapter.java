@@ -30,16 +30,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
-import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
@@ -56,7 +52,7 @@ import java.util.List;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
- * Created by lenovo on 12/01/2017.
+ * Created by mina on 12/01/2017.
  */
 
 public class MyItemAdapter extends ArrayAdapter<Item> {
@@ -75,7 +71,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
     class ViewHolder
         {
-
             ImageButton menu,share, call,comment;
             ImageView image;
             TextView name, description,rate;
@@ -403,15 +398,18 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
         mWebViewComments.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         CookieManager.getInstance().setAcceptThirdPartyCookies(mWebViewComments, true);
     }
+    //http://mydomain.com/?access_token=' + facebookAccessToken
     // facebook comment widget including the article url
     String html = "<!doctype html> <html lang=\"en\"> <head></head> <body> " +
-            "<div id=\"fb-root\"></div> <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=245162305681302\"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script> " +
+            "<div id=\"fb-root\"></div> <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1251459601575440\"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script> " +
             "<div class=\"fb-comments\" data-href=\"" + "https://sodicclient.azurewebsites.net/#/Itemid?id="+item_id+ "\" " +
             "data-numposts=\"" +"3"+ "\" data-order-by=\"reverse_time\">" +
             "</div> </body> </html>";
-    mWebViewComments.loadDataWithBaseURL("http://www.nothing.com", html, "text/html", "UTF-8", null);
+    mWebViewComments.loadDataWithBaseURL("http://m.facebook.com/", html, "text/html", "UTF-8", null);
     nagDialog.setCanceledOnTouchOutside(true);
     nagDialog.show();
 }
+
+    
     }
 
