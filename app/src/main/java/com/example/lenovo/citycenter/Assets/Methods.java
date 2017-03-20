@@ -38,13 +38,14 @@ public class Methods {
     public static void toast(String s, Context context) {
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
     }
-
     public static String htmlRender(String ss) {
         ss = ss.replace("span", "font");
         ss = ss.replace("style=\"color:", "color=");
         ss = ss.replace(";\"", "");
         ss = ss.replaceAll("<p>", "");
         ss = ss.replaceAll("</p>", ""); //********
+      //  if(ss.contains("<p style=\"text-align: left>"))
+        ss=ss.replace("<p style=\"text-align: left>","");
         return ss;
     }
 
