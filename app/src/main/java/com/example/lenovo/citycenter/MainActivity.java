@@ -29,8 +29,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +46,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
+import com.example.lenovo.citycenter.Fragments.ItemsFragment;
+import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.Fragments.Categories;
 import com.example.lenovo.citycenter.Fragments.ContactUs;
@@ -77,7 +82,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-
+import com.example.lenovo.citycenter.R;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -95,17 +100,34 @@ public class MainActivity extends AppCompatActivity
     private static String DEVICE_TOKEN;
 
     public static FloatingActionButton fab;
-
-
+    Animation hyperspaceJumpAnimation;
+  ImageView logo_anim;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+/* logo_anim= (ImageView) findViewById(R.id.logo_animm);
+        hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);
+        logo_anim.startAnimation(hyperspaceJumpAnimation);
+         hyperspaceJumpAnimation.setAnimationListener(new Animation.AnimationListener() {
+             @Override
+             public void onAnimationStart(Animation animation) {
+             }
+             @Override
+             public void onAnimationEnd(Animation animation) {
+                 View view=findViewById(R.id.splash_layout);
+                 view.setVisibility(View.INVISIBLE);
+             }
+             @Override
+             public void onAnimationRepeat(Animation animation) {
+             }
+         });*/
+
+
+
+
         tryConnect= (Button) findViewById(R.id.try_connect_btn);
-
         fab = (FloatingActionButton) findViewById(R.id.fab);
-
-        //    DEVICE_TOKEN = FirebaseInstanceId.getInstance().getToken();
         font = Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf");
      //   Log.d("token_device", PreferenceManager.getDefaultSharedPreferences(this).getString("TOKEN", "null"));
 
@@ -165,7 +187,7 @@ public class MainActivity extends AppCompatActivity
       //  isNetworkAvailable();
         if(isNetworkAvailable())
         {
-            everyThing();
+            showEveryThing();
             tryConnect.setVisibility(View.GONE);
         }
         else
@@ -179,7 +201,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(isNetworkAvailable())
                 {   tryConnect.setVisibility(View.GONE);
-                    everyThing();}
+                    showEveryThing();}
                 else
                 {Methods.toast("No connection, Open it and try again",MainActivity.this);}
             }
@@ -187,7 +209,8 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-void everyThing()
+
+void showEveryThing()
 {
   /*  if(isNetworkAvailable())
     {*/
@@ -317,10 +340,13 @@ void everyThing()
             fragmentClass = GrandCinema.class;
 
         } else if (id == R.id.nav_whatsnew) {
-            fragmentClass = WhatsNew.class;
+           // fragmentClass = WhatsNew.class;
+            fragmentClass = ItemsFragment.class; // LatestOffers.class;
+            GetDataRequest.setUrl(Urls.URL_GET_NEW_ITEMS);
 
         } else if (id == R.id.nav_latest_offers) {
-            fragmentClass = LatestOffers.class;
+           fragmentClass = ItemsFragment.class; // LatestOffers.class;
+           GetDataRequest.setUrl(Urls.URL_GET_LATEST_OFFERS_ITEMS );
 
         } else if (id == R.id.nav_fav) {
             fragmentClass = Favourite.class;
@@ -351,7 +377,7 @@ void everyThing()
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
-    
+
     void mainFrag() {
         fragmentClass = Categories.class;
         try {

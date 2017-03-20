@@ -1,5 +1,6 @@
 package com.example.lenovo.citycenter.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,13 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
@@ -57,11 +61,18 @@ public class ItemsFragment extends Fragment {
          getFavIds();
 
         }
-
+    ProgressDialog progressDialog;
+   ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_items, container, false);
+
+       /* progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Fetching Data....");
+        progressDialog.show();*/
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+      //  progressBar.setVisibility(View.VISIBLE);
         ItemList= (ListView) view.findViewById(R.id.clickedItem_customList);
         Response.Listener<String> responseListener = new Response.Listener<String>() {
 
@@ -85,6 +96,10 @@ public class ItemsFragment extends Fragment {
                         item.setPhone4(object.getString("Phone4"));
                         item.setPhone5(object.getString("Phone5"));
                         item.setMenu_url(object.getString("PDF_URL"));
+                        item.setPromo(object.getBoolean("IsPromo"));
+                        item.setPromoText(object.getString("PromoText_En"));
+                        item.setPromoButton(object.getString("PromoButtonText"));
+                        item.setPromo_pdf(object.getString("PDFPromo"));
                          if(object.getString("Rate")!="null")
                          {item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
                              Log.d("rate",Float.valueOf(object.getString("Rate")).toString());}
@@ -104,7 +119,8 @@ public class ItemsFragment extends Fragment {
                   //  itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
                     itemAdapter =new MyItemAdapter(getContext(),android.R.layout.simple_list_item_1,itemArrayList);
                     ItemList.setAdapter(itemAdapter);
-
+                    // progressDialog.dismiss();
+                    progressBar.setVisibility(View.GONE);
                   //  itemAdapter.setNotifyOnChange(true);
                 }   catch (JSONException e) {
                     e.printStackTrace();
@@ -120,7 +136,7 @@ public class ItemsFragment extends Fragment {
      //           GetDataRequest.setUrl(Variables.catID);
                 GetDataRequest fetchRequest = new GetDataRequest(responseListener,errorListener);
                // queue.add(fetchRequest);
-               VolleySingleton.getInstance().addToRequestQueue(fetchRequest);
+                VolleySingleton.getInstance().addToRequestQueue(fetchRequest);
                  return view;
    }
 

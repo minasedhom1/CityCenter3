@@ -16,11 +16,13 @@
 
 
     </android.support.design.widget.AppBarLayout>-->
-
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         app:popupTheme="@style/AppTheme.PopupOverlay" >
     </android.support.v7.widget.Toolbar>
 
@@ -57,7 +59,22 @@
         app:elevation="7dp"
         app:fab_shadow="true"
         app:backgroundTint="#cc000000" />
+<!--<include android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    layout="@layout/content_main"/>-->
+<!--    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:id="@+id/splash_layout">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/logo2"
+        android:id="@+id/logo_animm"
+        android:layout_gravity="center_horizontal"/>
 
-
+    </FrameLayout>-->
+</FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -9,10 +9,42 @@ import java.util.ArrayList;
 
 public class Item implements Serializable{
 
-   private String id,name,description ,photo1,phone1,phone2,phone3,phone4,phone5,categoryName,subcategoryName,city,region,site,categoryID,menu_url;
+   private String id,name,description ,photo1,phone1,phone2,phone3,phone4,phone5,categoryName,subcategoryName,city,region,site,categoryID,menu_url,promoText,promoButton,promo_pdf;
    private float rate;
+    private boolean isPromo;
     double lon,lat;
 
+    public boolean isPromo() {
+        return isPromo;
+    }
+
+    public void setPromo(boolean promo) {
+        isPromo = promo;
+    }
+
+    public String getPromoText() {
+        return promoText;
+    }
+
+    public void setPromoText(String promoText) {
+        this.promoText = promoText;
+    }
+
+    public String getPromoButton() {
+        return promoButton;
+    }
+
+    public void setPromoButton(String promoButton) {
+        this.promoButton = promoButton;
+    }
+
+    public String getPromo_pdf() {
+        return promo_pdf;
+    }
+
+    public void setPromo_pdf(String promo_pdf) {
+        this.promo_pdf = promo_pdf;
+    }
 
     public String getMenu_url() {
         return menu_url;

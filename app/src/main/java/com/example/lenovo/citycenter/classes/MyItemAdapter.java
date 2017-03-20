@@ -76,7 +76,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
             TextView name, description,rate;
             ShineButton shineButton;
             Spinner rateSpin;
-
+            Button optional_btn;
         }
         @Override
         public View getView(final int position, View convertView, final ViewGroup parent) {
@@ -97,6 +97,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                     holder.shineButton = (ShineButton) convertView.findViewById(R.id.like_btn);
                     holder.rate = (TextView) convertView.findViewById(R.id.item_rate_value);
                     holder.rateSpin = (Spinner) convertView.findViewById(R.id.rate_spinner);
+                    holder.optional_btn= (Button) convertView.findViewById(R.id.option_btn);
                     convertView.setTag(holder);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
@@ -124,8 +125,18 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
                 if (!Variables.IS_RATY_CATEGORY) holder.rateSpin.setVisibility(View.GONE);
    /*--------------------------------------------------------------------------------------------------------------------------------------------*/
-
-
+               if(myItem.isPromo())
+               {
+                   holder.optional_btn.setVisibility(View.VISIBLE);
+                   holder.optional_btn.setText(myItem.getPromoButton());
+                   holder.optional_btn.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           Methods.toast(myItem.getPromoButton(),getContext());
+                       }
+                   });
+               }
+                else {holder.optional_btn.setVisibility(View.GONE);}
 
    /*----------------------------------------------------------call btn popup nums----------------------------------------------------------------------------------*/
 
@@ -160,6 +171,9 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 });
 
 /*-----------------------------------------------------------------------like btn-----------------------------------------------------------------------------------------*/
+                if(Variables.ITEM_PATH.matches("Latest offers")||Variables.ITEM_PATH.matches("Whats new?!"))
+                {holder.shineButton.setVisibility(View.GONE);}
+                else {holder.shineButton.setVisibility(View.VISIBLE);}
                 holder.shineButton.init((AppCompatActivity) context);
                 holder.shineButton.setChecked(myItem.isLike());
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +201,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                            // RequestQueue queue = Volley.newRequestQueue(getContext());
                            // queue.add(postReq);
                             VolleySingleton.getInstance().addToRequestQueue(postReq);
-
                             myItem.setLike(true);
                         } else {
                             StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
