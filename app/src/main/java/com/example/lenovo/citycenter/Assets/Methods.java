@@ -13,12 +13,15 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.classes.MyItemAdapter;
+import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -46,6 +49,8 @@ public class Methods {
         ss = ss.replaceAll("</p>", ""); //********
       //  if(ss.contains("<p style=\"text-align: left>"))
         ss=ss.replace("<p style=\"text-align: left>","");
+        if(ss.startsWith("<strong"))
+        {ss=ss.replace("strong","font");}
         return ss;
     }
 
@@ -65,7 +70,37 @@ public class Methods {
         path.setText(Html.fromHtml(Variables.ITEM_PATH));
     }
 
-    //public  static void FabToList(Li)
+   public static void getFavIds(final Context context) {
+        Variables.fav_ids=new ArrayList<>();
+        final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JsonElement root = new JsonParser().parse(response);
+                            response = root.getAsString();
+                            JSONObject jsonObject=new JSONObject(response);
+                            JSONArray jsonArray=jsonObject.getJSONArray("ItemsList");
+                            for (int i = 0; i < jsonArray.length(); i++)
+                            {
+                                jsonObject = jsonArray.getJSONObject(i);
+                                Variables.fav_ids.add(jsonObject.getString("ItemID"));
+                            }
+
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+       if(Variables.ACCOUNT_ID!=null)
+       { VolleySingleton.getInstance().addToRequestQueue(favrequest);}
+
+   }
 }
 /*
     public ArrayList<Item> get_items(String url,Context context) {

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:drawable="@drawable/fashion"/>
-    <item android:drawable="@drawable/rounded_cornenr_imageview"/>
-
-</layer-list>

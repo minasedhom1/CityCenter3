@@ -55,21 +55,18 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class GrandCinema extends Fragment {
     private ExpandableListView customListView;
     private ArrayList<Category> categoryArrayList;
     private ExpandListAdpter myAdapter;
-
+    JSONArray jsonArray;
     //FloatingActionButton fab;
 
     public GrandCinema() {
         // Required empty public constructor
     }
 
-    JSONArray jsonArray;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -9,7 +9,6 @@ import android.content.pm.Signature;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -21,41 +20,29 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.EventLogTags;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.Fragments.ItemsFragment;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
-import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.Fragments.Categories;
 import com.example.lenovo.citycenter.Fragments.ContactUs;
-import com.example.lenovo.citycenter.Fragments.Favourite;
 import com.example.lenovo.citycenter.Fragments.GrandCinema;
-import com.example.lenovo.citycenter.Fragments.LatestOffers;
-import com.example.lenovo.citycenter.Fragments.Notifications;
-import com.example.lenovo.citycenter.Fragments.WhatsNew;
 import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -66,11 +53,6 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.share.widget.LikeView;
-import com.google.android.gms.common.api.BooleanResult;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
@@ -79,10 +61,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
-import com.example.lenovo.citycenter.R;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -349,7 +330,8 @@ void showEveryThing()
            GetDataRequest.setUrl(Urls.URL_GET_LATEST_OFFERS_ITEMS );
 
         } else if (id == R.id.nav_fav) {
-            fragmentClass = Favourite.class;
+          fragmentClass = ItemsFragment.class;
+            GetDataRequest.setUrl(Urls.URL_GET_FAVOURITES_FOR_ID); //Favourite.class;
 
 
         }/* else if (id == R.id.nav_notify) {

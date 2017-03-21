@@ -58,10 +58,10 @@ public class ItemsFragment extends Fragment {
         itemArrayList = new ArrayList<>();
         fav_ids=new ArrayList<>();
 
-         getFavIds();
+      //   getFavIds();
 
         }
-    ProgressDialog progressDialog;
+
    ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,6 +100,8 @@ public class ItemsFragment extends Fragment {
                         item.setPromoText(object.getString("PromoText_En"));
                         item.setPromoButton(object.getString("PromoButtonText"));
                         item.setPromo_pdf(object.getString("PDFPromo"));
+                        item.setRaty(object.getBoolean("IsRatyCategory"));
+                        item.setUrl_btn_text(object.getString("URLButtonText"));
                          if(object.getString("Rate")!="null")
                          {item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
                              Log.d("rate",Float.valueOf(object.getString("Rate")).toString());}
@@ -109,7 +111,7 @@ public class ItemsFragment extends Fragment {
                         item.setSubcategoryName(object.getString("SubcategoryName_En"));
                         item.setCategoryID(Variables.catID);
 
-                        if(fav_ids.size()!=0 && fav_ids.contains(item.getId()))
+                        if(Variables.fav_ids.size()!=0 && Variables.fav_ids.contains(item.getId()))
                         {
                             item.setLike(true);
                         }

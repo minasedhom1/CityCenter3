@@ -126,12 +126,35 @@
         android:paddingBottom="10dp"
 >
    <Button
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
+       android:layout_width="wrap_content"
+       android:layout_height="44dp"
        android:id="@+id/option_btn"
-       android:text="test"
-       android:visibility="gone"/>
-        <ImageButton
+       android:text="View"
+       android:textColor="@drawable/button_text_color"
+       android:textAllCaps="false"
+       android:textSize="19sp"
+       android:gravity="center_vertical"
+       android:paddingLeft="60dp"
+       android:background="@mipmap/menu"
+       android:visibility="visible"
+       android:layout_gravity="center_horizontal"
+       />
+        <Button
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:id="@+id/item_call_btn"
+            android:text="Call"
+            android:textColor="@drawable/button_text_color"
+            android:textAllCaps="false"
+            android:textSize="19sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="60dp"
+            android:background="@mipmap/call"
+            android:visibility="visible"
+            android:layout_gravity="center_horizontal"
+            />
+      <!--  <ImageButton
             android:layout_marginTop="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -140,11 +163,57 @@
             android:background="@null"
             android:layout_gravity="center_horizontal"
 
+
+            />
+-->
+
+        <Button
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:id="@+id/item_share_btn"
+            android:text="Share"
+            android:textColor="@drawable/button_text_color"
+            android:textAllCaps="false"
+            android:textSize="19sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="60dp"
+            android:background="@mipmap/share"
+            android:visibility="visible"
+            android:layout_gravity="center_horizontal"
+            />
+        <Button
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:id="@+id/item_comment_btn"
+            android:text="Comment"
+            android:textColor="@drawable/button_text_color"
+            android:textAllCaps="false"
+            android:textSize="19sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="60dp"
+            android:background="@mipmap/comment"
+            android:visibility="visible"
+            android:layout_gravity="center_horizontal"
             />
 
-
-
-        <ImageButton
+        <Button
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:id="@+id/item_view_menu_btn"
+            android:text="Menu"
+            android:textColor="@drawable/button_text_color"
+            android:textAllCaps="false"
+            android:textSize="19sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="60dp"
+            android:background="@mipmap/menu"
+            android:visibility="visible"
+            android:layout_gravity="center_horizontal"
+            />
+<!--        <ImageButton
             android:layout_marginTop="3dp"
 
             android:layout_width="wrap_content"
@@ -154,11 +223,11 @@
             android:background="@null"
             android:layout_gravity="center_horizontal"
 
-            />
+            />-->
 
 
 
-        <FrameLayout
+ <!--       <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
@@ -171,9 +240,9 @@
             android:layout_gravity="center_horizontal"
             android:src="@mipmap/comment"
             />
-                </FrameLayout>
+                </FrameLayout>-->
 
-        <ImageButton
+    <!--    <ImageButton
             android:layout_marginTop="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -182,7 +251,7 @@
             android:background="@null"
             android:layout_gravity="center_horizontal"
 
-            /><!--android:text="Menu &#xf03a;"-->
+            />--><!--android:text="Menu &#xf03a;"-->
         <!--android:text="Comment &#xf040;"-->
 
     </LinearLayout>

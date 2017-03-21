@@ -2,12 +2,14 @@ package com.example.lenovo.citycenter.classes;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -49,6 +51,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import static android.content.Context.DOWNLOAD_SERVICE;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
@@ -71,26 +74,26 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
     class ViewHolder
         {
-            ImageButton menu,share, call,comment;
+           // ImageButton menu,share, call,comment;
             ImageView image;
             TextView name, description,rate;
             ShineButton shineButton;
             Spinner rateSpin;
-            Button optional_btn;
+            Button menu,share, call,comment, optional_btn;
         }
         @Override
         public View getView(final int position, View convertView, final ViewGroup parent) {
-            ViewHolder holder = new ViewHolder();
+           ViewHolder holder = new ViewHolder();
 
             try {
 
                 if (convertView == null) {
                     LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
                     convertView = inflater.inflate(R.layout.item_layout, parent, false);
-                    holder.call = (ImageButton) convertView.findViewById(R.id.item_call_btn);
-                    holder.share = (ImageButton) convertView.findViewById(R.id.item_share_btn);
-                    holder.comment = (ImageButton) convertView.findViewById(R.id.item_comment_btn);
-                    holder.menu = (ImageButton) convertView.findViewById(R.id.item_view_menu_btn);
+                    holder.call = (Button) convertView.findViewById(R.id.item_call_btn);
+                    holder.share = (Button) convertView.findViewById(R.id.item_share_btn);
+                    holder.comment = (Button) convertView.findViewById(R.id.item_comment_btn);
+                    holder.menu = (Button) convertView.findViewById(R.id.item_view_menu_btn);
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.item_description);
                     holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
@@ -123,20 +126,40 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 final ArrayAdapter<String> phones_adapter =
                         new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, myItem.getPhones());
 
-                if (!Variables.IS_RATY_CATEGORY) holder.rateSpin.setVisibility(View.GONE);
+                if (!myItem.isRaty()) holder.rateSpin.setVisibility(View.GONE);
+                else holder.rateSpin.setVisibility(View.VISIBLE);
    /*--------------------------------------------------------------------------------------------------------------------------------------------*/
                if(myItem.isPromo())
                {
                    holder.optional_btn.setVisibility(View.VISIBLE);
                    holder.optional_btn.setText(myItem.getPromoButton());
-                   holder.optional_btn.setOnClickListener(new View.OnClickListener() {
-                       @Override
-                       public void onClick(View v) {
-                           Methods.toast(myItem.getPromoButton(),getContext());
-                       }
-                   });
+
                }
                 else {holder.optional_btn.setVisibility(View.GONE);}
+
+                holder.optional_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       Uri uri=Uri.parse(Urls.URL_PDF_PATH+myItem.getPromo_pdf());
+                        DownloadManager.Request r = new DownloadManager.Request(uri);
+
+// This put the download in the same Download dir the browser uses
+                        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "fileName");
+
+// When downloading music and videos they will be listed in the player
+// (Seems to be available since Honeycomb only)
+                        r.allowScanningByMediaScanner();
+
+// Notify user when download is completed
+// (Seems to be available since Honeycomb only)
+                        r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+// Start download
+                        DownloadManager dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
+                        dm.enqueue(r);
+                        Methods.toast(myItem.getPromoButton(),getContext());
+                    }
+                });
 
    /*----------------------------------------------------------call btn popup nums----------------------------------------------------------------------------------*/
 
@@ -171,10 +194,11 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 });
 
 /*-----------------------------------------------------------------------like btn-----------------------------------------------------------------------------------------*/
-                if(Variables.ITEM_PATH.matches("Latest offers")||Variables.ITEM_PATH.matches("Whats new?!"))
+                if(Variables.ITEM_PATH.equals("Latest offers")||Variables.ITEM_PATH.equals("Whats new?!"))
                 {holder.shineButton.setVisibility(View.GONE);}
                 else {holder.shineButton.setVisibility(View.VISIBLE);}
                 holder.shineButton.init((AppCompatActivity) context);
+                if(Variables.ITEM_PATH.equals("Favorite")){myItem.setLike(true);}
                 holder.shineButton.setChecked(myItem.isLike());
                 holder.shineButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -245,9 +269,10 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
 /*---------------------------------------------------------------------Menu btn-----------------------------------------------------------------------*/
 
-                if (myItem.getMenu_url().matches("null")) {
+                if (myItem.getUrl_btn_text().matches("null")) {
                     holder.menu.setVisibility(View.GONE);
                 } else {
+                    holder.menu.setText(myItem.getUrl_btn_text());
                     holder.menu.setVisibility(View.VISIBLE);
                 }
                 holder.menu.setOnClickListener(new View.OnClickListener() {
@@ -257,7 +282,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                     }
                 });
    /*--------------------------------------------------------------------------------------------------------------------------------------------*/
-
                 holder.rateSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -308,14 +332,11 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                  shareItem(myItem);
                     }
                 });
-
-
 /*--------------------------------------------------------------------------------------------------------------------------------------------*/
                 holder.comment.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-
                         popComment(myItem.getId());
                     }});
 
@@ -328,6 +349,8 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
 
         }
+
+
 
 
 

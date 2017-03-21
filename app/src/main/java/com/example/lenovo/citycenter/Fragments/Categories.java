@@ -47,8 +47,10 @@ public class Categories extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Methods.getFavIds(getContext());
          categoryArrayList = new ArrayList<>();
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
+
           StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_GET_CATEGORIES_GOODS,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -117,7 +119,7 @@ public class Categories extends Fragment {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://apps-valley.net/")));
             }
         });*/
-        expand_listView.addFooterView(footerView,null,false);
+    //    expand_listView.addFooterView(footerView,null,false);
         expand_listView.setGroupIndicator(null);
       //fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
@@ -161,7 +163,7 @@ public class Categories extends Fragment {
             Fragment fragment = new ItemsFragment();
            getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
            String url = Urls.URL_GET_SELECTED_SUBCATEGORY_ITEM + subcatID;
-            GetDataRequest.setUrl(url );
+            GetDataRequest.setUrl(url);
            return false;
        }
    });
