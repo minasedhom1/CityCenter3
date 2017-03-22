@@ -76,17 +76,18 @@ public class MainActivity extends AppCompatActivity
     Profile profile;
     View navHed;
     Button tryConnect;
-    //  RequestQueue queue;
     public static Typeface font;
     private static String DEVICE_TOKEN;
 
     public static FloatingActionButton fab;
     Animation hyperspaceJumpAnimation;
-  ImageView logo_anim;
+    ImageView logo_anim;
+    NavigationView navigationView;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 /* logo_anim= (ImageView) findViewById(R.id.logo_animm);
         hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);
         logo_anim.startAnimation(hyperspaceJumpAnimation);
@@ -103,27 +104,21 @@ public class MainActivity extends AppCompatActivity
              public void onAnimationRepeat(Animation animation) {
              }
          });*/
-
-
-
+/*---------------------------------------------------------------------------------------------------------------------------------*/
 
         tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         font = Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf");
-     //   Log.d("token_device", PreferenceManager.getDefaultSharedPreferences(this).getString("TOKEN", "null"));
 
-/*---------------------------------------------------------------------------------------------------------------------------------*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
         toggle.setDrawerIndicatorEnabled(false);
-        //toggle.setHomeAsUpIndicator(R.drawable.nav_icon);
         toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,7 +143,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navHed = navigationView.getHeaderView(0);
         faceName = (TextView) navHed.findViewById(R.id.name_tv);
@@ -163,9 +158,8 @@ public class MainActivity extends AppCompatActivity
  /*---------------------------------------------------------------------------------------------------------------------------------*/
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();
-        //  queue = Volley.newRequestQueue(MainActivity.this);
  /*---------------------------------------------------------------------------------------------------------------------------------*/
-      //  isNetworkAvailable();
+
         if(isNetworkAvailable())
         {
             showEveryThing();
@@ -193,8 +187,6 @@ public class MainActivity extends AppCompatActivity
 
 void showEveryThing()
 {
-  /*  if(isNetworkAvailable())
-    {*/
         mainFrag();
         if (AccessToken.getCurrentAccessToken() != null) {
             Variables.ACCOUNT_ID = PreferenceManager.getDefaultSharedPreferences(this).getString("AccountID", "NothingFound");
@@ -203,44 +195,8 @@ void showEveryThing()
             } else Log.d("ACCID", Variables.ACCOUNT_ID);
 
 
-
-/*            if(Variables.ACCOUNT_ID==null)
-               */
         } else {
-            LoginManager loginManager = LoginManager.getInstance();
-            loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-
-                    Log.d("UserID", AccessToken.getCurrentAccessToken().getUserId());
-                    getAccID();
-                }
-
-                @Override
-                public void onCancel() {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                    alertDialog.setMessage("Are you sure you do NOT want to login?")
-                            .setIcon(R.mipmap.staron)
-                            .setNegativeButton("No,I'll Signin next time", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            })
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                }
-                            });
-                    alertDialog.show();
-                    Methods.toast("Login Cancelled", MainActivity.this);
-                }
-
-                @Override
-                public void onError(FacebookException error) {
-                    Methods.toast("Error happend", MainActivity.this);
-                }
-            });
-            loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
+            LoginFB_request();
         }
  /*---------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -249,9 +205,7 @@ void showEveryThing()
         profile = Profile.getCurrentProfile();
         if (profile != null) {
             faceName.setText(profile.getName());
-            //   home_name.setText("Welcome " + profile.getFirstName() + "!");
             Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(imageView);
-            //    Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
         } else {
             imageView.setImageResource(R.mipmap.prof1);
             faceName.setText("");
@@ -292,14 +246,51 @@ void showEveryThing()
 
 }
 
+    void LoginFB_request()
+    {
+        LoginManager loginManager = LoginManager.getInstance();
+        loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
 
+                Log.d("UserID", AccessToken.getCurrentAccessToken().getUserId());
+                getAccID();
+            }
+
+            @Override
+            public void onCancel() {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+                alertDialog.setMessage("Are you sure you do NOT want to login?")
+                        .setIcon(R.mipmap.staron)
+                        .setNegativeButton("No,I'll Signin next time", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                alertDialog.show();
+                Methods.toast("Login Cancelled", MainActivity.this);
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Methods.toast("Error happend", MainActivity.this);
+            }
+        });
+        loginManager.logInWithReadPermissions(this, Arrays.asList("public_profile"));
+    }
 
     @Override
     public void onBackPressed() {
-/*     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
-        Methods.toast(currentFragment.getClass().getSimpleName(),this);*/
-        // fragmentManager.popBackStackImmediate();
 
+/*   Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
+        Methods.toast(currentFragment.getClass().getSimpleName(),this);
+        fragmentManager.popBackStackImmediate("cat",0);*/
+        //mainFrag();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -354,6 +345,7 @@ void showEveryThing()
     }
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -361,6 +353,7 @@ void showEveryThing()
     }
 
     void mainFrag() {
+        navigationView.setCheckedItem(0);
         fragmentClass = Categories.class;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
@@ -398,19 +391,6 @@ void showEveryThing()
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
- /*   void isNetworkAvailable() {
-        ConnectivityManager connectivityManager  = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-       // return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-        if (activeNetworkInfo == null){
-            Methods.toast("No connection",MainActivity.this);
-        }else{
-            Methods.toast("there is connection",MainActivity.this);
-
-        }
-          *//*  dialog = ProgressDialog.show(WelcomePage.this, "", "Loading...", true,false);
-            new Welcome_Page().execute();*//*
-    }*/
 
     void keyhash() {
         try {
@@ -453,10 +433,8 @@ void showEveryThing()
                 Methods.toast(error.toString(),MainActivity.this);
             }
         });
-        // RequestQueue queue= Volley.newRequestQueue(MainActivity.this);
-     //   queue.add(postReq);
         VolleySingleton.getInstance().addToRequestQueue(postReq);
-       // queue.start();
+
     }
 }
 

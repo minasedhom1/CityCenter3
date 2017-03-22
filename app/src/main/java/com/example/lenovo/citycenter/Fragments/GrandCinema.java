@@ -72,8 +72,8 @@ public class GrandCinema extends Fragment {
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_grandcinema, container, false);
         customListView = (ExpandableListView)view.findViewById(R.id.expandded_list_category);
-        View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, customListView, false);
-        customListView.addFooterView(footerView,null,false);
+        //View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, customListView, false);
+      //  customListView.addFooterView(footerView,null,false);
         categoryArrayList = new ArrayList<>();
       //  RequestQueue queue = Volley.newRequestQueue(getContext());
 

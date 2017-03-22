@@ -3,10 +3,8 @@ package com.example.lenovo.citycenter.classes;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DownloadManager;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -18,7 +16,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -26,7 +23,6 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -64,7 +60,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
     Context context;
     List<Item> itemsList;
-
     ProgressBar progressBar;
     public MyItemAdapter(Context context, int resource, List<Item> itemsList) {
         super(context, resource,itemsList);
@@ -77,7 +72,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
            // ImageButton menu,share, call,comment;
             ImageView image;
             TextView name, description,rate;
-            ShineButton shineButton;
+            ShineButton addToFavBtn;
             Spinner rateSpin;
             Button menu,share, call,comment, optional_btn;
         }
@@ -97,7 +92,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                     holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                     holder.description = (TextView) convertView.findViewById(R.id.item_description);
                     holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
-                    holder.shineButton = (ShineButton) convertView.findViewById(R.id.like_btn);
+                    holder.addToFavBtn = (ShineButton) convertView.findViewById(R.id.like_btn);
                     holder.rate = (TextView) convertView.findViewById(R.id.item_rate_value);
                     holder.rateSpin = (Spinner) convertView.findViewById(R.id.rate_spinner);
                     holder.optional_btn= (Button) convertView.findViewById(R.id.option_btn);
@@ -140,11 +135,12 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 holder.optional_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                        Uri uri=Uri.parse(Urls.URL_PDF_PATH+myItem.getPromo_pdf());
                         DownloadManager.Request r = new DownloadManager.Request(uri);
-
+                        String s= Html.fromHtml(myItem.getName()).toString()+"Offers";
 // This put the download in the same Download dir the browser uses
-                        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "fileName");
+                        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,s);
 
 // When downloading music and videos they will be listed in the player
 // (Seems to be available since Honeycomb only)
@@ -155,10 +151,16 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                         r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
 // Start download
+                        try{
                         DownloadManager dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
-                        dm.enqueue(r);
-                        Methods.toast(myItem.getPromoButton(),getContext());
+
+                        dm.enqueue(r);}catch (Exception e){
+                            Methods.toast(e.getMessage().toString(),getContext());
+                        }
+                     //   Methods.toast(myItem.getPromoButton(),getContext());
+                        //popupMenu(myItem.getPromo_pdf());
                     }
+
                 });
 
    /*----------------------------------------------------------call btn popup nums----------------------------------------------------------------------------------*/
@@ -181,9 +183,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                             listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                              /*      Intent phoneIntent = new Intent(Intent.ACTION_CALL);
-                                    phoneIntent.setData(Uri.parse("tel:" + phones_adapter.getItem(position)));
-                                    context.startActivity(phoneIntent);*/
+
                                context.startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:" + phones_adapter.getItem(position))));
                                 }
                             });
@@ -194,13 +194,17 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 });
 
 /*-----------------------------------------------------------------------like btn-----------------------------------------------------------------------------------------*/
-                if(Variables.ITEM_PATH.equals("Latest offers")||Variables.ITEM_PATH.equals("Whats new?!"))
-                {holder.shineButton.setVisibility(View.GONE);}
-                else {holder.shineButton.setVisibility(View.VISIBLE);}
-                holder.shineButton.init((AppCompatActivity) context);
-                if(Variables.ITEM_PATH.equals("Favorite")){myItem.setLike(true);}
-                holder.shineButton.setChecked(myItem.isLike());
-                holder.shineButton.setOnClickListener(new View.OnClickListener() {
+                holder.addToFavBtn.init((AppCompatActivity) context);
+
+                if(Variables.ITEM_PATH.equals("Latest offers")||Variables.ITEM_PATH.equals("Whats new?!")) //if so
+                {holder.addToFavBtn.setVisibility(View.GONE);}//invisible addToFav btn in latest offers & whats new?!
+                else {holder.addToFavBtn.setVisibility(View.VISIBLE);}
+
+                if(Variables.ITEM_PATH.equals("Favorite")){myItem.setLike(true);} //if it's favourites set all with true
+
+                holder.addToFavBtn.setChecked(myItem.isLike());
+                holder.addToFavBtn.setOnClickListener(new View.OnClickListener() {
+
                     @Override
                     public void onClick(View view) {
                         if (!myItem.isLike()) {
@@ -222,11 +226,10 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                                     }
                                 }
                             }, null);
-                           // RequestQueue queue = Volley.newRequestQueue(getContext());
-                           // queue.add(postReq);
                             VolleySingleton.getInstance().addToRequestQueue(postReq);
                             myItem.setLike(true);
-                        } else {
+                        }
+                        else {
                             StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
@@ -244,8 +247,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                                     }
                                 }
                             }, null);
-                           /* RequestQueue queue = Volley.newRequestQueue(getContext());
-                            queue.add(postReq);*/
                             VolleySingleton.getInstance().addToRequestQueue(postReq);
                             if(Variables.ITEM_PATH.matches("Favorite")){
                             itemsList.remove(myItem);
@@ -324,9 +325,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                         Methods.toast("nothing", getContext());
                     }
                 });
-
-
-                holder.share.setOnClickListener(new View.OnClickListener() {
+              holder.share.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                  shareItem(myItem);
@@ -345,16 +344,9 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
             } catch (Exception e) {
                 return null;
             }
-/*--------------------------------------------------------------------------------------------------------------------------------------------*/
-
 
         }
-
-
-
-
-
-
+/*--------------------------------------------------------------------------------------------------------------------------------------------*/
     private void popUpPhoto(String photoUrl) {
         final Dialog nagDialog = new Dialog(getContext());
         nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -363,8 +355,10 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
         Picasso.with(getContext()).load(photoUrl).error(R.mipmap.ic_launcher).into(ivPreview);  //             //new DownLoadImageTask(image).execute(imageUrl);
         nagDialog.show();
     }
+/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
+/*---------------------------------------------------------------Menu Btn-----------------------------------------------------------------------------*/
     private void popupMenu(String menuUrl) {
         final Dialog nagDialog = new Dialog(getContext());
         nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -389,8 +383,10 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
         webView.loadUrl(url);
         nagDialog.show();
     }
+/*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
+/*---------------------------------------------------------------Share Btn-----------------------------------------------------------------------------*/
 
     private void shareItem(Item myItem) {
         if (ShareDialog.canShow(ShareLinkContent.class)) {
@@ -404,8 +400,9 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
             shareDialog.show(linkContent);
         }
     }
+/*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
-
+/*---------------------------------------------------------------Comment Btn-----------------------------------------------------------------------------*/
     private void popComment(String item_id)
 {
     final Dialog nagDialog = new Dialog(getContext());
@@ -434,8 +431,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
         mWebViewComments.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         CookieManager.getInstance().setAcceptThirdPartyCookies(mWebViewComments, true);
     }
-    //http://mydomain.com/?access_token=' + facebookAccessToken
-    // facebook comment widget including the article url
     String html = "<!doctype html> <html lang=\"en\"> <head></head> <body> " +
             "<div id=\"fb-root\"></div> <script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = \"//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=1251459601575440\"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script> " +
             "<div class=\"fb-comments\" data-href=\"" + "https://sodicclient.azurewebsites.net/#/Itemid?id="+item_id+ "\" " +
@@ -445,6 +440,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
     nagDialog.setCanceledOnTouchOutside(true);
     nagDialog.show();
 }
+/*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
     
     }
