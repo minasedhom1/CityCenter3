@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -45,7 +46,11 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -61,6 +66,8 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
     Context context;
     List<Item> itemsList;
     ProgressBar progressBar;
+
+
     public MyItemAdapter(Context context, int resource, List<Item> itemsList) {
         super(context, resource,itemsList);
         this.context= context;

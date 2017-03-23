@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#80ffffff"
+    tools:context="com.example.lenovo.citycenter.Fragments.SearchFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B33232ff"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="20sp"
+        android:background="#fff"
+       android:paddingLeft="10dp"
+        android:drawableLeft="@drawable/searchicon"
+        android:hint="Search...."
+        android:id="@+id/search_et"
+        android:drawablePadding="5dp"/>
+    </FrameLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/items_name_list"
+        android:focusable="true"
+        android:clickable="true"
+ />
+
+</LinearLayout>

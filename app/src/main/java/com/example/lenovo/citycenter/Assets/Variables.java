@@ -14,5 +14,6 @@ public class Variables {
     public  static  String ITEM_PATH;
     public  static boolean IS_RATY_CATEGORY;
     public  static ArrayList<String> fav_ids;
+    public static String SINGLE_ITEM_ID;
 }
 

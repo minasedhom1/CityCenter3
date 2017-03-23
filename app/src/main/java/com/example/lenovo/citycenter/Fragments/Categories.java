@@ -173,13 +173,6 @@ public class Categories extends Fragment {
 
 
 
-
-
-
-
-
-
-
 /*--------------------------------------------------------------get subcategories----------------------------------------------------------------------------------*/
 
         public  ArrayList<Subcategory> getSubs(int catID) {

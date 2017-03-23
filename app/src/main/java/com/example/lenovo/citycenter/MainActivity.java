@@ -39,6 +39,7 @@ import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.Fragments.ItemsFragment;
+import com.example.lenovo.citycenter.Fragments.SearchFragment;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.Fragments.Categories;
 import com.example.lenovo.citycenter.Fragments.ContactUs;
@@ -328,7 +329,12 @@ void showEveryThing()
         }/* else if (id == R.id.nav_notify) {
             fragmentClass = Notifications.class;
 
-        } */ else if (id == R.id.nav_contact_us) {
+        } */
+        else if (id == R.id.nav_search) {
+            fragmentClass = SearchFragment.class;
+        }
+
+        else if (id == R.id.nav_contact_us) {
             fragmentClass = ContactUs.class;
         }
         try {
