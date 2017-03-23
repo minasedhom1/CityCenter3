@@ -128,7 +128,7 @@ public class SearchFragment extends Fragment {
                 Variables.SINGLE_ITEM_ID = String.valueOf(item.getId());
                 Fragment fragment = new SingleItemFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
-                Methods.toast(item.getDescription(),getContext());
+               // Methods.toast(item.getDescription(),getContext());
             }
         });
 
