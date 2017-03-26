@@ -18,8 +18,7 @@ android:orientation="vertical"
         android:layout_height="wrap_content"
         android:orientation="vertical"
          android:paddingTop="20dp"
-        android:paddingLeft="27dp"
-        android:id="@+id/linear_facebook">
+        android:paddingLeft="27dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +37,6 @@ android:orientation="vertical"
         <com.facebook.share.widget.LikeView
             android:layout_width="wrap_content"
             android:layout_height="27dp"
-            android:id="@+id/fb_like_btn"
             android:layout_toRightOf="@+id/prof_image"
           android:layout_below="@+id/name_tv"
             android:layout_marginLeft="15dp"

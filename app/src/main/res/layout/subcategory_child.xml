@@ -35,7 +35,6 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:src="@mipmap/right_arrow"
-            android:id="@+id/imageView5"
             android:layout_gravity="center_vertical" />
 
     </LinearLayout>

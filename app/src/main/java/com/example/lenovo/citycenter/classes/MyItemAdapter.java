@@ -178,7 +178,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                         AlphaAnimation buttonClick = new AlphaAnimation(3F, 0.8F);
                         view.setAnimation(buttonClick);
                         if (myItem.getPhones().size() == 1) {
-                            context.startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:" + myItem.getPhone1())));
+                            context.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + myItem.getPhone1())));
 
                         } else if (myItem.getPhones().size() > 1) {
                             final Dialog nagDialog = new Dialog(getContext());
@@ -191,7 +191,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                               context.startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:" + phones_adapter.getItem(position))));
+                               context.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + phones_adapter.getItem(position))));
                                 }
                             });
                         } else {

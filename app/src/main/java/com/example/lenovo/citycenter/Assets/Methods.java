@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -101,6 +103,25 @@ public class Methods {
        { VolleySingleton.getInstance().addToRequestQueue(favrequest);}
 
    }
+
+    public static void FabToList(final ListView listView){
+        MainActivity.fab.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    listView.smoothScrollToPositionFromTop(0,0);}
+                                            }
+        );
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+            }
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                if(i==0)  MainActivity.fab.hide();
+                else  MainActivity.fab.show();
+            }
+        });
+    }
 }
 /*
     public ArrayList<Item> get_items(String url,Context context) {

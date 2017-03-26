@@ -1,5 +1,7 @@
 package com.example.lenovo.citycenter.Assets;
 
+import com.example.lenovo.citycenter.classes.Item;
+
 import java.util.ArrayList;
 
 /**
@@ -15,5 +17,6 @@ public class Variables {
     public  static boolean IS_RATY_CATEGORY;
     public  static ArrayList<String> fav_ids;
     public static String SINGLE_ITEM_ID;
+    public static ArrayList<Item> searchList=new ArrayList<>();
 }
 

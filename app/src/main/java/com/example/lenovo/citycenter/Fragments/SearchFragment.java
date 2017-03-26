@@ -4,6 +4,7 @@ package com.example.lenovo.citycenter.Fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,6 +27,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,15 +57,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class SearchFragment extends Fragment {
-
-
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -69,12 +70,11 @@ public class SearchFragment extends Fragment {
    ListView listView;
     JSONArray jsonArray;
     JSONObject jsonObject;
-    ArrayList<Item> itemArrayList ;
-    ArrayList<Item> singleitemArrayList ;
-
+ // static ArrayList<Item> itemArrayList;
     MyItemSearchAdapter myItemSearchAdapter;
     EditText editText;
-    ListView listView1;
+    ProgressBar progressBar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,12 +83,14 @@ public class SearchFragment extends Fragment {
          listView= (ListView) v.findViewById(R.id.items_name_list);
         editText= (EditText) v.findViewById(R.id.search_et);
         editText.setTypeface(MainActivity.font);
-        itemArrayList=new ArrayList<>();
-        String url="http://sodicservice.azurewebsites.net/Sodic/Item/GetAllSearchItems/search";
-        final StringRequest request=new StringRequest(Request.Method.GET,url,new Response.Listener<String>() {
+        Methods.FabToList(listView);
+        progressBar= (ProgressBar) v.findViewById(R.id.progress_bar);
+     //   itemArrayList =new ArrayList<>();
+        final StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_ALL_ITEM_SEARCH,new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
+
                 try {
                     JsonElement root=new JsonParser().parse(response);
                     response = root.getAsString();
@@ -100,10 +102,14 @@ public class SearchFragment extends Fragment {
                         item.setId(jsonObject.getString("ItemID"));
                         item.setName(Html.fromHtml(jsonObject.getString("Name_En")).toString());
                         item.setDescription(Html.fromHtml(jsonObject.getString("Description_En")).toString());
-                        itemArrayList.add(item);
+                        item.setPhone1(jsonObject.getString("Phone1"));
+
+                        //  itemArrayList.add(item);
+                        Variables.searchList.add(item);
                     }
-                    myItemSearchAdapter=new MyItemSearchAdapter(getContext(),android.R.layout.simple_list_item_1,itemArrayList);
+                    myItemSearchAdapter=new MyItemSearchAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.searchList);
                     listView.setAdapter(myItemSearchAdapter);
+                    progressBar.setVisibility(View.GONE);
 
                 }   catch (JSONException e) {
                     e.printStackTrace();
@@ -114,16 +120,29 @@ public class SearchFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                   }
         });
-        request.setRetryPolicy(new DefaultRetryPolicy(
+ /*       request.setRetryPolicy(new DefaultRetryPolicy(
                 20000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        RequestQueue queue= Volley.newRequestQueue(getContext());
-        queue.add(request);
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
+        if(Variables.searchList.size()<=0)
+        {
+            VolleySingleton.getInstance().addToRequestQueue(request);
+        }
+        else {
+            myItemSearchAdapter=new MyItemSearchAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.searchList);
+            listView.setAdapter(myItemSearchAdapter);
+            progressBar.setVisibility(View.GONE);
+
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+              //  imm.toggleSoftInputFromWindow(view.getWindowToken(),0,0);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
                 Item item=  myItemSearchAdapter.getItem(i);
                 Variables.SINGLE_ITEM_ID = String.valueOf(item.getId());
                 Fragment fragment = new SingleItemFragment();
@@ -136,25 +155,17 @@ public class SearchFragment extends Fragment {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                myItemSearchAdapter.getFilter().filter(charSequence);
-
-            }
-
+                myItemSearchAdapter.getFilter().filter(charSequence); }
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         });
-
         return v;
 }
 
     class MyItemSearchAdapter extends ArrayAdapter<Item> implements Filterable {
-
-
         Context context;
         ArrayList<Item> itemsList;
         ArrayList<Item> filterdList;
@@ -162,13 +173,21 @@ public class SearchFragment extends Fragment {
         public MyItemSearchAdapter(Context context, int resource, ArrayList<Item> itemsList) {
             super(context, resource,itemsList);
             this.context= context;
+            Collections.sort(itemsList, new Comparator<Item>() {
+                @Override
+                public int compare(Item o1, Item o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
             this.itemsList=itemsList;
             this.filterdList=itemsList;
         }
 
         class ViewHolder
-        {  TextView name;
-        Button call;}
+        {
+            TextView name;
+            Button call;
+        }
         @Override
         public View getView(final int position, View convertView, final ViewGroup parent) {
             ViewHolder holder = new ViewHolder();
@@ -186,7 +205,15 @@ public class SearchFragment extends Fragment {
                 final Item myItem = filterdList.get(position);
                 holder.call.setTypeface(MainActivity.font);
                 holder.name.setText(Html.fromHtml(myItem.getName()));
-
+                if (myItem.getPhone1().matches("null"))holder.call.setVisibility(View.GONE);else holder.call.setVisibility(View.VISIBLE);
+                holder.call.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                     //   context.startActivity(new Intent(Intent.ACTION_CALL).setData(Uri.parse("tel:" + phones_adapter.getItem(position))));
+                       getContext().startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + myItem.getPhone1())));
+                       // Methods.toast("call me",getContext());
+                    }
+                });
                 return  convertView;
             } catch (Exception e) {
                 return null;

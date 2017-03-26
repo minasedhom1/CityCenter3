@@ -4,16 +4,16 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_mallstores"
-            android:icon="@drawable/mallstores"
+            android:icon="@drawable/goods_icon"
             android:title="Goods"
             />
         <item
             android:id="@+id/nav_grandcinema"
-            android:icon="@drawable/movie_icon"
+            android:icon="@drawable/service_icon"
             android:title="Services" />
         <item
             android:id="@+id/nav_whatsnew"
-            android:icon="@drawable/star"
+            android:icon="@drawable/whatsnew_icon"
             android:title="Whats new?!" />
         <item
             android:id="@+id/nav_latest_offers"
@@ -22,7 +22,7 @@
 
         <item
             android:id="@+id/nav_fav"
-            android:icon="@drawable/heart"
+            android:icon="@drawable/favourites_icon"
             android:title="Favorite" />
      <!--   <item
         android:id="@+id/nav_notify"
@@ -36,7 +36,7 @@
                 android:title="Search" />
             <item
                 android:id="@+id/nav_contact_us"
-                android:icon="@drawable/mail"
+                android:icon="@drawable/contactus_icon"
                 android:title="Contact Us" />
         </group>
 

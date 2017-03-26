@@ -1,6 +1,5 @@
 package com.example.lenovo.citycenter.classes;
 
-import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -32,7 +31,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
 
     class ViewHolder {
         Button explore;
-        TextView shopName, shopDetails,subCat;
+        TextView catName, catDetails;
         ImageView categoryIcon;
     }
 
@@ -91,8 +90,8 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
             {LayoutInflater inflater = (LayoutInflater)  activity.getSystemService(LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.category_group, parent, false);
 
-                holder.shopName= (TextView) convertView.findViewById(R.id.shopNameTextView); //*******kont nasi el view.
-                holder.shopDetails = (TextView) convertView.findViewById(R.id.shopDetailsTextview);
+                holder.catName = (TextView) convertView.findViewById(R.id.shopNameTextView); //*******kont nasi el view.
+                holder.catDetails = (TextView) convertView.findViewById(R.id.shopDetailsTextview);
                 holder.categoryIcon = (ImageView) convertView.findViewById(R.id.shopPic);
                 holder.explore = (Button) convertView.findViewById(R.id.explore_btn);
                 convertView.setTag(holder);
@@ -102,11 +101,11 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
 
             final Category myCat=catArray.get(groupPosition); //final for each element
 
-            holder.shopName.setText(Html.fromHtml(Methods.htmlRender(myCat.get_name())), TextView.BufferType.SPANNABLE);
-            holder.shopDetails.setText(Html.fromHtml(myCat.get_details()));
+            holder.catName.setText(Html.fromHtml(Methods.htmlRender(myCat.get_name())));
+            holder.catDetails.setText(Html.fromHtml(myCat.get_details()));
 
             Picasso.with(activity).load(myCat.get_icon()).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.categoryIcon);
-            holder.shopName.setTextSize(16f);
+            holder.catName.setTextSize(16f);
             holder.explore.setTypeface(MainActivity.font);
             return convertView;
 

@@ -45,5 +45,6 @@ public class Urls {
         String URL_USER_RATE_FOR_ITEM= "http://sodicservice.azurewebsites.net/sodic/Rate/UpdateAccountRate/Updata?itemID="+itemID+"&star="+star+"&AccountID="+Variables.ACCOUNT_ID+"";
         return URL_USER_RATE_FOR_ITEM;
     }
+    public static String URL_ALL_ITEM_SEARCH="http://sodicservice.azurewebsites.net/Sodic/Item/GetAllSearchItems/search";
 //"https://www.google.com/maps/d/viewer?mid=1Xe4NoLjHr3ftUvinoY8v8UhyxjA&ll=30.072141670076693%2C31.144612250000023&z=11"
 }

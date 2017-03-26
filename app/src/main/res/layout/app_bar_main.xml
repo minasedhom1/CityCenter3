@@ -53,12 +53,12 @@
         android:layout_height="35dp"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@mipmap/spinup"
+        android:src="@mipmap/spinup"
          android:alpha="0.8"
         app:fabSize="mini"
         app:elevation="7dp"
         app:fab_shadow="true"
-        app:backgroundTint="#cc000000" />
+        app:backgroundTint="#dbdbdb" />
 <!--<include android:layout_width="match_parent"
     android:layout_height="match_parent"
     layout="@layout/content_main"/>-->

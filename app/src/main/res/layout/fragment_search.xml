@@ -21,18 +21,25 @@
         android:textSize="20sp"
         android:background="#fff"
        android:paddingLeft="10dp"
-        android:drawableLeft="@drawable/searchicon"
+        android:drawableLeft="@drawable/searchicon2"
         android:hint="Search...."
         android:id="@+id/search_et"
         android:drawablePadding="5dp"/>
     </FrameLayout>
-
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/items_name_list"
         android:focusable="true"
-        android:clickable="true"
- />
-
+        android:clickable="true" />
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:id="@+id/progress_bar"
+        />
+</FrameLayout>
 </LinearLayout>

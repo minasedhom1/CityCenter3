@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Item implements Serializable{
 
-   private String id,name,description ,photo1,phone1,phone2,phone3,phone4,phone5,categoryName,subcategoryName,city,region
+   private String id,name,description ,photo1,phone1="0000",phone2,phone3,phone4,phone5,categoryName,subcategoryName,city,region
            ,site,categoryID,menu_url,promoText,promoButton,promo_pdf,url_btn_text,numOfPersonsRate;
    private float rate;
     private boolean isPromo,isRaty;
