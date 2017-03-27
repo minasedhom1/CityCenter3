@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
+import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -24,6 +26,7 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -66,7 +69,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
     Context context;
     List<Item> itemsList;
     ProgressBar progressBar;
-
 
     public MyItemAdapter(Context context, int resource, List<Item> itemsList) {
         super(context, resource,itemsList);
@@ -117,6 +119,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
 
                 holder.name.setText(Html.fromHtml(myItem.getName()));
+                holder.name.setTextSize(18);
                 String des = String.valueOf(Html.fromHtml(myItem.getDescription()));
                 des = des.replace("\n\n", "\n");
                 holder.description.setText(des);
@@ -449,6 +452,77 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 }
 /*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
-    
+  /*  private class UriWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+            String host = Uri.parse(url).getHost();
+
+            return !host.equals("m.facebook.com");
+
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            String host = Uri.parse(url).getHost();
+            setLoading(false);
+            if (url.contains("/plugins/close_popup.php?reload")) {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Do something after 100ms
+                        mContainer.removeView(mWebviewPop);
+                        loadComments();
+                    }
+                }, 600);
+            }
+        }
+
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler,
+                                       SslError error) {
+            setLoading(false);
+        }
+    }
+
+
+    class UriChromeClient extends WebChromeClient {
+    private WebView mWebviewPop;
+    @Override
+    public boolean onCreateWindow(WebView view, boolean isDialog,
+                                  boolean isUserGesture, Message resultMsg) {
+        mWebviewPop = new WebView(getContext());
+        mWebviewPop.setVerticalScrollBarEnabled(false);
+        mWebviewPop.setHorizontalScrollBarEnabled(false);
+        mWebviewPop.setWebViewClient(new UriWebViewClient());
+        mWebviewPop.setWebChromeClient(this);
+        mWebviewPop.getSettings().setJavaScriptEnabled(true);
+        mWebviewPop.getSettings().setDomStorageEnabled(true);
+        mWebviewPop.getSettings().setSupportZoom(false);
+        mWebviewPop.getSettings().setBuiltInZoomControls(false);
+        mWebviewPop.getSettings().setSupportMultipleWindows(true);
+        mWebviewPop.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        mContainer.addView(mWebviewPop);
+        WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+        transport.setWebView(mWebviewPop);
+        resultMsg.sendToTarget();
+
+        return true;
+    }
+
+    @Override
+    public boolean onConsoleMessage(ConsoleMessage cm) {
+     //   Log.i(TAG, "onConsoleMessage: " + cm.message());
+        return true;
+    }
+
+    @Override
+    public void onCloseWindow(WebView window) {
+    }
+}
+    */
     }
 

@@ -91,7 +91,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
                 convertView = inflater.inflate(R.layout.category_group, parent, false);
 
                 holder.catName = (TextView) convertView.findViewById(R.id.shopNameTextView); //*******kont nasi el view.
-                holder.catDetails = (TextView) convertView.findViewById(R.id.shopDetailsTextview);
+                holder.catDetails = (TextView) convertView.findViewById(R.id.category_details_tv);
                 holder.categoryIcon = (ImageView) convertView.findViewById(R.id.shopPic);
                 holder.explore = (Button) convertView.findViewById(R.id.explore_btn);
                 convertView.setTag(holder);

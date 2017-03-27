@@ -124,7 +124,7 @@ public class SearchFragment extends Fragment {
                 20000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
-        if(Variables.searchList.size()<=0)
+        if(Variables.searchList.size()==0)
         {
             VolleySingleton.getInstance().addToRequestQueue(request);
         }

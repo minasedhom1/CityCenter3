@@ -14,11 +14,12 @@
         android:paddingTop="7dp"
         android:paddingBottom="7dp"
         android:paddingStart="5dp"
-        android:paddingEnd="5dp">
+        android:paddingEnd="5dp"
+        android:alpha="0.5">
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:textSize="20sp"
+        android:layout_height="30dp"
+        android:textSize="18sp"
         android:background="#fff"
        android:paddingLeft="10dp"
         android:drawableLeft="@drawable/searchicon2"

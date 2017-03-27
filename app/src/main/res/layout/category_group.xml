@@ -40,7 +40,6 @@
 
             />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,19 +49,17 @@
             android:clickable="false"
             android:focusableInTouchMode="false"
             >
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="95dp"
                 android:text="Category detail"
                 android:gravity="start"
-                android:id="@+id/shopDetailsTextview"
+                android:id="@+id/category_details_tv"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
                 />
-
             <Button
                 android:layout_width="80dp"
                 android:layout_height="30dp"

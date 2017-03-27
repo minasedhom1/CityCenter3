@@ -344,7 +344,7 @@ void showEveryThing()
         }
 //.addToBackStack(fragment.getClass().getName()) //for back stack
         Variables.ITEM_PATH = item.getTitle().toString();
-        fragmentManager.beginTransaction().replace(R.id.frag_holder, fragment).commit();
+        fragmentManager.beginTransaction().setCustomAnimations(R.anim.pop_enter, R.anim.pop_exit).replace(R.id.frag_holder, fragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START, true);
         return true;
@@ -366,7 +366,7 @@ void showEveryThing()
         } catch (Exception e) {
             e.printStackTrace();
         }
-        fragmentManager.beginTransaction().addToBackStack("cat").replace(R.id.frag_holder, fragment).commit();
+        getSupportFragmentManager().beginTransaction().addToBackStack("cat").replace(R.id.frag_holder, fragment).commit();
     }
 
 
