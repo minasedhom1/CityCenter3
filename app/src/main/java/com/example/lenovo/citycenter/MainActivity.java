@@ -39,6 +39,7 @@ import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.Fragments.ItemsFragment;
+import com.example.lenovo.citycenter.Fragments.NotificationsListFragment;
 import com.example.lenovo.citycenter.Fragments.SearchFragment;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.Fragments.Categories;
@@ -236,6 +237,19 @@ void showEveryThing()
 
  /*------------------------------------------------------Signature-------------------------------------------------------------------------------------*/
         View image = findViewById(R.id.logo_header);
+        View notif= findViewById(R.id.notify_icon);
+    notif.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            fragmentClass = NotificationsListFragment.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.pop_enter, R.anim.pop_exit).addToBackStack(null).replace(R.id.frag_holder, fragment).commit();
+        }
+    });
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

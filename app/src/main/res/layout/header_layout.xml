@@ -7,10 +7,12 @@
 
     android:gravity="top">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@mipmap/baner2"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
 
 >
 <!--
@@ -37,24 +39,33 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/logo2"
             android:id="@+id/logo_header"
-android:layout_alignParentRight="true"
+            android:layout_alignParentRight="true"
             android:soundEffectsEnabled="false"
             android:paddingBottom="3dp"
             android:paddingTop="3dp"
-            android:layout_marginRight="-60dp"/>
+            android:layout_gravity="center_horizontal"
+            />
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
             app:srcCompat="@mipmap/nav_icon"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+           />
+        <ImageView
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            app:srcCompat="@mipmap/notificationicon"
             android:layout_marginLeft="13dp"
             android:layout_marginStart="13dp"
             android:layout_marginTop="10dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
-           />
+            android:layout_gravity="right"
+            android:id="@+id/notify_icon"
+
+            />
 
         <!--     <LinearLayout
                 android:layout_width="wrap_content"
@@ -101,5 +112,5 @@ android:layout_alignParentRight="true"
                     </LinearLayout>
             </LinearLayout>-->
 
-    </RelativeLayout>
+    </FrameLayout>
 </LinearLayout>

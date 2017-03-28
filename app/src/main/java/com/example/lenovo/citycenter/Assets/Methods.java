@@ -1,8 +1,11 @@
 package com.example.lenovo.citycenter.Assets;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
@@ -18,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.lenovo.citycenter.Fragments.Categories;
 import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
@@ -49,10 +53,12 @@ public class Methods {
         ss = ss.replace(";\"", "");
         ss = ss.replaceAll("<p>", "");
         ss = ss.replaceAll("</p>", ""); //********
-      //  if(ss.contains("<p style=\"text-align: left>"))
         ss=ss.replace("<p style=\"text-align: left>","");
         if(ss.startsWith("<strong"))
         {ss=ss.replace("strong","font");}
+        if (ss.contains("CoK Guzel"))
+            {ss=ss.replace("<font style=\"background-color: #ffffff>","");
+            ss=ss.replaceFirst("</font>","");}
         return ss;
     }
 
@@ -122,6 +128,18 @@ public class Methods {
             }
         });
     }
+
+/*    public static  void FragReplace(Context context, Class fragmentClass) {
+        Activity activity = (Activity) context;
+        fragmentClass = Categories.class;
+        try {
+          Fragment  fragment = (Fragment) fragmentClass.newInstance();
+
+        activity.getFragmentManager().beginTransaction().addToBackStack("f").replace(R.id.frag_holder, fragment).commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
 }
 /*
     public ArrayList<Item> get_items(String url,Context context) {
