@@ -13,6 +13,8 @@ import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.google.firebase.messaging.RemoteMessage;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
+
 /**
  * Created by mido on 2/14/2017.
  */
@@ -27,6 +29,8 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
       /* title=remoteMessage.getNotification().getTitle();*/
      /*   msg=remoteMessage.getNotification().getBody();*/
         sendNotification(remoteMessage.getNotification().getBody());      //  Toast.makeText(MyFirebaseMessagingService.this.getApplicationContext(),remoteMessage.getNotification().getBody(),Toast.LENGTH_LONG).show();
+        ShortcutBadger.applyCount(getApplicationContext(), 1);
+
     }
 
     private void sendNotification(String msg) {
@@ -40,7 +44,9 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
                         .setAutoCancel(true)
                         .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
                         .setContentTitle("Sa3edny")
-                        .setContentText(msg);
+                        .setContentText(msg)
+                        .setNumber(5);
+
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(1, mBuilder.build());
     }

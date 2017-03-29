@@ -56,7 +56,7 @@
         <ImageView
             android:layout_width="23dp"
             android:layout_height="23dp"
-            app:srcCompat="@mipmap/notificationicon"
+            app:srcCompat="@mipmap/notificationicon2"
             android:layout_marginLeft="13dp"
             android:layout_marginStart="13dp"
             android:layout_marginTop="10dp"

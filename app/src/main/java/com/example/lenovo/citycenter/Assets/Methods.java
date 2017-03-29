@@ -74,6 +74,7 @@ public class Methods {
 
     public static void setPath(View v) {
         TextView path = (TextView) v.findViewById(R.id.item_path_tv);
+
         path.setTextSize(16);
         path.setText(Html.fromHtml(Variables.ITEM_PATH));
     }

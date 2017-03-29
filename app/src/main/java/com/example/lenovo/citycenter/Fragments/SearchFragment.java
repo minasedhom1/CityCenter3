@@ -242,6 +242,7 @@ public class SearchFragment extends Fragment {
                         results.values = itemsList;
                         results.count = itemsList.size();
                     }
+
                     else
                     {
                         ArrayList<Item> filterResultsData = new ArrayList<Item>();

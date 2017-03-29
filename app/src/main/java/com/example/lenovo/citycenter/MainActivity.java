@@ -65,6 +65,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -90,6 +91,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("device_token",PreferenceManager.getDefaultSharedPreferences(this).getString("TOKEN", "NothingFound"));
+        int badgeCount = 1;
+        ShortcutBadger.applyCount(getApplicationContext(), badgeCount);
+        //for 1.1.4+
 /* logo_anim= (ImageView) findViewById(R.id.logo_animm);
         hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);
         logo_anim.startAnimation(hyperspaceJumpAnimation);
@@ -247,7 +252,7 @@ void showEveryThing()
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.pop_enter, R.anim.pop_exit).addToBackStack(null).replace(R.id.frag_holder, fragment).commit();
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_up,R.anim.slide_down).addToBackStack(null).replace(R.id.frag_holder, fragment).commit();
         }
     });
         image.setOnClickListener(new View.OnClickListener() {
