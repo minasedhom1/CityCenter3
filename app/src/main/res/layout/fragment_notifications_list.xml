@@ -8,5 +8,12 @@
 <ListView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:entries="@array/rate_values"/>
+    android:id="@+id/notification_list"/>
+
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        android:id="@+id/progress_bar"/>
 </FrameLayout>

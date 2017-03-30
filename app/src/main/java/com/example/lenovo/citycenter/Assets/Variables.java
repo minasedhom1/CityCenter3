@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 
 public class Variables {
-
+    public  static  int badgeCount;
     public  static String catID;
     public  static String DEVICE_TOKEN;
     public static String ACCOUNT_ID;

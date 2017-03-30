@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+>
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/notificationicon"
+        android:id="@+id/noti_icon"
+        android:background="#e2e2e2"/>
+<TextView
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:paddingLeft="20dp"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/notif_desc_tv"
+    android:text="\kdhc\ldc"
+
+    android:textSize="20sp"
+    />
+</LinearLayout>

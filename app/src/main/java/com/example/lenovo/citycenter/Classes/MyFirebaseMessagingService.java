@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.google.firebase.messaging.RemoteMessage;
@@ -28,8 +29,9 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
         Log.d("tag", "Notification Message Body: " + remoteMessage.getNotification().getBody());
       /* title=remoteMessage.getNotification().getTitle();*/
      /*   msg=remoteMessage.getNotification().getBody();*/
-        sendNotification(remoteMessage.getNotification().getBody());      //  Toast.makeText(MyFirebaseMessagingService.this.getApplicationContext(),remoteMessage.getNotification().getBody(),Toast.LENGTH_LONG).show();
-        ShortcutBadger.applyCount(getApplicationContext(), 1);
+        sendNotification(remoteMessage.getNotification().getBody());//  Toast.makeText(MyFirebaseMessagingService.this.getApplicationContext(),remoteMessage.getNotification().getBody(),Toast.LENGTH_LONG).show();
+
+        ShortcutBadger.applyCount(getApplicationContext(), ++Variables.badgeCount );
 
     }
 
@@ -44,8 +46,9 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
                         .setAutoCancel(true)
                         .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
                         .setContentTitle("Sa3edny")
-                        .setContentText(msg)
-                        .setNumber(5);
+                        .setContentText(msg);
+
+
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(1, mBuilder.build());

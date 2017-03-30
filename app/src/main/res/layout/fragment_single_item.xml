@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.lenovo.citycenter.classes.SingleItemFragment">
+    tools:context="com.example.lenovo.citycenter.Fragments.SingleItemFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ListView

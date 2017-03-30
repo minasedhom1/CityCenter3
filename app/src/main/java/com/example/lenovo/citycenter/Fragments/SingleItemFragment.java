@@ -1,4 +1,4 @@
-package com.example.lenovo.citycenter.classes;
+package com.example.lenovo.citycenter.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,11 +15,15 @@ import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.R;
+import com.example.lenovo.citycenter.classes.Item;
+import com.example.lenovo.citycenter.classes.MyItemAdapter;
+import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -96,8 +100,13 @@ ArrayList<Item> singleitemArrayList;
                             e.printStackTrace();
                         }
                     }
-                },null);
-        VolleySingleton.getInstance().addToRequestQueue(request1);
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Methods.toast(error.toString(),getContext());
+
+            }});
+                 VolleySingleton.getInstance().addToRequestQueue(request1);
 
 
         return v;

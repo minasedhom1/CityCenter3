@@ -1,5 +1,4 @@
 package com.example.lenovo.citycenter;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,7 +29,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -45,6 +43,7 @@ import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.Fragments.Categories;
 import com.example.lenovo.citycenter.Fragments.ContactUs;
 import com.example.lenovo.citycenter.Fragments.GrandCinema;
+import com.example.lenovo.citycenter.classes.Notification;
 import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -55,10 +54,10 @@ import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.security.MessageDigest;
@@ -80,8 +79,6 @@ public class MainActivity extends AppCompatActivity
     View navHed;
     Button tryConnect;
     public static Typeface font;
-    private static String DEVICE_TOKEN;
-
     public static FloatingActionButton fab;
     Animation hyperspaceJumpAnimation;
     ImageView logo_anim;
@@ -90,28 +87,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Log.d("device_token",PreferenceManager.getDefaultSharedPreferences(this).getString("TOKEN", "NothingFound"));
-        int badgeCount = 1;
-        ShortcutBadger.applyCount(getApplicationContext(), badgeCount);
-        //for 1.1.4+
-/* logo_anim= (ImageView) findViewById(R.id.logo_animm);
-        hyperspaceJumpAnimation = AnimationUtils.loadAnimation(this, R.anim.hyperspace_jump);
-        logo_anim.startAnimation(hyperspaceJumpAnimation);
-         hyperspaceJumpAnimation.setAnimationListener(new Animation.AnimationListener() {
-             @Override
-             public void onAnimationStart(Animation animation) {
-             }
-             @Override
-             public void onAnimationEnd(Animation animation) {
-                 View view=findViewById(R.id.splash_layout);
-                 view.setVisibility(View.INVISIBLE);
-             }
-             @Override
-             public void onAnimationRepeat(Animation animation) {
-             }
-         });*/
-/*---------------------------------------------------------------------------------------------------------------------------------*/
 
         tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -155,13 +130,6 @@ public class MainActivity extends AppCompatActivity
         navHed = navigationView.getHeaderView(0);
         faceName = (TextView) navHed.findViewById(R.id.name_tv);
         imageView = (ImageView) navHed.findViewById(R.id.prof_image);
-
-       /* View header_view = findViewById(R.id.header_layout);
-        final ImageView home_prof = (ImageView) header_view.findViewById(R.id.home_prof);
-        final TextView home_name = (TextView) header_view.findViewById(R.id.home_name);
-        LikeView likeView = (LikeView) header_view.findViewById(R.id.fb_like_btn);
-        likeView.setLikeViewStyle(LikeView.Style.BUTTON);
-        likeView.setObjectIdAndType("https://www.facebook.com/sa3ednyapps/", LikeView.ObjectType.PAGE);*/
  /*---------------------------------------------------------------------------------------------------------------------------------*/
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();
@@ -235,10 +203,7 @@ void showEveryThing()
         };
         profileTracker.startTracking();
  /*-------------------------------------------------------------check if token is saved or not--------------------------------------------------------------------*/
-        //Boolean b=PreferenceManager.getDefaultSharedPreferences(this).getBoolean("TOKEN_SAVED",false);
-        //  add_device_token();  //add your device token to DB
-        // add_device_token();
- /*--------------------------------------------------------------------------------------------------------------------------------------------*/
+
 
  /*------------------------------------------------------Signature-------------------------------------------------------------------------------------*/
         View image = findViewById(R.id.logo_header);
@@ -246,7 +211,11 @@ void showEveryThing()
     notif.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            fragmentClass = NotificationsListFragment.class;
+            ShortcutBadger.removeCount(getApplicationContext());
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
+            if (fragment instanceof NotificationsListFragment) { }
+             else
+            { fragmentClass = NotificationsListFragment.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
@@ -254,7 +223,30 @@ void showEveryThing()
             }
             getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_up,R.anim.slide_down).addToBackStack(null).replace(R.id.frag_holder, fragment).commit();
         }
-    });
+    }}
+
+    );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

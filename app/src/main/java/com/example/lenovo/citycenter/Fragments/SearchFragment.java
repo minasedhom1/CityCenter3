@@ -1,7 +1,6 @@
 package com.example.lenovo.citycenter.Fragments;
 
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,45 +11,33 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
 import com.example.lenovo.citycenter.classes.Item;
-import com.example.lenovo.citycenter.classes.MyItemAdapter;
-import com.example.lenovo.citycenter.classes.SingleItemFragment;
 import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -118,8 +105,9 @@ public class SearchFragment extends Fragment {
         },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                  }
-        });
+                        Methods.toast(error.toString(),getContext());
+
+        }});
  /*       request.setRetryPolicy(new DefaultRetryPolicy(
                 20000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
