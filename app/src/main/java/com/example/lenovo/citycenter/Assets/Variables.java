@@ -1,6 +1,7 @@
 package com.example.lenovo.citycenter.Assets;
 
 import com.example.lenovo.citycenter.classes.Item;
+import com.example.lenovo.citycenter.classes.Notification;
 
 import java.util.ArrayList;
 
@@ -13,10 +14,11 @@ public class Variables {
     public  static String catID;
     public  static String DEVICE_TOKEN;
     public static String ACCOUNT_ID;
-    public  static  String ITEM_PATH;
+    public  static  String ITEM_PATH="";
     public  static boolean IS_RATY_CATEGORY;
-    public  static ArrayList<String> fav_ids;
+    public  static ArrayList<String> fav_ids=new ArrayList<>();;
     public static String SINGLE_ITEM_ID;
     public static ArrayList<Item> searchList=new ArrayList<>();
+    public static ArrayList<Notification> notificationList=new ArrayList<>();
 }
 

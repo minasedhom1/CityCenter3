@@ -64,8 +64,6 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class MyItemAdapter extends ArrayAdapter<Item> {
     ShareDialog shareDialog ;
-
-
     Context context;
     List<Item> itemsList;
     ProgressBar progressBar;
@@ -320,8 +318,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
                         if (Variables.ACCOUNT_ID != null) {
                             if (position > 0) {
-                            //    RequestQueue queue = Volley.newRequestQueue(getContext());
-                            //    queue.add(request);
                                 VolleySingleton.getInstance().addToRequestQueue(request);
 
                             }
@@ -352,6 +348,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 return convertView;
 
             } catch (Exception e) {
+              //  Methods.toast(e.getMessage(),getContext());
                 return null;
             }
 
@@ -452,77 +449,5 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 }
 /*--------------------------------------------------------------------------------------------------------------------------------------------*/
 
-  /*  private class UriWebViewClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-            String host = Uri.parse(url).getHost();
-
-            return !host.equals("m.facebook.com");
-
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            String host = Uri.parse(url).getHost();
-            setLoading(false);
-            if (url.contains("/plugins/close_popup.php?reload")) {
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Do something after 100ms
-                        mContainer.removeView(mWebviewPop);
-                        loadComments();
-                    }
-                }, 600);
-            }
-        }
-
-        @Override
-        public void onReceivedSslError(WebView view, SslErrorHandler handler,
-                                       SslError error) {
-            setLoading(false);
-        }
-    }
-
-
-    class UriChromeClient extends WebChromeClient {
-    private WebView mWebviewPop;
-    @Override
-    public boolean onCreateWindow(WebView view, boolean isDialog,
-                                  boolean isUserGesture, Message resultMsg) {
-        mWebviewPop = new WebView(getContext());
-        mWebviewPop.setVerticalScrollBarEnabled(false);
-        mWebviewPop.setHorizontalScrollBarEnabled(false);
-        mWebviewPop.setWebViewClient(new UriWebViewClient());
-        mWebviewPop.setWebChromeClient(this);
-        mWebviewPop.getSettings().setJavaScriptEnabled(true);
-        mWebviewPop.getSettings().setDomStorageEnabled(true);
-        mWebviewPop.getSettings().setSupportZoom(false);
-        mWebviewPop.getSettings().setBuiltInZoomControls(false);
-        mWebviewPop.getSettings().setSupportMultipleWindows(true);
-        mWebviewPop.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        mContainer.addView(mWebviewPop);
-        WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
-        transport.setWebView(mWebviewPop);
-        resultMsg.sendToTarget();
-
-        return true;
-    }
-
-    @Override
-    public boolean onConsoleMessage(ConsoleMessage cm) {
-     //   Log.i(TAG, "onConsoleMessage: " + cm.message());
-        return true;
-    }
-
-    @Override
-    public void onCloseWindow(WebView window) {
-    }
-}
-    */
     }
 

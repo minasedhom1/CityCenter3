@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -34,26 +35,9 @@ import java.util.ArrayList;
 
 public class SingleItemFragment extends Fragment {
 
-
-    public SingleItemFragment() {
-        // Required empty public constructor
-    }
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-ArrayList<Item> singleitemArrayList;
-    ListView listView1;
-    MyItemAdapter itemAdapter;
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-                View v=inflater.inflate(R.layout.fragment_single_item, container, false);
-        listView1 = (ListView) v.findViewById(R.id.list_single_item);
         singleitemArrayList=new ArrayList<Item>();
         StringRequest request1=new StringRequest(Request.Method.POST,
                 "http://sodicservice.azurewebsites.net/Sodic/Item?itemID="+Variables.SINGLE_ITEM_ID,
@@ -96,6 +80,7 @@ ArrayList<Item> singleitemArrayList;
                             singleitemArrayList.add(item);
                             itemAdapter=new MyItemAdapter(getContext(),android.R.layout.simple_list_item_1,singleitemArrayList);
                             listView1.setAdapter(itemAdapter);
+                            progressBar.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -104,9 +89,21 @@ ArrayList<Item> singleitemArrayList;
             @Override
             public void onErrorResponse(VolleyError error) {
                 Methods.toast(error.toString(),getContext());
-
             }});
-                 VolleySingleton.getInstance().addToRequestQueue(request1);
+
+        VolleySingleton.getInstance().addToRequestQueue(request1);
+
+    }
+ArrayList<Item> singleitemArrayList;
+    ListView listView1;
+    MyItemAdapter itemAdapter;
+    ProgressBar progressBar;
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+                View v=inflater.inflate(R.layout.fragment_single_item, container, false);
+        listView1 = (ListView) v.findViewById(R.id.list_single_item);
+        progressBar= (ProgressBar) v.findViewById(R.id.progress_bar);
 
 
         return v;

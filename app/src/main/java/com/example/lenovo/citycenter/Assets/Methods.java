@@ -80,7 +80,6 @@ public class Methods {
     }
 
    public static void getFavIds(final Context context) {
-        Variables.fav_ids=new ArrayList<>();
         final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,
                 new Response.Listener<String>() {
                     @Override
@@ -107,8 +106,9 @@ public class Methods {
             }
         });
        if(Variables.ACCOUNT_ID!=null)
-       { VolleySingleton.getInstance().addToRequestQueue(favrequest);}
-
+       {    if(Variables.fav_ids.size()==0)
+        VolleySingleton.getInstance().addToRequestQueue(favrequest);}
+          else {}
    }
 
     public static void FabToList(final ListView listView){
@@ -128,7 +128,11 @@ public class Methods {
                 else  MainActivity.fab.show();
             }
         });
+
+
     }
+
+
 
 /*    public static  void FragReplace(Context context, Class fragmentClass) {
         Activity activity = (Activity) context;

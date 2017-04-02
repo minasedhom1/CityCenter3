@@ -46,20 +46,21 @@
             android:layout_gravity="center_horizontal"
             />
         <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
             app:srcCompat="@mipmap/nav_icon"
             android:layout_marginTop="10dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
            />
         <ImageView
-            android:layout_width="23dp"
-            android:layout_height="23dp"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:background="@drawable/call_search_list"
             app:srcCompat="@mipmap/notificationicon2"
             android:layout_marginLeft="13dp"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="12dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:layout_gravity="right"

@@ -39,6 +39,7 @@ import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.Fragments.ItemsFragment;
 import com.example.lenovo.citycenter.Fragments.NotificationsListFragment;
 import com.example.lenovo.citycenter.Fragments.SearchFragment;
+import com.example.lenovo.citycenter.classes.GetAllItemsService;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.Fragments.Categories;
 import com.example.lenovo.citycenter.Fragments.ContactUs;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity
     Animation hyperspaceJumpAnimation;
     ImageView logo_anim;
     NavigationView navigationView;
+    public int click = 0;
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity
         tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         font = Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf");
-
+       startService(new Intent(getApplicationContext(), GetAllItemsService.class));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -212,37 +214,28 @@ void showEveryThing()
         @Override
         public void onClick(View v) {
             ShortcutBadger.removeCount(getApplicationContext());
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
-            if (fragment instanceof NotificationsListFragment) { }
-             else
-            { fragmentClass = NotificationsListFragment.class;
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_up,R.anim.slide_down).addToBackStack(null).replace(R.id.frag_holder, fragment).commit();
-        }
+       /*     if (click == 0) {
+                 click = 1;*/
+               Variables.ITEM_PATH="Notifications";
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
+                if (fragment instanceof NotificationsListFragment) { }
+                else
+                { fragmentClass = NotificationsListFragment.class;
+                    try {
+                        fragment = (Fragment) fragmentClass.newInstance();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_up,R.anim.slide_down).replace(R.id.frag_holder, fragment).addToBackStack("not").commit();
+                }
+      /*      }
+            else
+
+            {click=0; onBackPressed();}
+*/
     }}
 
     );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -299,14 +292,16 @@ void showEveryThing()
     @Override
     public void onBackPressed() {
 
-/*   Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
-        Methods.toast(currentFragment.getClass().getSimpleName(),this);
-        fragmentManager.popBackStackImmediate("cat",0);*/
-        //mainFrag();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else   if (fragmentManager.getBackStackEntryCount() <= 1) {
+            finish();
+            return;
+        }
+        else {
+
             super.onBackPressed();
         }
     }
@@ -324,7 +319,6 @@ void showEveryThing()
             fragmentClass = GrandCinema.class;
 
         } else if (id == R.id.nav_whatsnew) {
-           // fragmentClass = WhatsNew.class;
             fragmentClass = ItemsFragment.class; // LatestOffers.class;
             GetDataRequest.setUrl(Urls.URL_GET_NEW_ITEMS);
 
@@ -353,14 +347,13 @@ void showEveryThing()
         } catch (Exception e) {
             e.printStackTrace();
         }
-//.addToBackStack(fragment.getClass().getName()) //for back stack
+
         Variables.ITEM_PATH = item.getTitle().toString();
         fragmentManager.beginTransaction().setCustomAnimations(R.anim.pop_enter, R.anim.pop_exit).replace(R.id.frag_holder, fragment).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START, true);
         return true;
     }
-
 
 
     @Override
@@ -380,28 +373,6 @@ void showEveryThing()
         getSupportFragmentManager().beginTransaction().addToBackStack("cat").replace(R.id.frag_holder, fragment).commit();
     }
 
-
-    /*public void add_device_token() {
-        StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_DEVICE_TOKEN + DEVICE_TOKEN, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                JsonElement root = new JsonParser().parse(response);
-                root = new JsonParser().parse(root.getAsString());   //double parse
-                response = root.getAsString();
-                try {
-                    JSONObject obj = new JSONObject(response);
-                    String status = obj.getString("Status");
-                    if(status.matches("Success saved")||status.matches("Already Exists"))
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("TOKEN_SAVED", true).apply();
-                    Toast.makeText(MainActivity.this, status, Toast.LENGTH_LONG).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, null);
-        queue.add(postReq);
-    }*/
-
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -409,22 +380,6 @@ void showEveryThing()
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    void keyhash() {
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.lenovo.citycenter",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
-}
 
     void getAccID()
     {
@@ -453,6 +408,25 @@ void showEveryThing()
         VolleySingleton.getInstance().addToRequestQueue(postReq);
 
     }
+
+    /*    void keyhash() {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.example.lenovo.citycenter",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
+}
+*/
+
 }
 
 
