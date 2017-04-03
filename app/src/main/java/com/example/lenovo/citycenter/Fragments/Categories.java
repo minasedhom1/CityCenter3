@@ -1,9 +1,10 @@
 package com.example.lenovo.citycenter.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -15,10 +16,10 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.lenovo.citycenter.classes.BackGroundService;
 import com.example.lenovo.citycenter.Assets.Methods;
 import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
@@ -43,11 +44,16 @@ public class Categories extends Fragment {
     ExpandListAdpter expandListAdpter;
     JSONArray jsonArray;
 //    FloatingActionButton fab;
+    Intent mServiceIntent;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+      /*  mServiceIntent = new Intent(getContext(), BackGroundService.class);
+        getContext().startService(mServiceIntent);
+*/
         Methods.getFavIds(getContext());
+
          categoryArrayList = new ArrayList<>();
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
 

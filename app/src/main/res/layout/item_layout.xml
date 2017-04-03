@@ -14,12 +14,11 @@
     <ImageView
         android:contentDescription="an Image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:src="@mipmap/carfor"
         android:id="@+id/item_icon"
         android:background="#fff"
         android:layout_gravity="center"
-        android:layout_weight="1.14"
         />
 <View  android:layout_width="match_parent"
     android:layout_height="1dp"

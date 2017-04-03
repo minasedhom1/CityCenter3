@@ -1,13 +1,17 @@
 package com.example.lenovo.citycenter.Fragments;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -34,6 +38,7 @@ import com.example.lenovo.citycenter.Assets.Urls;
 import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.MainActivity;
 import com.example.lenovo.citycenter.R;
+import com.example.lenovo.citycenter.classes.BackGroundService;
 import com.example.lenovo.citycenter.classes.Item;
 import com.example.lenovo.citycenter.classes.VolleySingleton;
 import com.google.gson.JsonElement;
@@ -57,7 +62,7 @@ public class SearchFragment extends Fragment {
    ListView listView;
     JSONArray jsonArray;
     JSONObject jsonObject;
- // static ArrayList<Item> itemArrayList;
+    ArrayList<Item> itemArrayList;
     MyItemSearchAdapter myItemSearchAdapter;
     EditText editText;
     ProgressBar progressBar;
@@ -73,7 +78,16 @@ public class SearchFragment extends Fragment {
         editText.setTypeface(MainActivity.font);
         Methods.FabToList(listView);
         progressBar= (ProgressBar) v.findViewById(R.id.progress_bar);
-     //   itemArrayList =new ArrayList<>();
+        itemArrayList =new ArrayList<>();
+
+        if(Variables.searchList.size()!=0)
+        {
+            myItemSearchAdapter=new MyItemSearchAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.searchList);
+            listView.setAdapter(myItemSearchAdapter);
+            progressBar.setVisibility(View.GONE);
+        }
+        else {}
+        /*
         final StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_ALL_ITEM_SEARCH,new Response.Listener<String>() {
 
             @Override
@@ -109,10 +123,10 @@ public class SearchFragment extends Fragment {
                         Methods.toast(error.toString(),getContext());
 
         }});
- /*       request.setRetryPolicy(new DefaultRetryPolicy(
+ *//*       request.setRetryPolicy(new DefaultRetryPolicy(
                 20000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*//*
         if(Variables.searchList.size()==0)
         {
             VolleySingleton.getInstance().addToRequestQueue(request);
@@ -122,7 +136,30 @@ public class SearchFragment extends Fragment {
             listView.setAdapter(myItemSearchAdapter);
             progressBar.setVisibility(View.GONE);
 
-        }
+        }*/
+/**********************************************************************************************************************************************/
+        // The filter's action is BROADCAST_ACTION
+        IntentFilter statusIntentFilter = new IntentFilter(
+                "GETITEMS");
+        /*        // Adds a data filter for the HTTP scheme
+        statusIntentFilter.addDataScheme("http");*/
+        // Instantiates a new DownloadStateReceiver
+
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //itemArrayList =(ArrayList<Item>) intent.getSerializableExtra("SEARCHITEMS");
+                myItemSearchAdapter=new MyItemSearchAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.searchList);
+                listView.setAdapter(myItemSearchAdapter);
+                progressBar.setVisibility(View.GONE);
+            }
+        };
+        // Registers the DownloadStateReceiver and its intent filters
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(
+                broadcastReceiver,
+                statusIntentFilter);
+/**********************************************************************************************************************************************/
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -131,7 +168,6 @@ public class SearchFragment extends Fragment {
                     InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
               //  imm.toggleSoftInputFromWindow(view.getWindowToken(),0,0);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
                 Item item=  myItemSearchAdapter.getItem(i);
                 Variables.SINGLE_ITEM_ID = String.valueOf(item.getId());
                 Fragment fragment = new SingleItemFragment();
@@ -153,6 +189,12 @@ public class SearchFragment extends Fragment {
         });
         return v;
 }
+
+
+
+
+
+
 
     class MyItemSearchAdapter extends ArrayAdapter<Item> implements Filterable {
         Context context;

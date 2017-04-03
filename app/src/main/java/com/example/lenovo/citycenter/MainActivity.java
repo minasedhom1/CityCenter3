@@ -39,6 +39,7 @@ import com.example.lenovo.citycenter.Assets.Variables;
 import com.example.lenovo.citycenter.Fragments.ItemsFragment;
 import com.example.lenovo.citycenter.Fragments.NotificationsListFragment;
 import com.example.lenovo.citycenter.Fragments.SearchFragment;
+import com.example.lenovo.citycenter.classes.BackGroundService;
 import com.example.lenovo.citycenter.classes.GetAllItemsService;
 import com.example.lenovo.citycenter.classes.GetDataRequest;
 import com.example.lenovo.citycenter.Fragments.Categories;
@@ -90,10 +91,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent mServiceIntent = new Intent(getApplicationContext(), BackGroundService.class);
+        startService(mServiceIntent);
+
         tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         font = Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf");
-       startService(new Intent(getApplicationContext(), GetAllItemsService.class));
+    //   startService(new Intent(getApplicationContext(), GetAllItemsService.class));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
