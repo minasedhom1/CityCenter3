@@ -66,80 +66,78 @@ public class ItemsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_items, container, false);
+        try {
+            View view = inflater.inflate(R.layout.fragment_items, container, false);
+            progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+            ItemList = (ListView) view.findViewById(R.id.clickedItem_customList);
+            Response.Listener<String> responseListener = new Response.Listener<String>() {
 
-       /* progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Fetching Data....");
-        progressDialog.show();*/
-        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
-      //  progressBar.setVisibility(View.VISIBLE);
-        ItemList= (ListView) view.findViewById(R.id.clickedItem_customList);
-        Response.Listener<String> responseListener = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JsonElement root = new JsonParser().parse(response);
+                        response = root.getAsString();
+                        JSONObject jsonObject = new JSONObject(response);
+                        jsonArray = jsonObject.getJSONArray("ItemsList");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            Item item = new Item();
+                            item.setId(object.getString("ItemID"));
+                            item.setName(Methods.htmlRender(object.getString("Name_En")));
+                            item.setDescription(object.getString("Description_En"));
+                            item.setPhone1(object.getString("Phone1"));
+                            item.setPhone2(object.getString("Phone2"));
+                            item.setPhone3(object.getString("Phone3"));
+                            item.setPhone4(object.getString("Phone4"));
+                            item.setPhone5(object.getString("Phone5"));
+                            item.setMenu_url(object.getString("PDF_URL"));
+                            item.setPromo(object.getBoolean("IsPromo"));
+                            item.setPromoText(object.getString("PromoText_En"));
+                            item.setPromoButton(object.getString("PromoButtonText"));
+                            item.setPromo_pdf(object.getString("PDFPromo"));
+                            item.setRaty(object.getBoolean("IsRatyCategory"));
+                            item.setUrl_btn_text(object.getString("URLButtonText"));
+                            if (object.getString("Rate") != "null") {
+                                item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
+                                Log.d("rate", Float.valueOf(object.getString("Rate")).toString());
+                            }
 
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JsonElement root=new JsonParser().parse(response);
-                    response = root.getAsString();
-                   JSONObject jsonObject=new JSONObject(response);
-                    jsonArray=jsonObject.getJSONArray("ItemsList");
-                    for (int i = 0; i < jsonArray.length(); i++)
-                    {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        Item item=new Item();
-                        item.setId(object.getString("ItemID"));
-                        item.setName(Methods.htmlRender(object.getString("Name_En")));
-                        item.setDescription(object.getString("Description_En"));
-                        item.setPhone1(object.getString("Phone1"));
-                        item.setPhone2(object.getString("Phone2"));
-                        item.setPhone3(object.getString("Phone3"));
-                        item.setPhone4(object.getString("Phone4"));
-                        item.setPhone5(object.getString("Phone5"));
-                        item.setMenu_url(object.getString("PDF_URL"));
-                        item.setPromo(object.getBoolean("IsPromo"));
-                        item.setPromoText(object.getString("PromoText_En"));
-                        item.setPromoButton(object.getString("PromoButtonText"));
-                        item.setPromo_pdf(object.getString("PDFPromo"));
-                        item.setRaty(object.getBoolean("IsRatyCategory"));
-                        item.setUrl_btn_text(object.getString("URLButtonText"));
-                         if(object.getString("Rate")!="null")
-                         {item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
-                             Log.d("rate",Float.valueOf(object.getString("Rate")).toString());}
+                            item.setPhoto1(Urls.URL_IMG_PATH + object.getString("Photo1"));
+                            item.setCategoryName(object.getString("CategoryName_En"));
+                            item.setSubcategoryName(object.getString("SubcategoryName_En"));
+                            item.setCategoryID(Variables.catID);
 
-                        item.setPhoto1(Urls.URL_IMG_PATH +object.getString("Photo1"));
-                        item.setCategoryName(object.getString("CategoryName_En"));
-                        item.setSubcategoryName(object.getString("SubcategoryName_En"));
-                        item.setCategoryID(Variables.catID);
-
-                        if(Variables.fav_ids.size()!=0 && Variables.fav_ids.contains(item.getId()))
-                        {
-                            item.setLike(true);
+                            if (Variables.fav_ids.size() != 0 && Variables.fav_ids.contains(item.getId())) {
+                                item.setLike(true);
+                            }
+                            itemArrayList.add(item);
                         }
-                        itemArrayList.add(item);
-                    }
 
-                  //  itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
-                    itemAdapter =new MyItemAdapter(getContext(),android.R.layout.simple_list_item_1,itemArrayList);
-                    ItemList.setAdapter(itemAdapter);
-                    // progressDialog.dismiss();
-                    progressBar.setVisibility(View.GONE);
-                  //  itemAdapter.setNotifyOnChange(true);
-                }   catch (JSONException e) {
-                    e.printStackTrace();
+                        //  itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
+                        itemAdapter = new MyItemAdapter(getContext(), android.R.layout.simple_list_item_1, itemArrayList);
+                        ItemList.setAdapter(itemAdapter);
+                        // progressDialog.dismiss();
+                        progressBar.setVisibility(View.GONE);
+                        //  itemAdapter.setNotifyOnChange(true);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        };
-        Response.ErrorListener errorListener= new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Methods.toast(error.toString(),getContext());
-            }
-        };
-     //           GetDataRequest.setUrl(Variables.catID);
-                GetDataRequest fetchRequest = new GetDataRequest(responseListener,errorListener);
-               // queue.add(fetchRequest);
-                VolleySingleton.getInstance().addToRequestQueue(fetchRequest);
-                 return view;
+            };
+            Response.ErrorListener errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Methods.toast(error.toString(), getContext());
+                }
+            };
+            //           GetDataRequest.setUrl(Variables.catID);
+            GetDataRequest fetchRequest = new GetDataRequest(responseListener, errorListener);
+            // queue.add(fetchRequest);
+            VolleySingleton.getInstance().addToRequestQueue(fetchRequest);
+            return view;
+        }
+        catch (Exception e){ e.printStackTrace();}
+        return null;
    }
 
 
@@ -169,7 +167,7 @@ public class ItemsFragment extends Fragment {
             }
         });
 
-       Methods.setPath(view);
+       Methods.setPath(view,getContext());
 
     }
     private void getFavIds() {

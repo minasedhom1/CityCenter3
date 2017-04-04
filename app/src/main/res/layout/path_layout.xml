@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <FrameLayout
+    <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:background="#E3E3F7">
+        android:background="#E3E3F7"
+    android:paddingLeft="5dp"
+    >
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+             android:padding="10dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:id="@+id/back_btn"
+            android:src="@mipmap/back_arrow"
+            android:background="@drawable/call_search_list"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Anchor test > subcat1"
-            android:textSize="17sp"
-            android:layout_marginLeft="15dp"
+            android:textSize="18sp"
+            android:layout_marginLeft="5dp"
             android:id="@+id/item_path_tv"
             android:textColor="#3f3f3f"/>
-    </FrameLayout>
+    </LinearLayout>

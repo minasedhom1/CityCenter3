@@ -348,7 +348,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 return convertView;
 
             } catch (Exception e) {
-              //  Methods.toast(e.getMessage(),getContext());
                 return null;
             }
 

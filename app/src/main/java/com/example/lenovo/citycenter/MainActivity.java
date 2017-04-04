@@ -89,10 +89,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+   setContentView(R.layout.activity_main);
+        Methods.toast("OnCreate",getApplicationContext());
 
-        Intent mServiceIntent = new Intent(getApplicationContext(), BackGroundService.class);
-        startService(mServiceIntent);
 
         tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -254,6 +253,22 @@ void showEveryThing()
 
 
 }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Methods.toast("OnResume",getApplicationContext());
+        try {
+            if (Variables.searchList.size() == 0) {
+                Intent mServiceIntent = new Intent(getApplicationContext(), BackGroundService.class);
+                startService(mServiceIntent);
+            } else {//getApplication();
+        }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
     void LoginFB_request()
     {

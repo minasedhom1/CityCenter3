@@ -68,11 +68,11 @@ public class BackGroundService extends IntentService {
                     e.printStackTrace();
                 }
 
-                Intent localIntent =
-                        new Intent("GETITEMS")
-                                // Puts the status into the Intent
-                                .putExtra("SEARCHITEMS", items);
+                Intent localIntent = new Intent("GETITEMS")
+                        // Puts the status into the Intent
+                        .putExtra("SEARCHITEMS", Variables.searchList);
                 // Broadcasts the Intent to receivers in this app.
+
                 LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(localIntent);
 
 

@@ -33,7 +33,7 @@ WebView  webViewl;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 View view =inflater.inflate(R.layout.fragment_contact_us, container, false);
-        Methods.setPath(view);
+        Methods.setPath(view,getContext());
         progressBar= (ProgressBar) view.findViewById(R.id.progress_bar);
         webViewl= (WebView) view.findViewById(R.id.contact_us_web_view);
         webViewl.setWebViewClient(new WebViewClient()

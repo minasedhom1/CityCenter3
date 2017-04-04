@@ -28,6 +28,7 @@ import android.widget.Filterable;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -52,6 +53,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
+
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class SearchFragment extends Fragment {
@@ -60,8 +63,8 @@ public class SearchFragment extends Fragment {
     }
 
    ListView listView;
-    JSONArray jsonArray;
-    JSONObject jsonObject;
+   // JSONArray jsonArray;
+  //  JSONObject jsonObject;
     ArrayList<Item> itemArrayList;
     MyItemSearchAdapter myItemSearchAdapter;
     EditText editText;
@@ -70,7 +73,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+try{
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_search, container, false);
          listView= (ListView) v.findViewById(R.id.items_name_list);
@@ -79,14 +82,75 @@ public class SearchFragment extends Fragment {
         Methods.FabToList(listView);
         progressBar= (ProgressBar) v.findViewById(R.id.progress_bar);
         itemArrayList =new ArrayList<>();
-
+    
         if(Variables.searchList.size()!=0)
         {
             myItemSearchAdapter=new MyItemSearchAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.searchList);
             listView.setAdapter(myItemSearchAdapter);
             progressBar.setVisibility(View.GONE);
+
         }
-        else {}
+        else {Methods.toast("Please wait...",getContext());}
+
+
+//getActivity().onBackPressed();
+/**********************************************************************************************************************************************/
+        // The filter's action is BROADCAST_ACTION
+        IntentFilter statusIntentFilter = new IntentFilter("GETITEMS");
+        /*        // Adds a data filter for the HTTP scheme
+        statusIntentFilter.addDataScheme("http");*/
+        // Instantiates a new DownloadStateReceiver
+
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                try{
+                itemArrayList =(ArrayList<Item>) intent.getSerializableExtra("SEARCHITEMS");
+                myItemSearchAdapter=new MyItemSearchAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.searchList);
+                listView.setAdapter(myItemSearchAdapter);
+                progressBar.setVisibility(View.GONE);}
+                catch (Exception e){
+                    Methods.toast(e.getMessage(),getContext());}
+            }
+        };
+        // Registers the DownloadStateReceiver and its intent filters
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(
+                broadcastReceiver,
+                statusIntentFilter);
+/**********************************************************************************************************************************************/
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+              //  imm.toggleSoftInputFromWindow(view.getWindowToken(),0,0);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                Item item=  myItemSearchAdapter.getItem(i);
+                Variables.SINGLE_ITEM_ID = String.valueOf(item.getId());
+                Fragment fragment = new SingleItemFragment();
+                getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
+            }
+        });
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                myItemSearchAdapter.getFilter().filter(charSequence); }
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+    return v;   }
+catch(Exception e){
+    Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+}
+       return  null;  }
+
         /*
         final StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_ALL_ITEM_SEARCH,new Response.Listener<String>() {
 
@@ -137,60 +201,6 @@ public class SearchFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
 
         }*/
-/**********************************************************************************************************************************************/
-        // The filter's action is BROADCAST_ACTION
-        IntentFilter statusIntentFilter = new IntentFilter(
-                "GETITEMS");
-        /*        // Adds a data filter for the HTTP scheme
-        statusIntentFilter.addDataScheme("http");*/
-        // Instantiates a new DownloadStateReceiver
-
-        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                //itemArrayList =(ArrayList<Item>) intent.getSerializableExtra("SEARCHITEMS");
-                myItemSearchAdapter=new MyItemSearchAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.searchList);
-                listView.setAdapter(myItemSearchAdapter);
-                progressBar.setVisibility(View.GONE);
-            }
-        };
-        // Registers the DownloadStateReceiver and its intent filters
-        LocalBroadcastManager.getInstance(getContext()).registerReceiver(
-                broadcastReceiver,
-                statusIntentFilter);
-/**********************************************************************************************************************************************/
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-              //  imm.toggleSoftInputFromWindow(view.getWindowToken(),0,0);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                Item item=  myItemSearchAdapter.getItem(i);
-                Variables.SINGLE_ITEM_ID = String.valueOf(item.getId());
-                Fragment fragment = new SingleItemFragment();
-                getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
-               // Methods.toast(item.getDescription(),getContext());
-            }
-        });
-
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                myItemSearchAdapter.getFilter().filter(charSequence); }
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
-        return v;
-}
-
-
 
 
 

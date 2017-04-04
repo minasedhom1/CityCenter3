@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.lenovo.citycenter.Fragments.GrandCinema">
+    tools:context="com.example.lenovo.citycenter.Fragments.GrandCinema"
+    android:background="@mipmap/background"
+
+    >
 
     <ExpandableListView
         android:layout_width="match_parent"

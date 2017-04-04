@@ -49,11 +49,8 @@ public class Categories extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      /*  mServiceIntent = new Intent(getContext(), BackGroundService.class);
-        getContext().startService(mServiceIntent);
-*/
-        Methods.getFavIds(getContext());
 
+     //   Methods.getFavIds(getContext());
          categoryArrayList = new ArrayList<>();
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -95,20 +92,6 @@ public class Categories extends Fragment {
         if (categoryArrayList.isEmpty())
         { VolleySingleton.getInstance().addToRequestQueue(request);}
         return inflater.inflate(R.layout.fragment_categories, container, false);
-        //if(categoryArrayList.size()==0)
-   //     GetDataRequest fetchRequest = new GetDataRequest(responseListener);
-     /*   Cache.Entry entry=queue.getCache().get(Urls.URL_GET_CATEGORIES_GOODS);
-        if(queue.getCache().get(Urls.URL_GET_CATEGORIES_GOODS)!=null){
-            //response exists
-          String cachedResponse = new String(queue.getCache().get(Urls.URL_GET_CATEGORIES_GOODS).data);
-
-        }else {
-        queue.add(fetchRequest);}*/
-       // queue.start();
-/*         queue.getCache().clear();
-         queue.add(cacheRequest);*/
-        //if(categoryArrayList.size())
-
 
     }
 /*------------------------------------------------------------------------------------------------------------------------------------------------*/

@@ -11,6 +11,8 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,9 +74,16 @@ public class Methods {
         }
     }
 
-    public static void setPath(View v) {
+    public static void setPath(View v, final Context context) {
+        final Activity activity= (Activity) context;
+        ImageView button= (ImageView) v.findViewById(R.id.back_btn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.onBackPressed();
+            }
+        });
         TextView path = (TextView) v.findViewById(R.id.item_path_tv);
-
         path.setTextSize(16);
         path.setText(Html.fromHtml(Variables.ITEM_PATH));
     }

@@ -66,7 +66,7 @@ public class NotificationsListFragment extends Fragment {
         notiListView= (ListView) v.findViewById(R.id.notification_list);
         progressBar= (ProgressBar) v.findViewById(R.id.progress_bar);
 
-        Methods.setPath(v);
+        Methods.setPath(v,getContext());
 
         final StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_GET_NOTIFICATIONS,
                 new Response.Listener<String>() {

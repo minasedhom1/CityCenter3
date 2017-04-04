@@ -15,6 +15,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
@@ -53,8 +56,8 @@ public class NotificationCustomAdapter extends ArrayAdapter<Notification> {
                 final Notification notification=notificationList2.get(position);
                 holder.description.setText(notification.getDescription());
                 if(notification.getItem_Photo()!=null)
-                { Picasso.with(getContext()).load(Urls.URL_IMG_PATH+notification.getItem_Photo()).error(R.mipmap.ic_launcher).into(holder.icon);}
-                else {Picasso.with(getContext()).load(R.mipmap.notificationicon).into(holder.icon);}
+                { Picasso.with(getContext()).load(Urls.URL_IMG_PATH+notification.getItem_Photo()).error(R.mipmap.ic_launcher).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.icon);}
+                else {Picasso.with(getContext()).load(R.mipmap.notificationicon).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.icon);}
                 return convertView;
 
             } catch (Exception e) {

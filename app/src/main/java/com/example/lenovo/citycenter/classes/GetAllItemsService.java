@@ -38,6 +38,7 @@ JSONArray jsonArray;
     JSONObject jsonObject;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Methods.getFavIds(getApplicationContext());
 /*        final StringRequest request1=new StringRequest(Request.Method.GET, Urls.URL_ALL_ITEM_SEARCH,new Response.Listener<String>() {
 
             @Override

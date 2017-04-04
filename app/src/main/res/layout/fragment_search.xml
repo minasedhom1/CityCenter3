@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#80ffffff"
-    tools:context="com.example.lenovo.citycenter.Fragments.SearchFragment">
+    tools:context="com.example.lenovo.citycenter.Fragments.SearchFragment"
+    android:background="@mipmap/background"
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <FrameLayout
