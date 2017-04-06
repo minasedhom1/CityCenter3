@@ -40,6 +40,7 @@ android:orientation="vertical"
             android:layout_toRightOf="@+id/prof_image"
           android:layout_below="@+id/name_tv"
             android:layout_marginLeft="15dp"
+            android:id="@+id/FB_like_btn"
             />
         <ImageView
             android:layout_width="100dp"

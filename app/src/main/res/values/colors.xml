@@ -6,4 +6,5 @@
     <color name="searchFrag">#9e98</color>
     <color name="transparency">#00000000</color>
     <color name="lightBlue">#7f7fff</color>
+    <color name="lightGray">#cdcdcd</color>
 </resources>

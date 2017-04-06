@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.lenovo.citycenter">
+    package="com.av.lenovo.sa3edny">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+ <!--   <uses-permission android:name="com.android.vending.BILLING" />-->
 
 
     <application
-        android:name=".classes.VolleySingleton"
+        android:name="com.av.lenovo.sa3edny.classes.VolleySingleton"
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <activity
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:clearTaskOnLaunch="true"
-            android:name=".MainActivity"
+            android:name="com.av.lenovo.sa3edny.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,19 +31,18 @@
             android:value="@integer/google_play_services_version" />
         <service
 
-            android:name=".classes.MyFirebaseInstanceIDService">
+            android:name="com.av.lenovo.sa3edny.classes.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
         <service
-            android:name=".classes.MyFirebaseMessagingService">
+            android:name="com.av.lenovo.sa3edny.classes.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name=".classes.GetAllItemsService"/>
-        <service android:name=".classes.BackGroundService"/>
+        <service android:name="com.av.lenovo.sa3edny.classes.BackGroundService"/>
     </application>
 
 </manifest>

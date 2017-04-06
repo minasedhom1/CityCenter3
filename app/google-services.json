@@ -98,7 +98,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:539592135683:android:b10b5266e4e354bf",
         "android_client_info": {
-          "package_name": "com.example.lenovo.citycenter"
+          "package_name": "com.av.lenovo.sa3edny"
         }
       },
       "oauth_client": [
@@ -106,7 +106,7 @@
           "client_id": "539592135683-ak7isb2s12at2rmhhsv3ifldskd4hsgg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.lenovo.citycenter",
+            "package_name": "com.av.lenovo.sa3edny",
             "certificate_hash": "E53EDD7E3EF77BCF64DCB607FFAA578EE7FE4F34"
           }
         },

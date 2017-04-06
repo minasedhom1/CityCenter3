@@ -57,8 +57,8 @@
                 android:id="@+id/category_details_tv"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
+                android:textColor="#3f3f3f"
+                android:textSize="15sp"
                 />
             <Button
                 android:layout_width="80dp"
