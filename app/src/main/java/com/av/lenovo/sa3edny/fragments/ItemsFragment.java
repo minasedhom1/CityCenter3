@@ -21,6 +21,7 @@ import com.av.lenovo.sa3edny.Assets.Methods;
 import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.Assets.Variables;
 import com.av.lenovo.sa3edny.MainActivity;
+import com.av.lenovo.sa3edny.classes.ExceptionHandler;
 import com.av.lenovo.sa3edny.classes.GetDataRequest;
 import com.av.lenovo.sa3edny.classes.Item;
 import com.av.lenovo.sa3edny.R;
@@ -47,6 +48,8 @@ public class ItemsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(getContext()));
+
         shareDialog=new ShareDialog(getActivity());
 
 //First: get favourite IDs to compare
@@ -105,6 +108,8 @@ public class ItemsFragment extends Fragment {
                             if (Variables.fav_ids.size() != 0 && Variables.fav_ids.contains(item.getId())) {
                                 item.setLike(true);
                             }
+                            if(!object.getString("NoPersonRate").equals("null"))
+                            {item.setNumOfPersonsRate(object.getString("NoPersonRate"));}
                             itemArrayList.add(item);
                         }
 
@@ -117,18 +122,22 @@ public class ItemsFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             };
             Response.ErrorListener errorListener = new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Methods.toast(error.toString(), getContext());
+                    Methods.toast(Methods.onErrorVolley(error), getContext());
                 }
             };
             //           GetDataRequest.setUrl(Variables.catID);
             GetDataRequest fetchRequest = new GetDataRequest(responseListener, errorListener);
             // queue.add(fetchRequest);
             VolleySingleton.getInstance().addToRequestQueue(fetchRequest);
+            Methods.setPath(view,getContext());
             return view;
         }
         catch (Exception e){ e.printStackTrace();}
@@ -162,7 +171,6 @@ public class ItemsFragment extends Fragment {
             }
         });
 
-       Methods.setPath(view,getContext());
 
     }
     private void getFavIds() {

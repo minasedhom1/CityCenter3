@@ -10,8 +10,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.av.lenovo.sa3edny.MainActivity;
@@ -38,37 +44,41 @@ public class Methods {
     public static void toast(String s, Context context) {
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
     }
+
     public static String htmlRender(String ss) {
         ss = ss.replace("span", "font");
         ss = ss.replace("style=\"color:", "color=");
         ss = ss.replace(";\"", "");
         ss = ss.replaceAll("<p>", "");
         ss = ss.replaceAll("</p>", ""); //********
-        ss=ss.replace("<p style=\"text-align: left>","");
-        if(ss.startsWith("<strong"))
-        {ss=ss.replace("strong","font");}
-        if (ss.contains("CoK Guzel"))
-            {ss=ss.replace("<font style=\"background-color: #ffffff>","");
-            ss=ss.replaceFirst("</font>","");}
+        ss = ss.replace("<p style=\"text-align: left>", "");
+        if (ss.startsWith("<strong")) {
+            ss = ss.replace("strong", "font");
+        }
+        if (ss.contains("CoK Guzel")) {
+            ss = ss.replace("<font style=\"background-color: #ffffff>", "");
+            ss = ss.replaceFirst("</font>", "");
+        }
         return ss;
     }
 
     static int count = 0;
+
     public static void signture(final Context context) {
         count++;
 
         if (count == 10) {
 
 
-            Methods.toast(  getSignute() , context);
+            Methods.toast("Apps-V@lley", context);
 
             count = 0;
         }
     }
 
     public static void setPath(View v, final Context context) {
-        final Activity activity= (Activity) context;
-        ImageView button= (ImageView) v.findViewById(R.id.back_btn);
+        final Activity activity = (Activity) context;
+        ImageView button = (ImageView) v.findViewById(R.id.back_btn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +90,25 @@ public class Methods {
         path.setText(Html.fromHtml(Variables.ITEM_PATH));
     }
 
-   public static void getFavIds(final Context context) {
+    public static String onErrorVolley(VolleyError volleyError) {
+        String message = null;
+        if (volleyError instanceof NetworkError) {
+            message = "Cannot connect to Internet...Please check your connection!";
+        } else if (volleyError instanceof ServerError) {
+            message = "The server could not be found. Please try again after some time!!";
+        } else if (volleyError instanceof AuthFailureError) {
+            message = "Cannot connect to Internet...Please check your connection!";
+        } else if (volleyError instanceof ParseError) {
+            message = "Parsing error! Please try again after some time!!";
+        } else if (volleyError instanceof NoConnectionError) {
+            message = "Cannot connect to Internet...Please check your connection!";
+        } else if (volleyError instanceof TimeoutError) {
+            message = "Connection TimeOut! Please check your internet connection.";
+        }
+        return message;
+    }
+
+    public static void getFavIds(final Context context) {
         final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,
                 new Response.Listener<String>() {
                     @Override
@@ -88,10 +116,9 @@ public class Methods {
                         try {
                             JsonElement root = new JsonParser().parse(response);
                             response = root.getAsString();
-                            JSONObject jsonObject=new JSONObject(response);
-                            JSONArray jsonArray=jsonObject.getJSONArray("ItemsList");
-                            for (int i = 0; i < jsonArray.length(); i++)
-                            {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = jsonObject.getJSONArray("ItemsList");
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 jsonObject = jsonArray.getJSONObject(i);
                                 Variables.fav_ids.add(jsonObject.getString("ItemID"));
                             }
@@ -106,112 +133,50 @@ public class Methods {
                 Toast.makeText(context, "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
             }
         });
-       if(Variables.ACCOUNT_ID!=null)
-       {    if(Variables.fav_ids.size()==0)
-        VolleySingleton.getInstance().addToRequestQueue(favrequest);}
-          else {}
-   }
+        if (Variables.ACCOUNT_ID != null) {
+            if (Variables.fav_ids.size() == 0)
+                VolleySingleton.getInstance().addToRequestQueue(favrequest);
+        } else {
+        }
+    }
 
-    public static void FabToList(final ListView listView){
+    public static void FabToList(final ListView listView) {
         MainActivity.fab.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    listView.smoothScrollToPositionFromTop(0,0);}
+                                                    listView.smoothScrollToPositionFromTop(0, 0);
+                                                }
                                             }
         );
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
             }
+
             @Override
             public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-                if(i==0)  MainActivity.fab.hide();
-                else  MainActivity.fab.show();
+                if (i == 0) MainActivity.fab.hide();
+                else MainActivity.fab.show();
             }
         });
 
 
     }
-static String s;
-static String getSignute()
-{
-    final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    final DatabaseReference myRef = database.getReference();
-    myRef.addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-           s = dataSnapshot.child("signture").getValue().toString();
-        }
 
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-        }
-
-    });
-    return s;}
-
-/*    public static  void FragReplace(Context context, Class fragmentClass) {
-        Activity activity = (Activity) context;
-        fragmentClass = CategoriesFragment.class;
-        try {
-          Fragment  fragment = (Fragment) fragmentClass.newInstance();
-
-        activity.getFragmentManager().beginTransaction().addToBackStack("f").replace(R.id.frag_holder, fragment).commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-}
-/*
-    public ArrayList<Item> get_items(String url,Context context) {
-
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-
+ /*   static String s;
+    static String getSignute() {
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference myRef = database.getReference();
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onResponse(String response) {
-                try {
-                    JsonElement root = new JsonParser().parse(response);
-                    response = root.getAsString();
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray jsonArray = jsonObject.getJSONArray("ItemsList");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        Item item = new Item();
-                        item.setId(object.getString("ItemID"));
-                        item.setName(Methods.htmlRender(object.getString("Name_En")));
-                        item.setDescription(object.getString("Description_En"));
-                        item.setPhone1(object.getString("Phone1"));
-                        item.setPhone2(object.getString("Phone2"));
-                        item.setPhone3(object.getString("Phone3"));
-                        item.setPhone4(object.getString("Phone4"));
-                        item.setPhone5(object.getString("Phone5"));
-                        item.setMenu_url(object.getString("PDF_URL"));
-                        if (object.getString("Rate") != "null") {
-                            item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
-                            Log.d("rate", Float.valueOf(object.getString("Rate")).toString());
-                        }
-
-                        item.setPhoto1(Urls.URL_IMG_PATH + object.getString("Photo1"));
-                        item.setCategoryName(object.getString("CategoryName_En"));
-                        item.setSubcategoryName(object.getString("SubcategoryName_En"));
-                        item.setCategoryID(Variables.catID);
-
-                      *//*  if(fav_ids.size()!=0 && fav_ids.contains(item.getId()))
-                        {
-                            item.setLike(true);
-                        }*//*
-
-                        itemArrayList.add(item);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-
-                }
+            public void onDataChange(DataSnapshot dataSnapshot) {
             }
-        }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
 
-                , null);
-        RequestQueue queue=Volley.newRequestQueue(context);
-        queue.add(request);
+        });
+        return s;
+    }*/
 
-    }}*/
+}

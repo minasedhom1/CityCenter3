@@ -51,7 +51,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
                     String status = obj.getString("Status");
                     if(status.matches("Success saved")||status.matches("Already Exists"))
                     { PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("TOKEN_SAVED", true).apply();
-                    Toast.makeText(getApplicationContext(), "Notification is Working!", Toast.LENGTH_LONG).show();}
+                   // Toast.makeText(getApplicationContext(), "Notification is Working!", Toast.LENGTH_LONG).show();
+                        }
                     else Toast.makeText(getApplicationContext(), "Notification is NOT Working!", Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();

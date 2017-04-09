@@ -32,6 +32,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.av.lenovo.sa3edny.Assets.Methods;
 import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.Assets.Variables;
+import com.av.lenovo.sa3edny.classes.ExceptionHandler;
 import com.av.lenovo.sa3edny.fragments.ItemsFragment;
 import com.av.lenovo.sa3edny.fragments.NotificationsListFragment;
 import com.av.lenovo.sa3edny.fragments.SearchFragment;
@@ -51,6 +52,7 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.share.widget.LikeView;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
@@ -62,7 +64,7 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+ implements NavigationView.OnNavigationItemSelectedListener {
 
     public Fragment fragment = null;
     public Class fragmentClass = null;
@@ -80,10 +82,14 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-   setContentView(R.layout.activity_main);
-     tryConnect= (Button) findViewById(R.id.try_connect_btn);
+      protected void onCreate(final Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+    /*  FirebaseCrash.report(new Exception("My first Android non-fatal error"));
+      FirebaseCrash.log("Activity created");*/
+    Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
+
+        setContentView(R.layout.activity_main);
+      tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         font = Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -204,21 +210,11 @@ void showEveryThing()
         @Override
         public void onClick(View v) {
             ShortcutBadger.removeCount(getApplicationContext());
-       /*     if (click == 0) {
-                 click = 1;*/
-               Variables.ITEM_PATH="Notifications";
-                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
-                if (fragment instanceof NotificationsListFragment) { }
-                else
-                { fragmentClass = NotificationsListFragment.class;
-                    try {
-                        fragment = (Fragment) fragmentClass.newInstance();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_up,R.anim.slide_down).replace(R.id.frag_holder, fragment).addToBackStack("not").commit();
-                }
-    }}
+
+        notifyFrag();
+    }
+
+    }
     );
 
 
@@ -231,8 +227,36 @@ void showEveryThing()
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 }
 
+    private void notifyFrag() {
+        Variables.ITEM_PATH="Notifications";
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
+        if (fragment instanceof NotificationsListFragment) { }
+        else
+        { fragmentClass = NotificationsListFragment.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_up,R.anim.slide_down).replace(R.id.frag_holder, fragment).commit();
+        }
 
+    }
 
+    private void searchFrag() {
+        Variables.ITEM_PATH="Search";
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
+        if (fragment instanceof NotificationsListFragment) { }
+        else
+        { fragmentClass = SearchFragment.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_up,R.anim.slide_down).replace(R.id.frag_holder, fragment).commit();
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -279,7 +303,6 @@ void showEveryThing()
                 Methods.toast("Login Cancelled", MainActivity.this);
             }
 
-
             @Override
             public void onError(FacebookException error) {
                 Methods.toast("Error happend", MainActivity.this);
@@ -295,14 +318,17 @@ void showEveryThing()
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
-        else   if (fragmentManager.getBackStackEntryCount() <= 1) {
-            finish();
-            return;
-        }
-        else {
-
+        else if(fragmentClass.getSimpleName().equals("CategoriesFragment")){
             super.onBackPressed();
         }
+       else if( Variables.ITEM_PATH.equals("Notifications")&&getSupportFragmentManager().findFragmentById(R.id.frag_holder).getClass().getSimpleName().equals("SingleItemFragment"))
+       {   notifyFrag(); }
+
+        else if( Variables.ITEM_PATH.equals("Search")&&getSupportFragmentManager().findFragmentById(R.id.frag_holder).getClass().getSimpleName().equals("SingleItemFragment"))
+        {
+            searchFrag();
+        }
+        else mainFrag();
     }
 
 
@@ -362,14 +388,14 @@ void showEveryThing()
     }
 
     void mainFrag() {
-        navigationView.setCheckedItem(0);
+        navigationView.getMenu().getItem(0).setChecked(true);
         fragmentClass = CategoriesFragment.class;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        getSupportFragmentManager().beginTransaction().addToBackStack("cat").replace(R.id.frag_holder, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).commit();
     }
 
     private boolean isNetworkAvailable() {

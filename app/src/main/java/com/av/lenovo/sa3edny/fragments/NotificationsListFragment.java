@@ -72,6 +72,9 @@ public class NotificationsListFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
 
                     }
                 },new Response.ErrorListener() {
@@ -95,8 +98,9 @@ public class NotificationsListFragment extends Fragment {
               Notification notification= (Notification) parent.getAdapter().getItem(position);
                 if(notification.getItemID()!=null)
                 {  Variables.SINGLE_ITEM_ID = String.valueOf(notification.getItemID());
+
                 Fragment fragment = new SingleItemFragment();
-                getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();}
+                getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).commit();}
             }
         });
         return v;

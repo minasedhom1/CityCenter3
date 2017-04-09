@@ -1,13 +1,17 @@
 package com.av.lenovo.sa3edny.classes;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -70,7 +74,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
         {
            // ImageButton menu,share, call,comment;
             ImageView image;
-            TextView name, description,rate;
+            TextView name, description,rate,rates_num;
             ShineButton addToFavBtn;
             Spinner rateSpin;
             Button menu,share, call,comment, optional_btn;
@@ -95,6 +99,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                     holder.rate = (TextView) convertView.findViewById(R.id.item_rate_value);
                     holder.rateSpin = (Spinner) convertView.findViewById(R.id.rate_spinner);
                     holder.optional_btn= (Button) convertView.findViewById(R.id.option_btn);
+                    holder.rates_num= (TextView) convertView.findViewById(R.id.rates_num);
                     convertView.setTag(holder);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
@@ -108,6 +113,9 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 holder.menu.setTypeface(MainActivity.font);*/
 
 
+
+
+
                 holder.name.setText(Html.fromHtml(myItem.getName()));
                 holder.name.setTextSize(18);
                 String des = String.valueOf(Html.fromHtml(myItem.getDescription()));
@@ -117,6 +125,20 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 holder.rate.setText(String.valueOf(myItem.getRate()));
                 //  holder.image.setMaxHeight(300);
                 Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl)
+
+
+
+                if(myItem.getNumOfPersonsRate()!=null){
+                    holder.rates_num.setVisibility(View.VISIBLE);
+                    holder.rates_num.setText("("+myItem.getNumOfPersonsRate()+")");
+                }
+                else holder.rates_num.setVisibility(View.GONE);
+
+
+
+
+
+
 
                 final ArrayAdapter<String> phones_adapter =
                         new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, myItem.getPhones());
@@ -136,33 +158,31 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                     @Override
                     public void onClick(View v) {
 
-                       Uri uri=Uri.parse(Urls.URL_PDF_PATH+myItem.getPromo_pdf());
-                        DownloadManager.Request r = new DownloadManager.Request(uri);
-                        String s= Html.fromHtml(myItem.getName()).toString()+"Offers";
-// This put the download in the same Download dir the browser uses
-                        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,s);
 
-// When downloading music and videos they will be listed in the player
-// (Seems to be available since Honeycomb only)
-                        r.allowScanningByMediaScanner();
-
-// Notify user when download is completed
-// (Seems to be available since Honeycomb only)
-                        r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-
-// Start download
-                        try{
-                        DownloadManager dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
-
-                        dm.enqueue(r);}catch (Exception e){
-                            Methods.toast(e.getMessage().toString(),getContext());
+                        if (ContextCompat.checkSelfPermission(context,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
                         }
-                     //   Methods.toast(myItem.getPromoButton(),getContext());
-                        //popupMenu(myItem.getPromo_pdf());
+
+
+                        else{
+
+                            Uri uri=Uri.parse(Urls.URL_PDF_PATH+myItem.getPromo_pdf());
+                            DownloadManager.Request r = new DownloadManager.Request(uri);
+                            String s= Html.fromHtml(myItem.getName()).toString()+"Offers";
+                            r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,s);
+                            r.allowScanningByMediaScanner();
+                            r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                            try{
+                                DownloadManager dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
+                                dm.enqueue(r);}catch (Exception e){
+                                Methods.toast(e.getMessage().toString(),getContext());
+                            }}
+
                     }
 
                 });
-
    /*----------------------------------------------------------call btn popup nums----------------------------------------------------------------------------------*/
 
                 holder.call.setOnClickListener(new View.OnClickListener() {
@@ -195,13 +215,10 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
 /*-----------------------------------------------------------------------like btn-----------------------------------------------------------------------------------------*/
                 holder.addToFavBtn.init((AppCompatActivity) context);
-
                 if(Variables.ITEM_PATH.equals("Latest offers")||Variables.ITEM_PATH.equals("Whats new?!")) //if so
                 {holder.addToFavBtn.setVisibility(View.GONE);}//invisible addToFav btn in latest offers & whats new?!
                 else {holder.addToFavBtn.setVisibility(View.VISIBLE);}
-
                 if(Variables.ITEM_PATH.equals("Favorite")){myItem.setLike(true);} //if it's favourites set all with true
-
                 holder.addToFavBtn.setChecked(myItem.isLike());
                 holder.addToFavBtn.setOnClickListener(new View.OnClickListener() {
 

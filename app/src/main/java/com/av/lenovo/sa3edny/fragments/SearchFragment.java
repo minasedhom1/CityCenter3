@@ -94,7 +94,8 @@ try{
                 listView.setAdapter(myItemSearchAdapter);
                 progressBar.setVisibility(View.GONE);}
                 catch (Exception e){
-                    Methods.toast(e.getMessage(),getContext());}
+                 e.printStackTrace();
+                }
             }
         };
         // Registers the DownloadStateReceiver and its intent filters
@@ -107,14 +108,12 @@ try{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-              //  imm.toggleSoftInputFromWindow(view.getWindowToken(),0,0);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+              imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 Item item=  myItemSearchAdapter.getItem(i);
                 Variables.SINGLE_ITEM_ID = String.valueOf(item.getId());
                 Fragment fragment = new SingleItemFragment();
-                getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
+                getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).commit();
             }
         });
 
@@ -134,59 +133,6 @@ catch(Exception e){
     Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
 }
        return  null;  }
-
-        /*
-        final StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_ALL_ITEM_SEARCH,new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-
-                try {
-                    JsonElement root=new JsonParser().parse(response);
-                    response = root.getAsString();
-                    jsonArray=new JSONArray(response);
-                    for (int i = 0; i < jsonArray.length(); i++)
-                    {
-                        jsonObject = jsonArray.getJSONObject(i);
-                        Item item=new Item();
-                        item.setId(jsonObject.getString("ItemID"));
-                        item.setName(Html.fromHtml(jsonObject.getString("Name_En")).toString());
-                        item.setDescription(Html.fromHtml(jsonObject.getString("Description_En")).toString());
-                        item.setPhone1(jsonObject.getString("Phone1"));
-
-                        //  itemArrayList.add(item);
-                        Variables.searchList.add(item);
-                    }
-                    myItemSearchAdapter=new MyItemSearchAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.searchList);
-                    listView.setAdapter(myItemSearchAdapter);
-                    progressBar.setVisibility(View.GONE);
-
-                }   catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        },new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                        Methods.toast(error.toString(),getContext());
-
-        }});
- *//*       request.setRetryPolicy(new DefaultRetryPolicy(
-                20000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*//*
-        if(Variables.searchList.size()==0)
-        {
-            VolleySingleton.getInstance().addToRequestQueue(request);
-        }
-        else {
-            myItemSearchAdapter=new MyItemSearchAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.searchList);
-            listView.setAdapter(myItemSearchAdapter);
-            progressBar.setVisibility(View.GONE);
-
-        }*/
-
-
 
 
 
@@ -241,6 +187,7 @@ catch(Exception e){
                 });
                 return  convertView;
             } catch (Exception e) {
+                e.printStackTrace();
                 return null;
             }
 
