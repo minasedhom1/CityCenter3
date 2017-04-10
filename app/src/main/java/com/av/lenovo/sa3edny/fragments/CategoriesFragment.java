@@ -1,5 +1,6 @@
 package com.av.lenovo.sa3edny.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -119,8 +120,7 @@ public class CategoriesFragment extends Fragment {
         },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
-            }
+                Methods.toast(Methods.onErrorVolley(error), getContext());            }
         });
         VolleySingleton.getInstance().addToRequestQueue(cacheRequest);
 
@@ -144,6 +144,7 @@ public class CategoriesFragment extends Fragment {
                 if(expand_listView.isGroupExpanded(groupPosition))
                 {
                     explore.setText(getString(R.string.arrow_left));
+                    explore.setTypeface(Typeface.DEFAULT_BOLD);
                 }
                  else
                 explore.setText(getString(R.string.arrow_bottom));

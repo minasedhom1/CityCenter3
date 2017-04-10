@@ -11,12 +11,10 @@
         android:layout_height="45dp"
         android:src="@mipmap/notificationicon"
         android:id="@+id/noti_icon"
-        android:background="#e2e2e2"
         android:scaleType="fitXY"/>
 
     <TextView
         android:layout_marginLeft="10dp"
-
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

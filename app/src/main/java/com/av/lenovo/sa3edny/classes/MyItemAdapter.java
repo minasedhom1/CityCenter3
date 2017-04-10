@@ -74,10 +74,11 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
         {
            // ImageButton menu,share, call,comment;
             ImageView image;
-            TextView name, description,rate,rates_num;
+            TextView name, description,rate,rates_num,promo_txt;
             ShineButton addToFavBtn;
             Spinner rateSpin;
             Button menu,share, call,comment, optional_btn;
+            View promo_view;
         }
         @Override
         public View getView(final int position, View convertView, final ViewGroup parent) {
@@ -100,6 +101,8 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                     holder.rateSpin = (Spinner) convertView.findViewById(R.id.rate_spinner);
                     holder.optional_btn= (Button) convertView.findViewById(R.id.option_btn);
                     holder.rates_num= (TextView) convertView.findViewById(R.id.rates_num);
+                    holder.promo_txt= (TextView) convertView.findViewById(R.id.promo_tv);
+                    holder.promo_view=convertView.findViewById(R.id.promo_layout);
                     convertView.setTag(holder);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
@@ -120,6 +123,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 holder.name.setTextSize(18);
                 String des = String.valueOf(Html.fromHtml(myItem.getDescription()));
                 des = des.replace("\n\n", "\n");
+
                 holder.description.setText(des);
 
                 holder.rate.setText(String.valueOf(myItem.getRate()));
@@ -134,10 +138,11 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 }
                 else holder.rates_num.setVisibility(View.GONE);
 
-
-
-
-
+                if(myItem.isPromo())
+                {holder.promo_view.setVisibility(View.VISIBLE);
+                holder.promo_txt.setText(Html.fromHtml(myItem.getPromoText()).toString());}
+                else
+                {holder.promo_view.setVisibility(View.GONE);}
 
 
                 final ArrayAdapter<String> phones_adapter =

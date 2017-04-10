@@ -7,6 +7,7 @@ import android.text.Html;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -104,7 +105,12 @@ public class BackGroundService extends IntentService {
 
                 }
             });
+            request.setRetryPolicy(new DefaultRetryPolicy(
+                    15000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             VolleySingleton.getInstance().addToRequestQueue(request);
+
         }catch (Exception e){
             Methods.toast(e.getMessage(),getApplicationContext());}
 

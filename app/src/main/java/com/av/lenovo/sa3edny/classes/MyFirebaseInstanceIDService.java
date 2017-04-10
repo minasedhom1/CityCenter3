@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by mido on 2/14/2017.
+ * Created by mina on 2/14/2017.
  */
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {

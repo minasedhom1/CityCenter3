@@ -427,7 +427,8 @@ void showEveryThing()
         },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Methods.toast(error.toString(),MainActivity.this);
+                Methods.toast(Methods.onErrorVolley(error), getApplicationContext());
+
             }
         });
         VolleySingleton.getInstance().addToRequestQueue(postReq);

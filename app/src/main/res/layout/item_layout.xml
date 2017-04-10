@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="#73ffffff"
+    android:background="#59ffffff"
     android:paddingTop="10dp"
     android:layout_marginBottom="10dp"
     android:paddingStart="5dp"
@@ -131,8 +131,38 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingBottom="10dp"
->
+        android:layout_marginTop="-10dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:id="@+id/promo_layout"
+          >
+
+        <TextView
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/rounded_promo_tab"
+            android:layout_gravity="top"
+            android:layout_marginTop="14dp"
+            android:id="@+id/promo_tv"
+            android:text="Click View Offers To Download Seoudi Magazine. Valid From April 1st To April 18th 2017"
+            />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Promotion"
+                android:textStyle="bold"
+                android:textColor="#C1195A"
+                android:textSize="16sp"
+                android:layout_gravity="center|top"
+                />
+        </FrameLayout>
    <Button
+       android:layout_marginTop="7dp"
        android:layout_width="wrap_content"
        android:layout_height="44dp"
        android:id="@+id/option_btn"

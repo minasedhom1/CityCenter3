@@ -104,8 +104,9 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
            /* Typeface typeface=Typeface.createFromAsset(activity.getAssets(),"fonts/futura-medium.ttf");
             holder.catDetails.setTypeface(typeface);*/
             holder.catDetails.setText(Html.fromHtml(myCat.getDescription_En()));
-            Picasso.with(activity).load(myCat.getLogo()).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.categoryIcon);
-            holder.catName.setTextSize(16f);
+            Picasso.with(activity).load(myCat.getLogo()).transform(new RoundedCornersTransformation(25,0)).fit().into(holder.categoryIcon);
+            holder.catName.setTextSize(15f);
+
             holder.explore.setTypeface(MainActivity.font);
             return convertView;
 

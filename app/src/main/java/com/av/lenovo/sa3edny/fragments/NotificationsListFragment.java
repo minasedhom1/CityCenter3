@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -17,6 +18,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.av.lenovo.sa3edny.Assets.Methods;
 import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.Assets.Variables;
+import com.av.lenovo.sa3edny.MainActivity;
 import com.av.lenovo.sa3edny.R;
 import com.av.lenovo.sa3edny.classes.Notification;
 import com.av.lenovo.sa3edny.classes.NotificationCustomAdapter;
@@ -80,7 +82,7 @@ public class NotificationsListFragment extends Fragment {
                 },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Methods.toast(error.toString(),getContext());
+                Methods.toast(Methods.onErrorVolley(error), getContext());
 
             }});
         if(Variables.notificationList.size()==0)
@@ -101,6 +103,26 @@ public class NotificationsListFragment extends Fragment {
 
                 Fragment fragment = new SingleItemFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).commit();}
+            }
+        });
+
+
+        MainActivity.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                notiListView.smoothScrollToPosition(0);
+            }}
+        );
+
+        notiListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+            }
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                if(i==0)
+                    MainActivity.fab.hide();
+                else  MainActivity.fab.show();
             }
         });
         return v;

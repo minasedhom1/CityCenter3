@@ -92,9 +92,11 @@ public class GrandCinema extends Fragment {
         },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
+                Methods.toast(Methods.onErrorVolley(error), getContext());
             }
+
         });
+
 
         VolleySingleton.getInstance().addToRequestQueue(cacheRequest);
         return view;
