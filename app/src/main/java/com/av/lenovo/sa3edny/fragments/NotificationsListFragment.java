@@ -21,7 +21,7 @@ import com.av.lenovo.sa3edny.Assets.Variables;
 import com.av.lenovo.sa3edny.MainActivity;
 import com.av.lenovo.sa3edny.R;
 import com.av.lenovo.sa3edny.classes.Notification;
-import com.av.lenovo.sa3edny.classes.NotificationCustomAdapter;
+import com.av.lenovo.sa3edny.adapters.NotificationCustomAdapter;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

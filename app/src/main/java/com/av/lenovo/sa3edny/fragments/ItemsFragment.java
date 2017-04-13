@@ -25,7 +25,7 @@ import com.av.lenovo.sa3edny.classes.ExceptionHandler;
 import com.av.lenovo.sa3edny.classes.GetDataRequest;
 import com.av.lenovo.sa3edny.classes.Item;
 import com.av.lenovo.sa3edny.R;
-import com.av.lenovo.sa3edny.classes.MyItemAdapter;
+import com.av.lenovo.sa3edny.adapters.MyItemAdapter;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.facebook.share.widget.ShareDialog;
 import com.google.gson.JsonElement;

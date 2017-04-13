@@ -42,7 +42,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name="com.av.lenovo.sa3edny.classes.BackGroundService"/>
+        <service android:name="com.av.lenovo.sa3edny.services.BackGroundService"/>
     </application>
 
 </manifest>

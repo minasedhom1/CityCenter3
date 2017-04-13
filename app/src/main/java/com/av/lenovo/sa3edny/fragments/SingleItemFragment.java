@@ -19,7 +19,7 @@ import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.Assets.Variables;
 import com.av.lenovo.sa3edny.R;
 import com.av.lenovo.sa3edny.classes.Item;
-import com.av.lenovo.sa3edny.classes.MyItemAdapter;
+import com.av.lenovo.sa3edny.adapters.MyItemAdapter;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;

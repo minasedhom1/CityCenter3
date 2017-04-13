@@ -48,17 +48,20 @@
         <ImageView
             android:layout_width="27dp"
             android:layout_height="27dp"
-            app:srcCompat="@mipmap/nav_icon"
+            app:srcCompat="@drawable/nav_icon"
             android:layout_marginTop="10dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
-           />
+            android:tint="@drawable/notification_selector"
+            android:clickable="true"
+            android:id="@+id/nav_icon"
+
+            />
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:padding="4dp"
-            android:background="@drawable/call_search_list"
-            app:srcCompat="@mipmap/notificationicon2"
+            app:srcCompat="@drawable/notificationicon2"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"
             android:layout_marginTop="7dp"
@@ -66,7 +69,7 @@
             android:focusableInTouchMode="true"
             android:layout_gravity="right"
             android:id="@+id/notify_icon"
-
+            android:tint="@drawable/notification_selector"
             />
 
         <!--     <LinearLayout

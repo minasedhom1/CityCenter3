@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.classes;
+package com.av.lenovo.sa3edny.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.R;
+import com.av.lenovo.sa3edny.classes.Notification;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

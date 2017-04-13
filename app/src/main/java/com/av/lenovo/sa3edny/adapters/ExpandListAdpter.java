@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.classes;
+package com.av.lenovo.sa3edny.adapters;
 
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.av.lenovo.sa3edny.Assets.Methods;
 import com.av.lenovo.sa3edny.MainActivity;
 import com.av.lenovo.sa3edny.R;
+import com.av.lenovo.sa3edny.classes.Category;
+import com.av.lenovo.sa3edny.classes.Subcategory;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -41,7 +43,6 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
     public ExpandListAdpter(AppCompatActivity activity,ArrayList<Category> catArray) {
         this.activity=activity;
         this.catArray=catArray;
-      //  this.subcatArray=subcatArray;
     }
 
     @Override
@@ -128,7 +129,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
             ImageView child_icon= (ImageView) convertView.findViewById(R.id.child_icon);
             subCat.setText(Html.fromHtml(sub_name) );
             Picasso.with(activity).load(subcategories.get(childPosition).getSubCat_icon_url()).
-                    transform(new RoundedCornersTransformation(20,0)).fit().into(child_icon);
+            transform(new RoundedCornersTransformation(20,0)).fit().into(child_icon);
 
 /*++++++++++++++++++++++++++++++++++++++++----------------------------------------------------------+++++++++++++++++++++++++++++++++++++++*/
 

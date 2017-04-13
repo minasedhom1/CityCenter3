@@ -20,7 +20,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,7 +35,7 @@ import com.av.lenovo.sa3edny.classes.ExceptionHandler;
 import com.av.lenovo.sa3edny.fragments.ItemsFragment;
 import com.av.lenovo.sa3edny.fragments.NotificationsListFragment;
 import com.av.lenovo.sa3edny.fragments.SearchFragment;
-import com.av.lenovo.sa3edny.classes.BackGroundService;
+import com.av.lenovo.sa3edny.services.BackGroundService;
 import com.av.lenovo.sa3edny.classes.GetDataRequest;
 import com.av.lenovo.sa3edny.fragments.CategoriesFragment;
 import com.av.lenovo.sa3edny.fragments.ContactUsFragment;
@@ -52,7 +51,6 @@ import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.share.widget.LikeView;
-import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
@@ -96,12 +94,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(false);
-        toggle.setDrawerIndicatorEnabled(false);
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+        View menu_icon=findViewById(R.id.nav_icon);
+        menu_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (drawer.isDrawerVisible(GravityCompat.START)) {
@@ -111,7 +105,28 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-        toggle.setHomeAsUpIndicator(R.drawable.nav_icon);
+
+
+      //  toggle.syncState();
+
+
+
+ /*       ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+
+
+      /*  toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (drawer.isDrawerVisible(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+      //  toggle.setHomeAsUpIndicator(R.drawable.nav_icon);
         toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,7 +139,8 @@ public class MainActivity extends AppCompatActivity
         });
 
         drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();*/
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navHed = navigationView.getHeaderView(0);
@@ -204,7 +220,7 @@ void showEveryThing()
 
 
  /*------------------------------------------------------Signature-------------------------------------------------------------------------------------*/
-        View image = findViewById(R.id.logo_header);
+        View logo = findViewById(R.id.logo_header);
         View notif= findViewById(R.id.notify_icon);
     notif.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -218,7 +234,7 @@ void showEveryThing()
     );
 
 
-        image.setOnClickListener(new View.OnClickListener() {
+        logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Methods.signture(MainActivity.this);
@@ -434,6 +450,7 @@ void showEveryThing()
         VolleySingleton.getInstance().addToRequestQueue(postReq);
 
     }
+
 
     /*    void keyhash() {
         try {

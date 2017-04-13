@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.classes;
+package com.av.lenovo.sa3edny.adapters;
 
 import android.Manifest;
 import android.app.Activity;
@@ -39,6 +39,8 @@ import com.av.lenovo.sa3edny.Assets.Methods;
 import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.Assets.Variables;
 import com.av.lenovo.sa3edny.R;
+import com.av.lenovo.sa3edny.classes.Item;
+import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.google.gson.JsonElement;
@@ -162,7 +164,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 holder.optional_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
 
                         if (ContextCompat.checkSelfPermission(context,
                                 Manifest.permission.WRITE_EXTERNAL_STORAGE)

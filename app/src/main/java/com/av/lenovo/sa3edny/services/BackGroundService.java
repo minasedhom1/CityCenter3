@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.classes;
+package com.av.lenovo.sa3edny.services;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -20,6 +20,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.av.lenovo.sa3edny.Assets.Methods;
 import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.Assets.Variables;
+import com.av.lenovo.sa3edny.classes.Item;
+import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
@@ -42,12 +44,7 @@ public class BackGroundService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        // Gets data from the incoming Intent
-        //String dataString = workIntent.getDataString();
-/*
-        Log.d("INTENT_DATA", intent.getData().toString());
-*/
-        //items = new ArrayList<>();
+
         try {
             Methods.getFavIds(getApplicationContext());
 
@@ -86,25 +83,11 @@ public class BackGroundService extends IntentService {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError volleyError) {
-                  /*  String message = null;
-                    if (volleyError instanceof NetworkError) {
-                        message = "Cannot connect to Internet...Please check your connection!";
-                    } else if (volleyError instanceof ServerError) {
-                        message = "The server could not be found. Please try again after some time!!";
-                    } else if (volleyError instanceof AuthFailureError) {
-                        message = "Cannot connect to Internet...Please check your connection!";
-                    } else if (volleyError instanceof ParseError) {
-                        message = "Parsing error! Please try again after some time!!";
-                    } else if (volleyError instanceof NoConnectionError) {
-                        message = "Cannot connect to Internet...Please check your connection!";
-                    } else if (volleyError instanceof TimeoutError) {
-                        message = "Connection TimeOut! Please check your internet connection.";
-                    }
-                    Methods.toast(message,getApplicationContext());*/
                     Methods.toast(Methods.onErrorVolley(volleyError), getApplicationContext());
 
                 }
             });
+
             request.setRetryPolicy(new DefaultRetryPolicy(
                     15000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,

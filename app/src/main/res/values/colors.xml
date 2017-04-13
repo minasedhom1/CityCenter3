@@ -7,4 +7,5 @@
     <color name="transparency">#00000000</color>
     <color name="lightBlue">#7f7fff</color>
     <color name="lightGray">#cdcdcd</color>
+    <color name="white">#ffffff</color>
 </resources>

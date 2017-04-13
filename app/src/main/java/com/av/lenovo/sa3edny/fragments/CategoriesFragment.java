@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -25,7 +24,7 @@ import com.av.lenovo.sa3edny.Assets.Variables;
 import com.av.lenovo.sa3edny.MainActivity;
 import com.av.lenovo.sa3edny.classes.CacheRequest;
 import com.av.lenovo.sa3edny.classes.Category;
-import com.av.lenovo.sa3edny.classes.ExpandListAdpter;
+import com.av.lenovo.sa3edny.adapters.ExpandListAdpter;
 import com.av.lenovo.sa3edny.classes.GetDataRequest;
 import com.av.lenovo.sa3edny.classes.Subcategory;
 import com.av.lenovo.sa3edny.R;
