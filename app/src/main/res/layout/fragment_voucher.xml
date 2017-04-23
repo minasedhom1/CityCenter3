@@ -1,0 +1,185 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.av.lenovo.sa3edny.fragments.VoucherFragment"
+    android:background="@mipmap/background">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#9fffffff"
+
+    >
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/prof_voucher_page"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Mina"
+        android:textColor="#3f3f3f"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:id="@+id/FB_name_voucher_page"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#3f3f3f"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="12dp"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/my_text"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#3f3f3f"
+        />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_cornenr_spinner"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="3dp"
+            >
+            <Spinner
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:entries="@array/shop_names"
+                >
+            </Spinner>
+        </LinearLayout>
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="7dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1- Buy Points : "
+            android:textSize="18sp"
+            android:textColor="#3f3f3f"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" XXXXXX "
+            android:textColor="#3f3f3f"
+            android:textSize="18sp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="15dp">
+        <Button
+            android:background="@drawable/rounded_corner_btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Add Points"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="13sp"
+            />
+        <Button
+            android:textSize="13sp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Claim Reward"
+            android:textAllCaps="false"
+            android:background="@drawable/rounded_corner_btn2"
+            android:layout_marginLeft="10dp"
+            android:textColor="#fff"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2- Promo-Code : XXXXXX"
+        android:textSize="18sp"
+        android:textColor="#3f3f3f"
+        android:paddingBottom="7dp"
+        />
+    <Button
+        android:textSize="13sp"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:text="Claim Reward"
+        android:textAllCaps="false"
+        android:background="@drawable/rounded_corner_btn2"
+        android:textColor="#fff"
+        android:layout_marginLeft="15dp"
+        />
+
+    <TextView
+        android:paddingTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3- Number Of Visits : XXXXXX"
+        android:textSize="18sp"
+        android:textColor="#3f3f3f"
+        android:paddingBottom="7dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="15dp">
+        <Button
+            android:background="@drawable/rounded_corner_btn2"
+            android:textSize="13sp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Add Visit"
+            android:textAllCaps="false"
+            android:textColor="#fff"/>
+        <Button
+            android:textSize="13sp"
+
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Claim Reward"
+            android:textAllCaps="false"
+            android:background="@drawable/rounded_corner_btn2"
+            android:layout_marginLeft="10dp"
+            android:textColor="#fff"
+            />
+    </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -68,8 +68,7 @@ public class SingleItemFragment extends Fragment {
                                 item.setUrl_btn_text(object.getString("URLButtonText"));
                                 if (object.getString("Rate") != "null") {
                                     item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
-                                    Log.d("rate", Float.valueOf(object.getString("Rate")).toString());
-                                }
+                           }
                                 item.setPhoto1(Urls.URL_IMG_PATH + object.getString("Photo1"));
                                 item.setCategoryName(object.getString("CategoryName_En"));
                                 item.setSubcategoryName(object.getString("SubcategoryName_En"));
@@ -79,9 +78,11 @@ public class SingleItemFragment extends Fragment {
                                     item.setLike(true);
                                 }
                                 singleitemArrayList.add(item);
+                                if(getContext()!=null)
+                                {
                                 itemAdapter = new MyItemAdapter(getContext(), android.R.layout.simple_list_item_1, singleitemArrayList);
                                 listView1.setAdapter(itemAdapter);
-                                progressBar.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.GONE);}
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             } catch (Exception e){

@@ -7,7 +7,7 @@ android {
         applicationId "com.av.lenovo.sa3edny"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 4
+        versionCode 5
         versionName "1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -43,6 +43,7 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:10.0.1'
     testCompile 'junit:junit:4.12'
 }
+
 
 
 

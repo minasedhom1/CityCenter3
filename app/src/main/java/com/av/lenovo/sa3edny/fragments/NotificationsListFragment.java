@@ -67,9 +67,11 @@ public class NotificationsListFragment extends Fragment {
                                 Notification notification=gson.fromJson(object.toString(),Notification.class);
                                 Variables.notificationList.add(notification);
                             }
-                            adapter =new NotificationCustomAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.notificationList);
-                            notiListView.setAdapter(adapter);
-                            progressBar.setVisibility(View.GONE);
+                            if(getContext()!=null) {
+                                adapter = new NotificationCustomAdapter(getContext(), android.R.layout.simple_list_item_1, Variables.notificationList);
+                                notiListView.setAdapter(adapter);
+                                progressBar.setVisibility(View.GONE);
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();

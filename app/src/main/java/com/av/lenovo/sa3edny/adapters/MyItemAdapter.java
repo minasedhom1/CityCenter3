@@ -84,32 +84,32 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
         }
         @Override
         public View getView(final int position, View convertView, final ViewGroup parent) {
-           ViewHolder holder = new ViewHolder();
-
             try {
+                ViewHolder holder = new ViewHolder();
+                  if(context!=null) {
 
-                if (convertView == null) {
-                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
-                    convertView = inflater.inflate(R.layout.item_layout, parent, false);
-                    holder.call = (Button) convertView.findViewById(R.id.item_call_btn);
-                    holder.share = (Button) convertView.findViewById(R.id.item_share_btn);
-                    holder.comment = (Button) convertView.findViewById(R.id.item_comment_btn);
-                    holder.menu = (Button) convertView.findViewById(R.id.item_view_menu_btn);
-                    holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
-                    holder.description = (TextView) convertView.findViewById(R.id.item_description);
-                    holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
-                    holder.addToFavBtn = (ShineButton) convertView.findViewById(R.id.like_btn);
-                    holder.rate = (TextView) convertView.findViewById(R.id.item_rate_value);
-                    holder.rateSpin = (Spinner) convertView.findViewById(R.id.rate_spinner);
-                    holder.optional_btn= (Button) convertView.findViewById(R.id.option_btn);
-                    holder.rates_num= (TextView) convertView.findViewById(R.id.rates_num);
-                    holder.promo_txt= (TextView) convertView.findViewById(R.id.promo_tv);
-                    holder.promo_view=convertView.findViewById(R.id.promo_layout);
-                    convertView.setTag(holder);
-                } else {
-                    holder = (ViewHolder) convertView.getTag();
-                }
-                final Item myItem = itemsList.get(position);
+                      if (convertView == null) {
+                          LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+                          convertView = inflater.inflate(R.layout.item_layout, parent, false);
+                          holder.call = (Button) convertView.findViewById(R.id.item_call_btn);
+                          holder.share = (Button) convertView.findViewById(R.id.item_share_btn);
+                          holder.comment = (Button) convertView.findViewById(R.id.item_comment_btn);
+                          holder.menu = (Button) convertView.findViewById(R.id.item_view_menu_btn);
+                          holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
+                          holder.description = (TextView) convertView.findViewById(R.id.item_description);
+                          holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
+                          holder.addToFavBtn = (ShineButton) convertView.findViewById(R.id.like_btn);
+                          holder.rate = (TextView) convertView.findViewById(R.id.item_rate_value);
+                          holder.rateSpin = (Spinner) convertView.findViewById(R.id.rate_spinner);
+                          holder.optional_btn = (Button) convertView.findViewById(R.id.option_btn);
+                          holder.rates_num = (TextView) convertView.findViewById(R.id.rates_num);
+                          holder.promo_txt = (TextView) convertView.findViewById(R.id.promo_tv);
+                          holder.promo_view = convertView.findViewById(R.id.promo_layout);
+                          convertView.setTag(holder);
+                      } else {
+                          holder = (ViewHolder) convertView.getTag();
+                      }
+                      final Item myItem = itemsList.get(position);
 
 /*------------------------------------set values and action to views----------------------------------------*/
            /*     holder.call.setTypeface(MainActivity.font);
@@ -118,253 +118,257 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                 holder.menu.setTypeface(MainActivity.font);*/
 
 
+                      holder.name.setText(Html.fromHtml(myItem.getName()));
+                      holder.name.setTextSize(18);
+                      String des = String.valueOf(Html.fromHtml(myItem.getDescription()));
+                      des = des.replace("\n\n", "\n");
+
+                      holder.description.setText(des);
+
+                      holder.rate.setText(String.valueOf(myItem.getRate()));
+                      //  holder.image.setMaxHeight(300);
+                      Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl)
 
 
+                      if (myItem.getNumOfPersonsRate() != null) {
+                          holder.rates_num.setVisibility(View.VISIBLE);
+                          holder.rates_num.setText("(" + myItem.getNumOfPersonsRate() + ")");
+                      } else holder.rates_num.setVisibility(View.GONE);
 
-                holder.name.setText(Html.fromHtml(myItem.getName()));
-                holder.name.setTextSize(18);
-                String des = String.valueOf(Html.fromHtml(myItem.getDescription()));
-                des = des.replace("\n\n", "\n");
-
-                holder.description.setText(des);
-
-                holder.rate.setText(String.valueOf(myItem.getRate()));
-                //  holder.image.setMaxHeight(300);
-                Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl)
-
-
-
-                if(myItem.getNumOfPersonsRate()!=null){
-                    holder.rates_num.setVisibility(View.VISIBLE);
-                    holder.rates_num.setText("("+myItem.getNumOfPersonsRate()+")");
-                }
-                else holder.rates_num.setVisibility(View.GONE);
-
-                if(myItem.isPromo())
-                {holder.promo_view.setVisibility(View.VISIBLE);
-                holder.promo_txt.setText(Html.fromHtml(myItem.getPromoText()).toString());}
-                else
-                {holder.promo_view.setVisibility(View.GONE);}
+                      if (myItem.isPromo()) {
+                          holder.promo_view.setVisibility(View.VISIBLE);
+                          holder.promo_txt.setText(Html.fromHtml(myItem.getPromoText()).toString());
+                      } else {
+                          holder.promo_view.setVisibility(View.GONE);
+                      }
 
 
-                final ArrayAdapter<String> phones_adapter =
-                        new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, myItem.getPhones());
+                      final ArrayAdapter<String> phones_adapter =
+                              new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, myItem.getPhones());
 
-                if (!myItem.isRaty()) holder.rateSpin.setVisibility(View.GONE);
-                else holder.rateSpin.setVisibility(View.VISIBLE);
+                      if (!myItem.isRaty()) holder.rateSpin.setVisibility(View.GONE);
+                      else holder.rateSpin.setVisibility(View.VISIBLE);
    /*--------------------------------------------------------------------------------------------------------------------------------------------*/
-               if(myItem.isPromo())
-               {
-                   holder.optional_btn.setVisibility(View.VISIBLE);
-                   holder.optional_btn.setText(myItem.getPromoButton());
+                      if (myItem.isPromo()) {
+                          holder.optional_btn.setVisibility(View.VISIBLE);
+                          holder.optional_btn.setText(myItem.getPromoButton());
 
-               }
-                else {holder.optional_btn.setVisibility(View.GONE);}
+                      } else {
+                          holder.optional_btn.setVisibility(View.GONE);
+                      }
 
-                holder.optional_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                      holder.optional_btn.setOnClickListener(new View.OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
 
-                        if (ContextCompat.checkSelfPermission(context,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions((Activity) context,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
-                        }
+                              if (ContextCompat.checkSelfPermission(context,
+                                      Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                      != PackageManager.PERMISSION_GRANTED) {
 
+                                  ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                              } else {
 
-                        else{
+                                  Uri uri = Uri.parse(Urls.URL_PDF_PATH + myItem.getPromo_pdf());
+                                  DownloadManager.Request r = new DownloadManager.Request(uri);
+                                  String s = Html.fromHtml(myItem.getName()).toString() + "Offers";
+                                  r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, s);
+                                  r.allowScanningByMediaScanner();
+                                  r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                                  try {
+                                      DownloadManager dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
+                                      dm.enqueue(r);
+                                  } catch (Exception e) {
+                                      Methods.toast(e.getMessage().toString(), getContext());
+                                  }
+                              }
 
-                            Uri uri=Uri.parse(Urls.URL_PDF_PATH+myItem.getPromo_pdf());
-                            DownloadManager.Request r = new DownloadManager.Request(uri);
-                            String s= Html.fromHtml(myItem.getName()).toString()+"Offers";
-                            r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,s);
-                            r.allowScanningByMediaScanner();
-                            r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                            try{
-                                DownloadManager dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
-                                dm.enqueue(r);}catch (Exception e){
-                                Methods.toast(e.getMessage().toString(),getContext());
-                            }}
+                          }
 
-                    }
-
-                });
+                      });
    /*----------------------------------------------------------call btn popup nums----------------------------------------------------------------------------------*/
 
-                holder.call.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        AlphaAnimation buttonClick = new AlphaAnimation(3F, 0.8F);
-                        view.setAnimation(buttonClick);
-                        if (myItem.getPhones().size() == 1) {
-                            context.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + myItem.getPhone1())));
+                      holder.call.setOnClickListener(new View.OnClickListener() {
+                          @Override
+                          public void onClick(View view) {
+                              AlphaAnimation buttonClick = new AlphaAnimation(3F, 0.8F);
+                              view.setAnimation(buttonClick);
+                              if (myItem.getPhones().size() == 1) {
+                                  context.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + myItem.getPhone1())));
 
-                        } else if (myItem.getPhones().size() > 1) {
-                            final Dialog nagDialog = new Dialog(getContext());
-                            nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            nagDialog.setContentView(R.layout.popup_phone_numbers_for_item);
-                            ListView listView1 = (ListView) nagDialog.findViewById(R.id.phones_list);
-                            listView1.setAdapter(phones_adapter);
-                            nagDialog.show();
-                            listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                              } else if (myItem.getPhones().size() > 1) {
+                                  final Dialog nagDialog = new Dialog(getContext());
+                                  nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                  nagDialog.setContentView(R.layout.popup_phone_numbers_for_item);
+                                  ListView listView1 = (ListView) nagDialog.findViewById(R.id.phones_list);
+                                  listView1.setAdapter(phones_adapter);
+                                  nagDialog.show();
+                                  listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                      @Override
+                                      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                               context.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + phones_adapter.getItem(position))));
-                                }
-                            });
-                        } else {
-                            Methods.toast("No Phone numbers for this item!", getContext());
-                        }
-                    }
-                });
+                                          context.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse("tel:" + phones_adapter.getItem(position))));
+                                      }
+                                  });
+                              } else {
+                                  Methods.toast("No Phone numbers for this item!", getContext());
+                              }
+                          }
+                      });
 
 /*-----------------------------------------------------------------------like btn-----------------------------------------------------------------------------------------*/
-                holder.addToFavBtn.init((AppCompatActivity) context);
-                if(Variables.ITEM_PATH.equals("Latest offers")||Variables.ITEM_PATH.equals("Whats new?!")) //if so
-                {holder.addToFavBtn.setVisibility(View.GONE);}//invisible addToFav btn in latest offers & whats new?!
-                else {holder.addToFavBtn.setVisibility(View.VISIBLE);}
-                if(Variables.ITEM_PATH.equals("Favorite")){myItem.setLike(true);} //if it's favourites set all with true
-                holder.addToFavBtn.setChecked(myItem.isLike());
-                holder.addToFavBtn.setOnClickListener(new View.OnClickListener() {
+                      holder.addToFavBtn.init((AppCompatActivity) context);
+                      if (Variables.ITEM_PATH.equals("Latest offers") || Variables.ITEM_PATH.equals("Whats new?!")) //if so
+                      {
+                          holder.addToFavBtn.setVisibility(View.GONE);
+                      }//invisible addToFav btn in latest offers & whats new?!
+                      else {
+                          holder.addToFavBtn.setVisibility(View.VISIBLE);
+                      }
+                      if (Variables.ITEM_PATH.equals("Favorite")) {
+                          myItem.setLike(true);
+                      } //if it's favourites set all with true
+                      holder.addToFavBtn.setChecked(myItem.isLike());
+                      holder.addToFavBtn.setOnClickListener(new View.OnClickListener() {
 
-                    @Override
-                    public void onClick(View view) {
-                        if (!myItem.isLike()) {
-                            StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_TO_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    JsonElement root = new JsonParser().parse(response);
-                                    root = new JsonParser().parse(root.getAsString());   //double parse
-                                    response = root.getAsString();
-                                    try {
-                                        JSONObject obj = new JSONObject(response);
-                                        String status = obj.getString("Status");
-                                        if (status.matches("Success") || status.matches("Already Exists")) {
-                                            // myItem.setLike(true);
-                                            Methods.toast("Added to Favorites list!",context);
-                                        } else Methods.toast(status,context);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }, null);
-                            VolleySingleton.getInstance().addToRequestQueue(postReq);
-                            myItem.setLike(true);
-                        }
-                        else {
-                            StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    JsonElement root = new JsonParser().parse(response);
-                                    root = new JsonParser().parse(root.getAsString());   //double parse
-                                    response = root.getAsString();
-                                    try {
-                                        JSONObject obj = new JSONObject(response);
-                                        String status = obj.getString("Status");
-                                        if (status.matches("Success")) {
-                                            Methods.toast("Removed from Favorites list!",context);
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }, null);
-                            VolleySingleton.getInstance().addToRequestQueue(postReq);
-                            if(Variables.ITEM_PATH.matches("Favorite")){
-                            itemsList.remove(myItem);
-                             setNotifyOnChange(true);
-                             notifyDataSetChanged();
-                            }
+                          @Override
+                          public void onClick(View view) {
+                              if (!myItem.isLike()) {
+                                  StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_ADD_TO_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
+                                      @Override
+                                      public void onResponse(String response) {
+                                          JsonElement root = new JsonParser().parse(response);
+                                          root = new JsonParser().parse(root.getAsString());   //double parse
+                                          response = root.getAsString();
+                                          try {
+                                              JSONObject obj = new JSONObject(response);
+                                              String status = obj.getString("Status");
+                                              if (status.matches("Success") || status.matches("Already Exists")) {
+                                                  // myItem.setLike(true);
+                                                  Methods.toast("Added to Favorites list!", context);
+                                              } else Methods.toast(status, context);
+                                          } catch (JSONException e) {
+                                              e.printStackTrace();
+                                          }
+                                      }
+                                  }, null);
+                                  VolleySingleton.getInstance().addToRequestQueue(postReq);
+                                  myItem.setLike(true);
+                              } else {
+                                  StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_DELETE_FROM_FAVORITES_ITEM + myItem.getId(), new Response.Listener<String>() {
+                                      @Override
+                                      public void onResponse(String response) {
+                                          JsonElement root = new JsonParser().parse(response);
+                                          root = new JsonParser().parse(root.getAsString());   //double parse
+                                          response = root.getAsString();
+                                          try {
+                                              JSONObject obj = new JSONObject(response);
+                                              String status = obj.getString("Status");
+                                              if (status.matches("Success")) {
+                                                  Methods.toast("Removed from Favorites list!", context);
+                                              }
+                                          } catch (JSONException e) {
+                                              e.printStackTrace();
+                                          }
+                                      }
+                                  }, null);
+                                  VolleySingleton.getInstance().addToRequestQueue(postReq);
+                                  if (Variables.ITEM_PATH.matches("Favorite")) {
+                                      itemsList.remove(myItem);
+                                      setNotifyOnChange(true);
+                                      notifyDataSetChanged();
+                                  }
 
-                        }
-                    }
-                });
+                              }
+                          }
+                      });
 /*------------------------------------------------------------------pupup item image--------------------------------------------------------------------------*/
 
-                holder.image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        popUpPhoto(myItem.getPhoto1());
+                      holder.image.setOnClickListener(new View.OnClickListener() {
+                          @Override
+                          public void onClick(View view) {
+                              popUpPhoto(myItem.getPhoto1());
 
-                    }
-                });
+                          }
+                      });
 /*------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------Menu btn-----------------------------------------------------------------------*/
 
-                if (myItem.getUrl_btn_text().matches("null")) {
-                    holder.menu.setVisibility(View.GONE);
-                } else {
-                    holder.menu.setText(myItem.getUrl_btn_text());
-                    holder.menu.setVisibility(View.VISIBLE);
-                }
-                holder.menu.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                 popupMenu(myItem.getMenu_url());
-                    }
-                });
+                      if (myItem.getUrl_btn_text().matches("null")) {
+                          holder.menu.setVisibility(View.GONE);
+                      } else {
+                          holder.menu.setText(myItem.getUrl_btn_text());
+                          holder.menu.setVisibility(View.VISIBLE);
+                      }
+                      holder.menu.setOnClickListener(new View.OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
+                              popupMenu(myItem.getMenu_url());
+                          }
+                      });
    /*--------------------------------------------------------------------------------------------------------------------------------------------*/
-                holder.rateSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        // Methods.toast(String.valueOf(position), getContext());
+                      holder.rateSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                          @Override
+                          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                              // Methods.toast(String.valueOf(position), getContext());
 
-                        String url = Urls.USER_RATE_ATTRS(myItem.getId(), position);
-                        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                              String url = Urls.USER_RATE_ATTRS(myItem.getId(), position);
+                              StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
-                            @Override
-                            public void onResponse(String response) {
-                                JsonElement root = new JsonParser().parse(response);
-                                root = new JsonParser().parse(root.getAsString());   //double parse
-                                response = root.getAsString();
-                                try {
-                                    JSONObject obj = new JSONObject(response);
-                                    String status = obj.getString("Status");
-                                    if (status.matches("Success")) {
-                                        Methods.toast("Rating Success", getContext());
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        } , null);
+                                  @Override
+                                  public void onResponse(String response) {
+                                      JsonElement root = new JsonParser().parse(response);
+                                      root = new JsonParser().parse(root.getAsString());   //double parse
+                                      response = root.getAsString();
+                                      try {
+                                          JSONObject obj = new JSONObject(response);
+                                          String status = obj.getString("Status");
+                                          if (status.matches("Success")) {
+                                              Methods.toast("Rating Success", getContext());
+                                          }
+                                      } catch (JSONException e) {
+                                          e.printStackTrace();
+                                      }
+                                  }
+                              }, null);
 
-                        if (Variables.ACCOUNT_ID != null) {
-                            if (position > 0) {
-                                VolleySingleton.getInstance().addToRequestQueue(request);
+                              if (Variables.ACCOUNT_ID != null) {
+                                  if (position > 0) {
+                                      VolleySingleton.getInstance().addToRequestQueue(request);
 
-                            }
-                            // else {Methods.toast("please select a value",getContext());}
-                        } else {
-                            Methods.toast("You Must login First!", getContext());
-                        }
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                        Methods.toast("nothing", getContext());
-                    }
-                });
-              holder.share.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                 shareItem(myItem);
-                    }
-                });
+                                  }
+                                  // else {Methods.toast("please select a value",getContext());}
+                              } else {
+                                  Methods.toast("You Must login First!", getContext());
+                              }
+                          }
+
+                          @Override
+                          public void onNothingSelected(AdapterView<?> parent) {
+                              Methods.toast("nothing", getContext());
+                          }
+                      });
+                      holder.share.setOnClickListener(new View.OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
+                              shareItem(myItem);
+                          }
+                      });
 /*--------------------------------------------------------------------------------------------------------------------------------------------*/
-                holder.comment.setOnClickListener(new View.OnClickListener() {
+                      holder.comment.setOnClickListener(new View.OnClickListener() {
 
-                    @Override
-                    public void onClick(View v) {
-                        popComment(myItem.getId());
-                    }});
+                          @Override
+                          public void onClick(View v) {
+                              popComment(myItem.getId());
+                          }
+                      });
 
-                return convertView;
+                      return convertView;
 
-            } catch (Exception e) {
-                return null;
-            }
+                  }else{return null;}
+                 } catch (Exception e) {
+                   return null;
+               }
 
         }
 /*--------------------------------------------------------------------------------------------------------------------------------------------*/

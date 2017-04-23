@@ -35,6 +35,7 @@ import com.av.lenovo.sa3edny.classes.ExceptionHandler;
 import com.av.lenovo.sa3edny.fragments.ItemsFragment;
 import com.av.lenovo.sa3edny.fragments.NotificationsListFragment;
 import com.av.lenovo.sa3edny.fragments.SearchFragment;
+import com.av.lenovo.sa3edny.fragments.VoucherFragment;
 import com.av.lenovo.sa3edny.services.BackGroundService;
 import com.av.lenovo.sa3edny.classes.GetDataRequest;
 import com.av.lenovo.sa3edny.fragments.CategoriesFragment;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     private CallbackManager callbackManager;
     TextView faceName;
     ImageView imageView;
-    Profile profile;
+   public static Profile profile;
     View navHed;
     Button tryConnect;
     public static Typeface font;
@@ -148,6 +149,18 @@ public class MainActivity extends AppCompatActivity
         imageView = (ImageView) navHed.findViewById(R.id.prof_image);
         likebtn= (LikeView) navHed.findViewById(R.id.FB_like_btn);
         likebtn.setObjectIdAndType("https://www.facebook.com/sa3ednyapps/",LikeView.ObjectType.PAGE);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentClass = VoucherFragment.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).commit();
+            }
+        });
  /*---------------------------------------------------------------------------------------------------------------------------------*/
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();

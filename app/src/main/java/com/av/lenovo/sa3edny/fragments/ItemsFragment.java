@@ -97,7 +97,7 @@ public class ItemsFragment extends Fragment {
                             item.setUrl_btn_text(object.getString("URLButtonText"));
                             if (object.getString("Rate") != "null") {
                                 item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
-                                Log.d("rate", Float.valueOf(object.getString("Rate")).toString());
+                               // Log.d("rate", Float.valueOf(object.getString("Rate")).toString());
                             }
 
                             item.setPhoto1(Urls.URL_IMG_PATH + object.getString("Photo1"));
@@ -114,10 +114,11 @@ public class ItemsFragment extends Fragment {
                         }
 
                         //  itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
-                        itemAdapter = new MyItemAdapter(getContext(), android.R.layout.simple_list_item_1, itemArrayList);
+                        if(getContext()!=null)
+                        {itemAdapter = new MyItemAdapter(getContext(), android.R.layout.simple_list_item_1, itemArrayList);
                         ItemList.setAdapter(itemAdapter);
                         // progressDialog.dismiss();
-                        progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);}
                         //  itemAdapter.setNotifyOnChange(true);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -140,8 +141,9 @@ public class ItemsFragment extends Fragment {
             Methods.setPath(view,getContext());
             return view;
         }
-        catch (Exception e){ e.printStackTrace();}
+        catch (Exception e){ e.printStackTrace();
         return null;
+        }
    }
 
 
@@ -149,7 +151,6 @@ public class ItemsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, ItemList, false);
         ItemList.addFooterView(footerView,null,false);
         MainActivity.fab.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +159,7 @@ public class ItemsFragment extends Fragment {
         ItemList.smoothScrollToPosition(0);
             }}
         );
+
 
         ItemList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -173,6 +175,7 @@ public class ItemsFragment extends Fragment {
 
 
     }
+/*
     private void getFavIds() {
         final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,
                 new Response.Listener<String>() {
@@ -204,6 +207,7 @@ public class ItemsFragment extends Fragment {
         { VolleySingleton.getInstance().addToRequestQueue(favrequest);}
 
     }
+*/
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
