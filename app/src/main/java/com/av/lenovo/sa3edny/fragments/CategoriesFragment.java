@@ -1,17 +1,24 @@
 package com.av.lenovo.sa3edny.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -29,6 +36,7 @@ import com.av.lenovo.sa3edny.classes.GetDataRequest;
 import com.av.lenovo.sa3edny.classes.Subcategory;
 import com.av.lenovo.sa3edny.R;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
+import com.av.lenovo.sa3edny.services.CheckNotificationService;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.json.JSONArray;
@@ -42,9 +50,31 @@ public class CategoriesFragment extends Fragment {
     private ArrayList<Category> categoryArrayList;
     ExpandListAdpter expandListAdpter;
     JSONArray jsonArray;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          categoryArrayList = new ArrayList<>();
+       getContext().startService(new Intent(getContext(), CheckNotificationService.class));
+      MainActivity.bagde_number.setText("cat");
+      IntentFilter statusIntentFilter = new IntentFilter("GETBADGE");
+     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try{
+
+                int b=intent.getIntExtra("BADGE",9);
+                Log.d("inBroadCast",b+"..");
+                MainActivity.bagde_number.setText(b);
+                // bagde_number.setVisibility(View.VISIBLE);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    };
+    LocalBroadcastManager.getInstance(getContext()).registerReceiver(
+            broadcastReceiver,
+            statusIntentFilter);
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
 
         /*  StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_GET_CATEGORIES_GOODS,new Response.Listener<String>() {

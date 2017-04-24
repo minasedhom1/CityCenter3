@@ -40,7 +40,7 @@ public class BackGroundService extends IntentService {
         super("HI SERVICE");
     }
 
-    ArrayList<Item> items;
+
 
     @Override
     protected void onHandleIntent(Intent intent) {

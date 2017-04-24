@@ -43,6 +43,7 @@
             </intent-filter>
         </service>
         <service android:name="com.av.lenovo.sa3edny.services.BackGroundService"/>
+        <service android:name=".services.CheckNotificationService"/>
     </application>
 
 </manifest>

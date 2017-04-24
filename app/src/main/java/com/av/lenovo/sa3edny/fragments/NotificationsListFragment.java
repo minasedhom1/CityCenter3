@@ -91,7 +91,8 @@ public class NotificationsListFragment extends Fragment {
             VolleySingleton.getInstance().addToRequestQueue(request);
         else { adapter =new NotificationCustomAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.notificationList);
             notiListView.setAdapter(adapter);
-            progressBar.setVisibility(View.GONE);}
+            progressBar.setVisibility(View.GONE);
+        }
 
 
 

@@ -1,7 +1,9 @@
 package com.av.lenovo.sa3edny;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,9 +13,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -42,6 +45,7 @@ import com.av.lenovo.sa3edny.fragments.CategoriesFragment;
 import com.av.lenovo.sa3edny.fragments.ContactUsFragment;
 import com.av.lenovo.sa3edny.fragments.GrandCinema;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
+import com.av.lenovo.sa3edny.services.CheckNotificationService;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -78,15 +82,41 @@ public class MainActivity extends AppCompatActivity
     public static FloatingActionButton fab;
     NavigationView navigationView;
     LikeView likebtn;
-
+    public static TextView bagde_number;
 
     @Override
       protected void onCreate(final Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
-    /*  FirebaseCrash.report(new Exception("My first Android non-fatal error"));
-      FirebaseCrash.log("Activity created");*/
-    Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
 
+
+
+        IntentFilter statusIntentFilter = new IntentFilter("GETBADGE");
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                try{
+
+                    int b=intent.getIntExtra("BADGE",9);
+                    Log.d("inBroadCast",b+"..");
+                 //   bagde_number.setText("15");
+                   // bagde_number.setVisibility(View.VISIBLE);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        // Registers the DownloadStateReceiver and its intent filters
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
+                broadcastReceiver,
+                statusIntentFilter);
+
+
+
+
+
+
+    Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_main);
       tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -94,7 +124,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         View menu_icon=findViewById(R.id.nav_icon);
         menu_icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +135,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
 
 
       //  toggle.syncState();
@@ -204,6 +234,7 @@ void showEveryThing()
             LoginFB_request();
         }
  /*---------------------------------------------------------------------------------------------------------------------------------*/
+
  /*------------------------------------------------------check if ther is a logged in FB acc---------------------------------------------------------------------------*/
         profile = Profile.getCurrentProfile();
         if (profile != null) {
@@ -229,16 +260,17 @@ void showEveryThing()
             }
         };
         profileTracker.startTracking();
- /*-------------------------------------------------------------check if token is saved or not--------------------------------------------------------------------*/
-
+ /*-------------------------------------------------------------Notification intent--------------------------------------------------------------------*/
 
  /*------------------------------------------------------Signature-------------------------------------------------------------------------------------*/
         View logo = findViewById(R.id.logo_header);
         View notif= findViewById(R.id.notify_icon);
-    notif.setOnClickListener(new View.OnClickListener() {
+         bagde_number = (TextView) findViewById(R.id.badge_number);
+         notif.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ShortcutBadger.removeCount(getApplicationContext());
+        bagde_number.setVisibility(View.GONE);
+        ShortcutBadger.removeCount(getApplicationContext());
 
         notifyFrag();
     }
@@ -289,7 +321,7 @@ void showEveryThing()
     @Override
     protected void onResume() {
         super.onResume();
-        //Methods.toast("OnResume",getApplicationContext());
+       // startService(new Intent(MainActivity.this, CheckNotificationService.class));
         try {
             if (Variables.searchList.size() == 0) {
                 Intent mServiceIntent = new Intent(getApplicationContext(), BackGroundService.class);
