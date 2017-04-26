@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
@@ -34,7 +33,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.av.lenovo.sa3edny.Assets.Methods;
 import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.Assets.Variables;
-import com.av.lenovo.sa3edny.classes.ExceptionHandler;
 import com.av.lenovo.sa3edny.fragments.ItemsFragment;
 import com.av.lenovo.sa3edny.fragments.NotificationsListFragment;
 import com.av.lenovo.sa3edny.fragments.SearchFragment;
@@ -45,7 +43,6 @@ import com.av.lenovo.sa3edny.fragments.CategoriesFragment;
 import com.av.lenovo.sa3edny.fragments.ContactUsFragment;
 import com.av.lenovo.sa3edny.fragments.GrandCinema;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
-import com.av.lenovo.sa3edny.services.CheckNotificationService;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -74,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     public FragmentManager fragmentManager = getSupportFragmentManager();
     private CallbackManager callbackManager;
     TextView faceName;
-    ImageView imageView;
+    ImageView drawer_profile;
    public static Profile profile;
     View navHed;
     Button tryConnect;
@@ -82,42 +79,15 @@ public class MainActivity extends AppCompatActivity
     public static FloatingActionButton fab;
     NavigationView navigationView;
     LikeView likebtn;
-    public static TextView bagde_number;
+    TextView bagde_number;
 
     @Override
       protected void onCreate(final Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
 
 
 
-        IntentFilter statusIntentFilter = new IntentFilter("GETBADGE");
-        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                try{
-
-                    int b=intent.getIntExtra("BADGE",9);
-                    Log.d("inBroadCast",b+"..");
-                 //   bagde_number.setText("15");
-                   // bagde_number.setVisibility(View.VISIBLE);
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        };
-        // Registers the DownloadStateReceiver and its intent filters
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
-                broadcastReceiver,
-                statusIntentFilter);
-
-
-
-
-
-
-    Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-        setContentView(R.layout.activity_main);
       tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         font = Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf");
@@ -136,50 +106,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-
-      //  toggle.syncState();
-
-
-
- /*       ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
-
-
-      /*  toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (drawer.isDrawerVisible(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-                }
-            }
-        });
-      //  toggle.setHomeAsUpIndicator(R.drawable.nav_icon);
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (drawer.isDrawerVisible(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-                }
-            }
-        });
-
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();*/
-
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navHed = navigationView.getHeaderView(0);
         faceName = (TextView) navHed.findViewById(R.id.name_tv);
-        imageView = (ImageView) navHed.findViewById(R.id.prof_image);
+        drawer_profile = (ImageView) navHed.findViewById(R.id.prof_image);
         likebtn= (LikeView) navHed.findViewById(R.id.FB_like_btn);
         likebtn.setObjectIdAndType("https://www.facebook.com/sa3ednyapps/",LikeView.ObjectType.PAGE);
-        imageView.setOnClickListener(new View.OnClickListener() {
+
+        drawer_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragmentClass = VoucherFragment.class;
@@ -189,6 +124,7 @@ public class MainActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).commit();
+                drawer.closeDrawer(GravityCompat.START, true);
             }
         });
  /*---------------------------------------------------------------------------------------------------------------------------------*/
@@ -239,9 +175,9 @@ void showEveryThing()
         profile = Profile.getCurrentProfile();
         if (profile != null) {
             faceName.setText(profile.getName());
-            Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(imageView);
+            Picasso.with(getBaseContext()).load(profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(drawer_profile);
         } else {
-            imageView.setImageResource(R.mipmap.prof1);
+            drawer_profile.setImageResource(R.mipmap.prof1);
             faceName.setText("");
         }
  /*----------------------------------------------------------Tracks profile changes-----------------------------------------------------------------------*/
@@ -251,10 +187,10 @@ void showEveryThing()
                 if (currentProfile != null) {
                     faceName.setText(currentProfile.getName());
                     //   home_name.setText("Welcome " + currentProfile.getFirstName() + "!");
-                    Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(imageView);
+                    Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(drawer_profile);
                     //     Picasso.with(getBaseContext()).load(currentProfile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(home_prof);
                 } else {
-                    imageView.setImageResource(R.mipmap.prof1);
+                    drawer_profile.setImageResource(R.mipmap.prof1);
                     faceName.setText("");
                 }
             }
@@ -271,12 +207,34 @@ void showEveryThing()
         public void onClick(View v) {
         bagde_number.setVisibility(View.GONE);
         ShortcutBadger.removeCount(getApplicationContext());
-
+            Variables.badgeCount=0;
         notifyFrag();
     }
 
     }
     );
+
+    IntentFilter statusIntentFilter = new IntentFilter("BADGENUM");
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            try{
+
+                int b=intent.getIntExtra("BADGENUM",-1);
+                Log.d("inBroadCast",b+"..");
+                bagde_number.setVisibility(View.VISIBLE);
+                bagde_number.setText(b+"");
+
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    };
+    LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
+            broadcastReceiver,
+            statusIntentFilter);
+
 
 
         logo.setOnClickListener(new View.OnClickListener() {

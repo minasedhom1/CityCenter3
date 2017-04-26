@@ -100,13 +100,14 @@
         android:paddingBottom="10dp"
         android:layout_marginLeft="15dp">
         <Button
-            android:background="@drawable/rounded_corner_btn2"
+            android:background="@drawable/rounded_corner_btn"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:text="Add Points"
             android:textAllCaps="false"
             android:textColor="#fff"
             android:textSize="13sp"
+            android:id="@+id/loyal_add_points_btn"
             />
         <Button
             android:textSize="13sp"
@@ -116,9 +117,10 @@
             android:layout_height="35dp"
             android:text="Claim Reward"
             android:textAllCaps="false"
-            android:background="@drawable/rounded_corner_btn2"
+            android:background="@drawable/rounded_corner_btn"
             android:layout_marginLeft="10dp"
             android:textColor="#fff"
+            android:id="@+id/loyal_claim_reward_btn1"
             />
 
     </LinearLayout>
@@ -139,7 +141,7 @@
         android:layout_height="35dp"
         android:text="Claim Reward"
         android:textAllCaps="false"
-        android:background="@drawable/rounded_corner_btn2"
+        android:background="@drawable/rounded_corner_btn"
         android:textColor="#fff"
         android:layout_marginLeft="15dp"
         />
@@ -159,7 +161,7 @@
         android:paddingBottom="10dp"
         android:layout_marginLeft="15dp">
         <Button
-            android:background="@drawable/rounded_corner_btn2"
+            android:background="@drawable/rounded_corner_btn"
             android:textSize="13sp"
 
             android:layout_width="wrap_content"
@@ -175,7 +177,7 @@
             android:layout_height="35dp"
             android:text="Claim Reward"
             android:textAllCaps="false"
-            android:background="@drawable/rounded_corner_btn2"
+            android:background="@drawable/rounded_corner_btn"
             android:layout_marginLeft="10dp"
             android:textColor="#fff"
             />

@@ -15,26 +15,7 @@
         android:paddingEnd="10dp"
 
 >
-<!--
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="250dp"
-            android:layout_alignParentRight="true"
-
-            >
-       &lt;!&ndash;     <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/logo"
-                android:layout_gravity="right"
-                android:id="@+id/logo_header"
-                />&ndash;&gt;
-        </LinearLayout>
--->
-        <ImageView
+   <ImageView
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:src="@mipmap/logo2"
@@ -51,7 +32,6 @@
             android:layout_marginTop="10dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:tint="@drawable/notification_selector"
             android:clickable="true"
             android:id="@+id/nav_icon"
 
@@ -73,16 +53,16 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:id="@+id/notify_icon"
-            android:tint="@drawable/notification_selector"
             />
             <TextView
+                android:visibility="invisible"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:background="@drawable/rounded_corner_btn2"
+                android:background="@drawable/badge_text"
                 android:layout_width="15dp"
                 android:layout_height="20dp"
-                android:text="7"
+                android:text="0"
                 android:textStyle="bold"
                 android:id="@+id/badge_number"/>
         </FrameLayout>

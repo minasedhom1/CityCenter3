@@ -47,8 +47,7 @@ public class SearchFragment extends Fragment {
     }
 
    ListView listView;
-   // JSONArray jsonArray;
-  //  JSONObject jsonObject;
+
     ArrayList<Item> itemArrayList;
     MyItemSearchAdapter myItemSearchAdapter;
     EditText editText;

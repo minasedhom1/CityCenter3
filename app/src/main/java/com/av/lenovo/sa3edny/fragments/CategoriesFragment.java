@@ -53,28 +53,8 @@ public class CategoriesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-         categoryArrayList = new ArrayList<>();
-       getContext().startService(new Intent(getContext(), CheckNotificationService.class));
-      MainActivity.bagde_number.setText("cat");
-      IntentFilter statusIntentFilter = new IntentFilter("GETBADGE");
-     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            try{
+      categoryArrayList = new ArrayList<>();
 
-                int b=intent.getIntExtra("BADGE",9);
-                Log.d("inBroadCast",b+"..");
-                MainActivity.bagde_number.setText(b);
-                // bagde_number.setVisibility(View.VISIBLE);
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-    };
-    LocalBroadcastManager.getInstance(getContext()).registerReceiver(
-            broadcastReceiver,
-            statusIntentFilter);
         /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
 
         /*  StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_GET_CATEGORIES_GOODS,new Response.Listener<String>() {

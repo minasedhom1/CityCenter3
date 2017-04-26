@@ -5,8 +5,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.av.lenovo.sa3edny.Assets.Variables;
 import com.av.lenovo.sa3edny.MainActivity;
@@ -28,12 +31,17 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
       /* title=remoteMessage.getNotification().getTitle();*/
      /*   msg=remoteMessage.getNotification().getBody();*/
         sendNotification(remoteMessage.getNotification().getBody());//  Toast.makeText(MyFirebaseMessagingService.this.getApplicationContext(),remoteMessage.getNotification().getBody(),Toast.LENGTH_LONG).show();
-
         ShortcutBadger.applyCount(getApplicationContext(), ++Variables.badgeCount );
+        Intent localIntent = new Intent("BADGENUM")
+                // Puts the status into the Intent
+                .putExtra("BADGENUM", Variables.badgeCount);
+        // Broadcasts the Intent to receivers in this app.
 
+        LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(localIntent);
     }
 
     private void sendNotification(String msg) {
+        //MainActivity.bagde_number.setVisibility(View.VISIBLE);
         NotificationManager mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
@@ -48,7 +56,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 
 
 
-        mBuilder.setContentIntent(contentIntent);
+       mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(1, mBuilder.build());
     }
 

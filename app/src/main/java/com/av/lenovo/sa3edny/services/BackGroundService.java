@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.av.lenovo.sa3edny.Assets.Methods;
 import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.Assets.Variables;
+import com.av.lenovo.sa3edny.MainActivity;
 import com.av.lenovo.sa3edny.classes.Item;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.google.gson.JsonElement;
@@ -44,7 +45,7 @@ public class BackGroundService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
+       // MainActivity.bagde_number.setText("service");
         try {
             Methods.getFavIds(getApplicationContext());
 
