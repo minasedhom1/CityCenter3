@@ -86,9 +86,7 @@ public class MainActivity extends AppCompatActivity
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
 
-
-
-      tryConnect= (Button) findViewById(R.id.try_connect_btn);
+       tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         font = Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -202,6 +200,7 @@ void showEveryThing()
         View logo = findViewById(R.id.logo_header);
         View notif= findViewById(R.id.notify_icon);
          bagde_number = (TextView) findViewById(R.id.badge_number);
+
          notif.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -213,7 +212,7 @@ void showEveryThing()
 
     }
     );
-
+   // if(Variables.badgeCount>0){bagde_number.setText(Variables.badgeCount+"");}
     IntentFilter statusIntentFilter = new IntentFilter("BADGENUM");
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -298,8 +297,10 @@ void showEveryThing()
         loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
                 Log.d("UserID", AccessToken.getCurrentAccessToken().getUserId());
                 getAccID();
+
             }
 
 

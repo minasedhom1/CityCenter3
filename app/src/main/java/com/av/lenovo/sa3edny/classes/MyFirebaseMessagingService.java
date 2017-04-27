@@ -27,10 +27,11 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d("tag", "From: " + remoteMessage.getFrom());
-        Log.d("tag", "Notification Message Body: " + remoteMessage.getNotification().getBody());
+//        Log.d("tag", "Notification Message Body: " + remoteMessage.getNotification().getBody());
       /* title=remoteMessage.getNotification().getTitle();*/
      /*   msg=remoteMessage.getNotification().getBody();*/
-        sendNotification(remoteMessage.getNotification().getBody());//  Toast.makeText(MyFirebaseMessagingService.this.getApplicationContext(),remoteMessage.getNotification().getBody(),Toast.LENGTH_LONG).show();
+        //getNotification()
+        sendNotification(remoteMessage.getData().get("body"));//  Toast.makeText(MyFirebaseMessagingService.this.getApplicationContext(),remoteMessage.getNotification().getBody(),Toast.LENGTH_LONG).show();
         ShortcutBadger.applyCount(getApplicationContext(), ++Variables.badgeCount );
         Intent localIntent = new Intent("BADGENUM")
                 // Puts the status into the Intent
@@ -56,7 +57,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 
 
 
-       mBuilder.setContentIntent(contentIntent);
+        mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(1, mBuilder.build());
     }
 
