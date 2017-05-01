@@ -115,14 +115,14 @@ public class MainActivity extends AppCompatActivity
         drawer_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentClass = VoucherFragment.class;
+              /*  fragmentClass = VoucherFragment.class;
                 try {
                     fragment = (Fragment) fragmentClass.newInstance();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).commit();
-                drawer.closeDrawer(GravityCompat.START, true);
+                drawer.closeDrawer(GravityCompat.START, true);*/
             }
         });
  /*---------------------------------------------------------------------------------------------------------------------------------*/
@@ -200,13 +200,17 @@ void showEveryThing()
         View logo = findViewById(R.id.logo_header);
         View notif= findViewById(R.id.notify_icon);
          bagde_number = (TextView) findViewById(R.id.badge_number);
-
+         if(PreferenceManager.getDefaultSharedPreferences(this).getInt("BADGE_NUMBER",-1)>0)
+         {  bagde_number.setVisibility(View.VISIBLE);
+             bagde_number.setText(PreferenceManager.getDefaultSharedPreferences(this).getInt("BADGE_NUMBER",-1)+"");
+         }
          notif.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
         bagde_number.setVisibility(View.GONE);
         ShortcutBadger.removeCount(getApplicationContext());
-            Variables.badgeCount=0;
+            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putInt("BADGE_NUMBER", 0).apply();
+           // Variables.badgeCount=0;
         notifyFrag();
     }
 
@@ -238,7 +242,7 @@ void showEveryThing()
 
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+                public void onClick(View view) {
                 Methods.signture(MainActivity.this);
             }
         });

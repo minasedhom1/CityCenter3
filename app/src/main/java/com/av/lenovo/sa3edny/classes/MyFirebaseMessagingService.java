@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
@@ -32,10 +33,13 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
      /*   msg=remoteMessage.getNotification().getBody();*/
         //getNotification()
         sendNotification(remoteMessage.getData().get("body"));//  Toast.makeText(MyFirebaseMessagingService.this.getApplicationContext(),remoteMessage.getNotification().getBody(),Toast.LENGTH_LONG).show();
+
         ShortcutBadger.applyCount(getApplicationContext(), ++Variables.badgeCount );
+        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putInt("BADGE_NUMBER", Variables.badgeCount).apply();
+
         Intent localIntent = new Intent("BADGENUM")
                 // Puts the status into the Intent
-                .putExtra("BADGENUM", Variables.badgeCount);
+                .putExtra("BADGENUM", PreferenceManager.getDefaultSharedPreferences(this).getInt("BADGE_NUMBER",-1));
         // Broadcasts the Intent to receivers in this app.
 
         LocalBroadcastManager.getInstance(getApplication()).sendBroadcast(localIntent);

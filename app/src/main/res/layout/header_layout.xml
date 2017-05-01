@@ -53,6 +53,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:id="@+id/notify_icon"
+            android:background="@drawable/call_search_list"
             />
             <TextView
                 android:visibility="invisible"
