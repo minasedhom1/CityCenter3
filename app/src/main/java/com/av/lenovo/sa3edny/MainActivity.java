@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();
  /*---------------------------------------------------------------------------------------------------------------------------------*/
-
+//check for internet availability
         if(isNetworkAvailable())
         {
             showEveryThing();
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-void showEveryThing()
+private void showEveryThing()
 {
         mainFrag();
         if (AccessToken.getCurrentAccessToken() != null) {
@@ -209,7 +209,8 @@ void showEveryThing()
         public void onClick(View v) {
         bagde_number.setVisibility(View.GONE);
         ShortcutBadger.removeCount(getApplicationContext());
-            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putInt("BADGE_NUMBER", 0).apply();
+            Variables.badgeCount=0;
+            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putInt("BADGE_NUMBER", Variables.badgeCount).apply();
            // Variables.badgeCount=0;
         notifyFrag();
     }
@@ -237,9 +238,6 @@ void showEveryThing()
     LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
             broadcastReceiver,
             statusIntentFilter);
-
-
-
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View view) {
@@ -248,6 +246,7 @@ void showEveryThing()
         });
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 }
+
 
     private void notifyFrag() {
         Variables.ITEM_PATH="Notifications";
@@ -265,6 +264,8 @@ void showEveryThing()
 
     }
 
+
+
     private void searchFrag() {
         Variables.ITEM_PATH="Search";
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frag_holder);
@@ -279,6 +280,8 @@ void showEveryThing()
             fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_up,R.anim.slide_down).replace(R.id.frag_holder, fragment).commit();
         }
     }
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -299,9 +302,9 @@ void showEveryThing()
     {
         LoginManager loginManager = LoginManager.getInstance();
         loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
             @Override
             public void onSuccess(LoginResult loginResult) {
-
                 Log.d("UserID", AccessToken.getCurrentAccessToken().getUserId());
                 getAccID();
 

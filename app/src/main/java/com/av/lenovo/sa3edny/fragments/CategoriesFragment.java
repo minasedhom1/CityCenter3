@@ -55,47 +55,6 @@ public class CategoriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       categoryArrayList = new ArrayList<>();
 
-        /*----------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-        /*  StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_GET_CATEGORIES_GOODS,new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                 try{
-                    JsonElement root=new JsonParser().parse(response);
-                    response = root.getAsString();  //not .toString
-                    jsonArray = new JSONArray(response) ;
-                    for (int i = 0; i < jsonArray.length(); i++)
-                    {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        Category myCategory=new Category();
-                        myCategory.setCategoryID(object.getInt("CategoryID"));
-                        myCategory.setName_En(object.getString("Name_En")); // X
-                        myCategory.setDescription_En(object.getString("Description_En")); // X
-                        myCategory.setLogo(Urls.URL_IMG_PATH +object.getString("Logo")); //filter here
-                        myCategory.setAllowSubcategory(object.getBoolean("AllowSubcategory"));//filter here
-                        if(myCategory.isAllowSubcategory())
-                        {myCategory.setSub_array(getSubs(object.getInt("CategoryID")));}
-                        myCategory.setRaty(object.getBoolean("IsRaty"));
-                        categoryArrayList.add(myCategory);
-                    }
-                    expandListAdpter=new ExpandListAdpter((AppCompatActivity) getActivity(),categoryArrayList);
-                    expand_listView.setAdapter(expandListAdpter);
-                }
-                  catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        },new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
-            }
-        });
-
-        if (categoryArrayList.isEmpty())
-        {
-            VolleySingleton.getInstance().addToRequestQueue(request);
-        }*/
         CacheRequest cacheRequest = new CacheRequest(Request.Method.GET,Urls.URL_GET_CATEGORIES_GOODS, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse allresponse) {
@@ -104,8 +63,8 @@ public class CategoriesFragment extends Fragment {
                     JsonElement root=new JsonParser().parse(response);
                     response = root.getAsString();  //not .toString
                     jsonArray = new JSONArray(response) ;
-                    for (int i = 0; i < jsonArray.length(); i++)
 
+                    for (int i = 0; i < jsonArray.length(); i++)
                     {
                         JSONObject object = jsonArray.getJSONObject(i);
                         Category myCategory=new Category();
@@ -167,6 +126,7 @@ public class CategoriesFragment extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
                 GetDataRequest.setUrl(Urls.URL_GET_SELECTED_CATEGORY_ITEMS+ Variables.catID ); //set the clicked cat id to fetch it's items
                 }
+
                 return false;
             }
         });

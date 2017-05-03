@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Mina"
+        android:text="XXXXXX"
         android:textColor="#3f3f3f"
         android:textStyle="bold"
         android:textSize="18sp"

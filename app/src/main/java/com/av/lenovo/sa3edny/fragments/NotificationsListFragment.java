@@ -87,12 +87,12 @@ public class NotificationsListFragment extends Fragment {
                 Methods.toast(Methods.onErrorVolley(error), getContext());
 
             }});
-        if(Variables.notificationList.size()==0)
+      /*  if(Variables.notificationList.size()==0)*/
             VolleySingleton.getInstance().addToRequestQueue(request);
-        else { adapter =new NotificationCustomAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.notificationList);
+   /*     else { adapter =new NotificationCustomAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.notificationList);
             notiListView.setAdapter(adapter);
             progressBar.setVisibility(View.GONE);
-        }
+        }*/
 
 
 
