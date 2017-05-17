@@ -3,8 +3,8 @@
     <string name="facebook_app_id">1251459601575440</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="arrow_left">Explore &#xf054;</string>
-    <string name="arrow_bottom">Explore &#xf078;</string>
+    <string name="arrow_left">Explore &#xf105;</string>
+    <string name="arrow_bottom">Explore &#xf107;</string>
     <string name="my_text"> <u>Shop name:</u>  </string>
     <string-array name="rate_values">
         <item>Your Rate</item>

@@ -90,7 +90,7 @@ public class BackGroundService extends IntentService {
             });
 
             request.setRetryPolicy(new DefaultRetryPolicy(
-                    15000,
+                    18000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             VolleySingleton.getInstance().addToRequestQueue(request);

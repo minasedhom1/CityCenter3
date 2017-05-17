@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -23,6 +26,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +40,6 @@ import com.av.lenovo.sa3edny.Assets.Variables;
 import com.av.lenovo.sa3edny.fragments.ItemsFragment;
 import com.av.lenovo.sa3edny.fragments.NotificationsListFragment;
 import com.av.lenovo.sa3edny.fragments.SearchFragment;
-import com.av.lenovo.sa3edny.fragments.VoucherFragment;
 import com.av.lenovo.sa3edny.services.BackGroundService;
 import com.av.lenovo.sa3edny.classes.GetDataRequest;
 import com.av.lenovo.sa3edny.fragments.CategoriesFragment;
@@ -56,6 +59,8 @@ import com.facebook.share.widget.LikeView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Arrays;
@@ -72,7 +77,7 @@ public class MainActivity extends AppCompatActivity
     private CallbackManager callbackManager;
     TextView faceName;
     ImageView drawer_profile;
-   public static Profile profile;
+    public static Profile profile;
     View navHed;
     Button tryConnect;
     public static Typeface font;
@@ -85,8 +90,30 @@ public class MainActivity extends AppCompatActivity
       protected void onCreate(final Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
+/*
+ banner_layout = (FrameLayout) findViewById(R.id.baner_layout);
+        Picasso.with(this).load("https://tygerclient1.azurewebsites.net/images/contentBG.jpg").into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                banner_layout.setBackgroundDrawable(new BitmapDrawable(bitmap));
+                Log.e("BITMAP","success");
+            }
 
-       tryConnect= (Button) findViewById(R.id.try_connect_btn);
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                Log.e("BITMAP","ERROR");
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        });
+*/
+
+
+
+        tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         font = Typeface.createFromAsset(getAssets(), "fontawesome/fontawesome-webfont.ttf");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -197,7 +224,9 @@ private void showEveryThing()
  /*-------------------------------------------------------------Notification intent--------------------------------------------------------------------*/
 
  /*------------------------------------------------------Signature-------------------------------------------------------------------------------------*/
-        View logo = findViewById(R.id.logo_header);
+    ImageView logo =(ImageView)findViewById(R.id.logo_header);
+   // Picasso.with(getBaseContext()).load("http://tygerclient1.azurewebsites.net/images/logo.jpg").into((ImageView) logo);
+
         View notif= findViewById(R.id.notify_icon);
          bagde_number = (TextView) findViewById(R.id.badge_number);
          if(PreferenceManager.getDefaultSharedPreferences(this).getInt("BADGE_NUMBER",-1)>0)
@@ -244,9 +273,9 @@ private void showEveryThing()
                 Methods.signture(MainActivity.this);
             }
         });
-/*-------------------------------------------------------------------------------------------------------------------------------------------*/
 }
 
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
 
     private void notifyFrag() {
         Variables.ITEM_PATH="Notifications";
@@ -362,7 +391,7 @@ private void showEveryThing()
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle navigation banner_layout item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_mallstores) {

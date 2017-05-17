@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -31,12 +32,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NotificationsListFragment extends Fragment {
     JSONArray jsonArray;
- //List<Notification> notificationList;
+   List<Notification> notificationList=new ArrayList<>();
     ListView notiListView;
     ProgressBar progressBar;
     NotificationCustomAdapter adapter;
@@ -45,12 +49,15 @@ public class NotificationsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+       // notificationList=new ArrayList<>();
         // Inflate the layout for this fragment
         View v=inflater.inflate(R.layout.fragment_notifications_list, container, false);
         notiListView= (ListView) v.findViewById(R.id.notification_list);
         progressBar= (ProgressBar) v.findViewById(R.id.progress_bar);
 
         Methods.setPath(v,getContext());
+
+
 
         final StringRequest request=new StringRequest(Request.Method.GET,Urls.URL_GET_NOTIFICATIONS,
                 new Response.Listener<String>() {
@@ -65,10 +72,10 @@ public class NotificationsListFragment extends Fragment {
                                 JSONObject object = jsonArray.getJSONObject(i);
                                 Gson gson = new Gson();
                                 Notification notification=gson.fromJson(object.toString(),Notification.class);
-                                Variables.notificationList.add(notification);
+                                 notificationList.add(notification);
                             }
                             if(getContext()!=null) {
-                                adapter = new NotificationCustomAdapter(getContext(), android.R.layout.simple_list_item_1, Variables.notificationList);
+                                adapter = new NotificationCustomAdapter(getContext(), android.R.layout.simple_list_item_1, notificationList);
                                 notiListView.setAdapter(adapter);
                                 progressBar.setVisibility(View.GONE);
                             }
@@ -87,17 +94,18 @@ public class NotificationsListFragment extends Fragment {
                 Methods.toast(Methods.onErrorVolley(error), getContext());
 
             }});
-      /*  if(Variables.notificationList.size()==0)*/
+            //VolleySingleton.getInstance().getRequestQueue().getCache().clear();
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                15000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             VolleySingleton.getInstance().addToRequestQueue(request);
-   /*     else { adapter =new NotificationCustomAdapter(getContext(),android.R.layout.simple_list_item_1,Variables.notificationList);
-            notiListView.setAdapter(adapter);
-            progressBar.setVisibility(View.GONE);
-        }*/
 
 
 
 
-        notiListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+              notiListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
               Notification notification= (Notification) parent.getAdapter().getItem(position);
@@ -131,5 +139,9 @@ public class NotificationsListFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
 
+        super.onResume();
+    }
 }

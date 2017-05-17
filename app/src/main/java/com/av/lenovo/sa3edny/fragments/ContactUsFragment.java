@@ -49,6 +49,7 @@ View view =inflater.inflate(R.layout.fragment_contact_us, container, false);
                 progressBar.setVisibility(View.GONE);
             }
         });
+
         WebSettings settings=webViewl.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(true);

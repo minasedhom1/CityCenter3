@@ -1,5 +1,6 @@
 package com.av.lenovo.sa3edny.adapters;
 
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -104,11 +105,18 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
             holder.catName.setText(Html.fromHtml(Methods.htmlRender(myCat.getName_En())));
            /* Typeface typeface=Typeface.createFromAsset(activity.getAssets(),"fonts/futura-medium.ttf");
             holder.catDetails.setTypeface(typeface);*/
-            holder.catDetails.setText(Html.fromHtml(myCat.getDescription_En()));
+            if(myCat.getDescription_En().toString().matches("null"))
+            {holder.catDetails.setVisibility(View.GONE);}
+            else
+            {
+                holder.catDetails.setVisibility(View.VISIBLE);
+                holder.catDetails.setText(myCat.getDescription_En());}
             Picasso.with(activity).load(myCat.getLogo()).transform(new RoundedCornersTransformation(25,0)).fit().into(holder.categoryIcon);
             holder.catName.setTextSize(15f);
 
-            holder.explore.setTypeface(MainActivity.font);
+            holder.explore.setTypeface(MainActivity.font,Typeface.BOLD);
+           //  holder.explore.setTextSize(13f);
+            //holder.explore.setTypeface(Typeface.DEFAULT_BOLD);
             return convertView;
 
         } catch (Exception e) {

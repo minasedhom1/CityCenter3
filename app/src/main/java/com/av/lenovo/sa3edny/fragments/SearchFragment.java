@@ -85,7 +85,8 @@ try{
         // Instantiates a new DownloadStateReceiver
 
         BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-            @Override
+
+                @Override
             public void onReceive(Context context, Intent intent) {
                 try{
                 itemArrayList =(ArrayList<Item>) intent.getSerializableExtra("SEARCHITEMS");
@@ -103,12 +104,11 @@ try{
                 statusIntentFilter);
 /**********************************************************************************************************************************************/
 
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-              imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 Item item=  myItemSearchAdapter.getItem(i);
                 Variables.SINGLE_ITEM_ID = String.valueOf(item.getId());
                 Fragment fragment = new SingleItemFragment();

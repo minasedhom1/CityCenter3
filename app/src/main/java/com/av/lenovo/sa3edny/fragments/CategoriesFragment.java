@@ -90,6 +90,7 @@ public class CategoriesFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Methods.toast(Methods.onErrorVolley(error), getContext());            }
         });
+
         VolleySingleton.getInstance().addToRequestQueue(cacheRequest);
 
         return inflater.inflate(R.layout.fragment_categories, container, false);
@@ -107,15 +108,19 @@ public class CategoriesFragment extends Fragment {
         expand_listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                Button explore = (Button) v.findViewById(R.id.explore_btn);
-                explore.setTypeface(MainActivity.font);
+              Button explore = (Button) v.findViewById(R.id.explore_btn);
+                explore.setTextSize(13f);
+                explore.setTypeface(Typeface.DEFAULT_BOLD);
+              //  explore.setTypeface(MainActivity.font);
                 if(expand_listView.isGroupExpanded(groupPosition))
                 {
                     explore.setText(getString(R.string.arrow_left));
-                    explore.setTypeface(Typeface.DEFAULT_BOLD);
+
+                   //
                 }
                  else
                 explore.setText(getString(R.string.arrow_bottom));
+
                 Category cat = (Category) expandListAdpter.getGroup(groupPosition);
                 Variables.IS_RATY_CATEGORY=cat.isRaty();//****new*****
                 if(!cat.isAllowSubcategory())

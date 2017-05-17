@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -90,7 +92,7 @@ public class ItemsFragment extends Fragment {
                             item.setPhone5(object.getString("Phone5"));
                             item.setMenu_url(object.getString("PDF_URL"));
                             item.setPromo(object.getBoolean("IsPromo"));
-                            item.setPromoText(object.getString("PromoText_En"));
+                            item.setPromoText(Html.fromHtml(object.getString("PromoText_En")).toString());
                             item.setPromoButton(object.getString("PromoButtonText"));
                             item.setPromo_pdf(object.getString("PDFPromo"));
                             item.setRaty(object.getBoolean("IsRatyCategory"));
@@ -137,6 +139,10 @@ public class ItemsFragment extends Fragment {
             //           GetDataRequest.setUrl(Variables.catID);
             GetDataRequest fetchRequest = new GetDataRequest(responseListener, errorListener);
             // queue.add(fetchRequest);
+            fetchRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    15000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             VolleySingleton.getInstance().addToRequestQueue(fetchRequest);
             Methods.setPath(view,getContext());
             return view;

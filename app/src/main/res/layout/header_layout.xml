@@ -8,14 +8,14 @@
     android:gravity="top">
 
     <FrameLayout
+        android:id="@+id/baner_layout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@mipmap/baner2"
         android:paddingStart="10dp"
-        android:paddingEnd="10dp"
+        android:paddingEnd="10dp">
 
->
-   <ImageView
+      <ImageView
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:src="@mipmap/logo2"
@@ -23,12 +23,13 @@
             android:soundEffectsEnabled="false"
             android:paddingBottom="3dp"
             android:paddingTop="3dp"
-            android:layout_gravity="center_horizontal"
-            />
+            android:layout_gravity="center_horizontal"/>
+
+
         <ImageView
-            android:layout_width="27dp"
-            android:layout_height="27dp"
-            app:srcCompat="@drawable/nav_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/nav_icon"
             android:layout_marginTop="10dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -45,16 +46,16 @@
         <ImageView
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:padding="4dp"
-            app:srcCompat="@drawable/notificationicon2"
+            android:padding="3.5dp"
+            app:srcCompat="@drawable/earth_icon2"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"
             android:layout_marginTop="7dp"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:id="@+id/notify_icon"
-            android:background="@drawable/call_search_list"
-            />
+            android:background="@drawable/call_search_list" />
+
             <TextView
                 android:visibility="invisible"
                 android:layout_marginLeft="10dp"
@@ -66,6 +67,7 @@
                 android:text="0"
                 android:textStyle="bold"
                 android:id="@+id/badge_number"/>
+
         </FrameLayout>
 
 
