@@ -87,7 +87,8 @@ public class CategoriesFragment extends Fragment {
             }
         },new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error ) {
+                if(Methods.onErrorVolley(error)!=null)
                 Methods.toast(Methods.onErrorVolley(error), getContext());            }
         });
 

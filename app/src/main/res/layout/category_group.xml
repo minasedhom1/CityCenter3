@@ -78,7 +78,6 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:clickable="false"
-                android:paddingBottom="2dp"
                 android:layout_gravity="bottom|end"
                 android:selectAllOnFocus="true"
                 />

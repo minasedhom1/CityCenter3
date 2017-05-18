@@ -343,20 +343,22 @@ private void showEveryThing()
             @Override
             public void onCancel() {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
-                alertDialog.setMessage("Are you sure you do NOT want to login?")
+                alertDialog.setMessage("Login Cancelled!")
                         .setIcon(R.mipmap.staron)
-                        .setNegativeButton("No,I'll Signin next time", new DialogInterface.OnClickListener() {
+/*                        .setNegativeButton("Will Signin next time", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                             }
-                        })
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        })*/
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                             }
                         });
                 alertDialog.show();
                 Methods.toast("Login Cancelled", MainActivity.this);
+                likebtn.setVisibility(View.GONE);
+                drawer_profile.setVisibility(View.GONE);
             }
 
             @Override

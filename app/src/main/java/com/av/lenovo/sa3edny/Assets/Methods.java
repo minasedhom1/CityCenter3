@@ -42,6 +42,7 @@ import org.json.JSONObject;
 public class Methods {
 
     public static void toast(String s, Context context) {
+        if(s!=null)
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
     }
 
@@ -105,6 +106,7 @@ public class Methods {
         } else if (volleyError instanceof TimeoutError) {
             message = "Connection TimeOut! Please check your internet connection.";
         }
+        else {message="Unknown Error";}
         return message;
     }
 
