@@ -7,13 +7,24 @@
    android:id="@+id/header_layout_id"
     android:gravity="top">
 
+
+
     <FrameLayout
         android:id="@+id/baner_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@mipmap/baner2"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp">
+        android:layout_height="100dp" >
+
+
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/baner2"
+            android:scaleType="fitXY"
+            android:id="@+id/banner_img"/>
+
+
 
       <ImageView
             android:layout_width="250dp"
@@ -26,7 +37,9 @@
             android:layout_gravity="center_horizontal"/>
 
 
+
         <ImageView
+            android:layout_marginLeft="10dp"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:src="@drawable/nav_icon"
@@ -34,13 +47,14 @@
             android:padding="3dp"
             android:clickable="true"
             android:id="@+id/nav_icon"
-
             />
+
         <FrameLayout
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/notifi_frame_lo">
+            android:id="@+id/notifi_frame_lo"
+            android:layout_marginRight="10dp">
 
         <ImageView
             android:layout_width="35dp"

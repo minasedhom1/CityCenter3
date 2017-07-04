@@ -1,24 +1,17 @@
 package com.av.lenovo.sa3edny.fragments;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -36,7 +29,6 @@ import com.av.lenovo.sa3edny.classes.GetDataRequest;
 import com.av.lenovo.sa3edny.classes.Subcategory;
 import com.av.lenovo.sa3edny.R;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
-import com.av.lenovo.sa3edny.services.CheckNotificationService;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.json.JSONArray;
@@ -76,7 +68,6 @@ public class CategoriesFragment extends Fragment {
                         if(myCategory.isAllowSubcategory())
                         {myCategory.setSub_array(getSubs(object.getInt("CategoryID")));}//filter here
                         myCategory.setRaty(object.getBoolean("IsRaty"));
-
                         categoryArrayList.add(myCategory);
                     }
                     expandListAdpter=new ExpandListAdpter((AppCompatActivity) getActivity(),categoryArrayList);
@@ -114,12 +105,8 @@ public class CategoriesFragment extends Fragment {
                 explore.setTypeface(Typeface.DEFAULT_BOLD);
               //  explore.setTypeface(MainActivity.font);
                 if(expand_listView.isGroupExpanded(groupPosition))
-                {
-                    explore.setText(getString(R.string.arrow_left));
-
-                   //
-                }
-                 else
+                explore.setText(getString(R.string.arrow_left));
+                else
                 explore.setText(getString(R.string.arrow_bottom));
 
                 Category cat = (Category) expandListAdpter.getGroup(groupPosition);
@@ -140,14 +127,14 @@ public class CategoriesFragment extends Fragment {
           expand_listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
        @Override
        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-           Category cat = (Category) expandListAdpter.getGroup(groupPosition);
-           Variables.IS_RATY_CATEGORY=cat.isRaty(); //****new*****
-           String subcatID=cat.getSub_array().get(childPosition).getSubcat_id();
-           String subcatName=cat.getSub_array().get(childPosition).getSubCat_name();
+             Category cat = (Category) expandListAdpter.getGroup(groupPosition);
+            Variables.IS_RATY_CATEGORY=cat.isRaty(); //****new*****
+            String subcatID=cat.getSub_array().get(childPosition).getSubcat_id();
+            String subcatName=cat.getSub_array().get(childPosition).getSubCat_name();
             Variables.ITEM_PATH= String.valueOf(Html.fromHtml(cat.getName_En())+"> "+String.valueOf(Html.fromHtml(subcatName)));
             Fragment fragment = new ItemsFragment();
-           getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
-           String url = Urls.URL_GET_SELECTED_SUBCATEGORY_ITEM + subcatID;
+            getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
+            String url = Urls.URL_GET_SELECTED_SUBCATEGORY_ITEM + subcatID;
             GetDataRequest.setUrl(url);
            return false;
        }
@@ -195,7 +182,8 @@ public class CategoriesFragment extends Fragment {
        MainActivity.fab.setOnClickListener(new View.OnClickListener() {
                                                @Override
                                                public void onClick(View view) {
-      expand_listView.smoothScrollToPositionFromTop(0,0);}
+
+       expand_listView.smoothScrollToPositionFromTop(0,0);}
                                            }
        );
        expand_listView.setOnScrollListener(new AbsListView.OnScrollListener() {

@@ -42,9 +42,10 @@ public class CacheRequest extends Request<NetworkResponse> {
             cacheEntry.serverDate = HttpHeaderParser.parseDateAsEpoch(headerValue);
         }
         headerValue = response.headers.get("Last-Modified");
+
         if (headerValue != null) {
-            cacheEntry.lastModified = HttpHeaderParser.parseDateAsEpoch(headerValue);
-        }
+            cacheEntry.lastModified = HttpHeaderParser.parseDateAsEpoch(headerValue);}
+
         cacheEntry.responseHeaders = response.headers;
         return Response.success(response, cacheEntry);   //hna b return el response//cached data
     }

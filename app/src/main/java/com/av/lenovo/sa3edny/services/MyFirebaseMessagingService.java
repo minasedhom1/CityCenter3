@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.classes;
+package com.av.lenovo.sa3edny.services;
 
 import android.app.Notification;
 import android.app.NotificationManager;

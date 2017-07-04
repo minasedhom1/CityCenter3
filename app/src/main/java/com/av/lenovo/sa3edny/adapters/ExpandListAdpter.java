@@ -26,7 +26,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * Created by mido on 2/6/2017.
- */
+ **/
 
 public class ExpandListAdpter extends BaseExpandableListAdapter {
 

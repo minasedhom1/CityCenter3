@@ -37,6 +37,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.av.lenovo.sa3edny.Assets.Methods;
 import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.Assets.Variables;
+import com.av.lenovo.sa3edny.classes.ThemeApp;
 import com.av.lenovo.sa3edny.fragments.ItemsFragment;
 import com.av.lenovo.sa3edny.fragments.NotificationsListFragment;
 import com.av.lenovo.sa3edny.fragments.SearchFragment;
@@ -85,32 +86,22 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     LikeView likebtn;
     TextView bagde_number;
+    ImageView banner_img;
+    ThemeApp themeApp;
+
+
 
     @Override
       protected void onCreate(final Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
-/*
- banner_layout = (FrameLayout) findViewById(R.id.baner_layout);
-        Picasso.with(this).load("https://tygerclient1.azurewebsites.net/images/contentBG.jpg").into(new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                banner_layout.setBackgroundDrawable(new BitmapDrawable(bitmap));
-                Log.e("BITMAP","success");
-            }
 
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-                Log.e("BITMAP","ERROR");
-            }
 
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        });
-*/
-
+        themeApp=(ThemeApp)getIntent().getSerializableExtra("Theme");
+        ImageView logo =(ImageView)findViewById(R.id.logo_header);
+        Picasso.with(getBaseContext()).load("http://sa3ednyadmin.azurewebsites.net/IMG/"+themeApp.getAppLogo()).into(logo);
+        banner_img = (ImageView) findViewById(R.id.banner_img);
+        Picasso.with(this).load("http://sa3ednyadmin.azurewebsites.net/IMG/"+themeApp.getAppBanner()).into(banner_img);
 
 
         tryConnect= (Button) findViewById(R.id.try_connect_btn);
@@ -130,8 +121,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+          navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navHed = navigationView.getHeaderView(0);
         faceName = (TextView) navHed.findViewById(R.id.name_tv);
@@ -156,7 +146,8 @@ public class MainActivity extends AppCompatActivity
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();
  /*---------------------------------------------------------------------------------------------------------------------------------*/
-//check for internet availability
+
+ //check for internet availability
         if(isNetworkAvailable())
         {
             showEveryThing();
@@ -184,8 +175,10 @@ public class MainActivity extends AppCompatActivity
 
 private void showEveryThing()
 {
-        mainFrag();
-        if (AccessToken.getCurrentAccessToken() != null) {
+        mainFrag(); //Goods categories
+
+        if (AccessToken.getCurrentAccessToken() != null) //if the user has not logged in yet
+        {
             Variables.ACCOUNT_ID = PreferenceManager.getDefaultSharedPreferences(this).getString("AccountID", "NothingFound");
             if (Variables.ACCOUNT_ID.matches("NothingFound")) {
                 getAccID();
@@ -196,7 +189,7 @@ private void showEveryThing()
         }
  /*---------------------------------------------------------------------------------------------------------------------------------*/
 
- /*------------------------------------------------------check if ther is a logged in FB acc---------------------------------------------------------------------------*/
+ /*------------------------------------------------------check if there is a logged in FB acc---------------------------------------------------------------------------*/
         profile = Profile.getCurrentProfile();
         if (profile != null) {
             faceName.setText(profile.getName());
@@ -224,16 +217,14 @@ private void showEveryThing()
  /*-------------------------------------------------------------Notification intent--------------------------------------------------------------------*/
 
  /*------------------------------------------------------Signature-------------------------------------------------------------------------------------*/
-    ImageView logo =(ImageView)findViewById(R.id.logo_header);
-   // Picasso.with(getBaseContext()).load("http://tygerclient1.azurewebsites.net/images/logo.jpg").into((ImageView) logo);
-
         View notif= findViewById(R.id.notify_icon);
          bagde_number = (TextView) findViewById(R.id.badge_number);
          if(PreferenceManager.getDefaultSharedPreferences(this).getInt("BADGE_NUMBER",-1)>0)
          {  bagde_number.setVisibility(View.VISIBLE);
              bagde_number.setText(PreferenceManager.getDefaultSharedPreferences(this).getInt("BADGE_NUMBER",-1)+"");
          }
-         notif.setOnClickListener(new View.OnClickListener() {
+
+        notif.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
         bagde_number.setVisibility(View.GONE);
@@ -241,12 +232,14 @@ private void showEveryThing()
             Variables.badgeCount=0;
             PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putInt("BADGE_NUMBER", Variables.badgeCount).apply();
            // Variables.badgeCount=0;
-        notifyFrag();
+            notifyFrag();
     }
 
     }
     );
+
    // if(Variables.badgeCount>0){bagde_number.setText(Variables.badgeCount+"");}
+
     IntentFilter statusIntentFilter = new IntentFilter("BADGENUM");
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -256,7 +249,7 @@ private void showEveryThing()
                 int b=intent.getIntExtra("BADGENUM",-1);
                 Log.d("inBroadCast",b+"..");
                 bagde_number.setVisibility(View.VISIBLE);
-                bagde_number.setText(b+"");
+                bagde_number.setText(b  +"");
 
             }
             catch (Exception e){
@@ -264,16 +257,12 @@ private void showEveryThing()
             }
         }
     };
+
     LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
             broadcastReceiver,
             statusIntentFilter);
-        logo.setOnClickListener(new View.OnClickListener() {
-            @Override
-                public void onClick(View view) {
-                Methods.signture(MainActivity.this);
-            }
-        });
 }
+
 
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -327,7 +316,7 @@ private void showEveryThing()
         }
     }
 
-    void LoginFB_request()
+    public void LoginFB_request()
     {
         LoginManager loginManager = LoginManager.getInstance();
         loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -336,20 +325,12 @@ private void showEveryThing()
             public void onSuccess(LoginResult loginResult) {
                 Log.d("UserID", AccessToken.getCurrentAccessToken().getUserId());
                 getAccID();
-
             }
-
 
             @Override
             public void onCancel() {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
                 alertDialog.setMessage("Login Cancelled!")
-                        .setIcon(R.mipmap.staron)
-/*                        .setNegativeButton("Will Signin next time", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })*/
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -371,7 +352,6 @@ private void showEveryThing()
 
     @Override
     public void onBackPressed() {
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -388,6 +368,7 @@ private void showEveryThing()
         }
         else mainFrag();
     }
+
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -412,12 +393,7 @@ private void showEveryThing()
         } else if (id == R.id.nav_fav) {
           fragmentClass = ItemsFragment.class;
             GetDataRequest.setUrl(Urls.URL_GET_FAVOURITES_FOR_ID); //Favourite.class;
-
-
-        }/* else if (id == R.id.nav_notify) {
-            fragmentClass = Notifications.class;
-        } */
-
+        }
         else if (id == R.id.nav_search) {
             fragmentClass = SearchFragment.class;
         }
@@ -445,7 +421,7 @@ private void showEveryThing()
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    void mainFrag() {
+    public void     mainFrag() {
         navigationView.getMenu().getItem(0).setChecked(true);
         fragmentClass = CategoriesFragment.class;
         try {
@@ -464,7 +440,7 @@ private void showEveryThing()
     }
 
 
-    void getAccID()
+   public void getAccID()
     {
         StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_POST_FBID_GET_ACC_ID + AccessToken.getCurrentAccessToken().getUserId(), new Response.Listener<String>() {
             @Override

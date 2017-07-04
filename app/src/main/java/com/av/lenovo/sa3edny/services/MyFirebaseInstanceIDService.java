@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.classes;
+package com.av.lenovo.sa3edny.services;
 
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -9,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.Assets.Variables;
+import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.gson.JsonElement;

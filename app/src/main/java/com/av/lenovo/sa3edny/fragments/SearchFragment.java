@@ -131,8 +131,8 @@ try{
 catch(Exception e){
     Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
 }
-       return  null;  }
-
+       return  null;
+    }
 
 
     class MyItemSearchAdapter extends ArrayAdapter<Item> implements Filterable {

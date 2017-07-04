@@ -17,7 +17,7 @@ public class Urls {
     public static final String URL_GET_ALL_ITEMS=SODIC_BASE+"Item/GetAllActiveItems/GetAll";
     public static final String URL_GET_NEW_ITEMS= SODIC_BASE+"Item/GetAllNewItems/GetAllNew";
     public static final String URL_GET_LATEST_OFFERS_ITEMS= SODIC_BASE+"Item/GetAllPromoItems/GetAllPromo";
-    public  static  final String URL_GET_SELECTED_SUBCATEGORY_ITEM= SODIC_BASE+"Item/GetActiveItemforsubcategory/Getitems?subcategoryID=";
+    public  static  final String URL_GET_SELECTED_SUBCATEGORY_ITEM= SODIC_BASE+"+";
     public  static  final String URL_ADD_TO_FAVORITES_ITEM= SODIC_BASE+"Favourite/AddToFavourite/Add?AccountID="+Variables.ACCOUNT_ID+"&itemID="; //***
     public  static final  String URL_GET_FAVOURITES_FOR_ID= SODIC_BASE+"Favourite/GetFavourite/Get?AccountID="+Variables.ACCOUNT_ID;
     public  static final  String URL_DELETE_FROM_FAVORITES_ITEM=  SODIC_BASE+"Favourite/DeleteFromFavourite/Delete?AccountID="+Variables.ACCOUNT_ID+"&itemID=";//**
