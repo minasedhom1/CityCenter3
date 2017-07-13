@@ -9,8 +9,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -41,6 +44,8 @@ import com.av.lenovo.sa3edny.Assets.Variables;
 import com.av.lenovo.sa3edny.R;
 import com.av.lenovo.sa3edny.classes.Item;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
+import com.av.lenovo.sa3edny.fragments.CategoriesFragment;
+import com.av.lenovo.sa3edny.fragments.VoucherFragment;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.google.gson.JsonElement;
@@ -65,7 +70,8 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
     Context context;
     List<Item> itemsList;
     ProgressBar progressBar;
-
+    public Fragment fragment = null;
+    public Class fragmentClass = null;
     public MyItemAdapter(Context context, int resource, List<Item> itemsList) {
         super(context, resource,itemsList);
         this.context= context;
@@ -79,11 +85,12 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
             TextView name, description,rate,rates_num,promo_txt;
             ShineButton addToFavBtn;
             Spinner rateSpin;
-            Button menu,share, call,comment, optional_btn;
+            Button menu,share, call,comment, optional_btn, item_view_loyalty_btn;
             View promo_view;
         }
         @Override
         public View getView(final int position, View convertView, final ViewGroup parent) {
+
             try {
                 ViewHolder holder = new ViewHolder();
                   if(context!=null) {
@@ -105,6 +112,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                           holder.rates_num = (TextView) convertView.findViewById(R.id.rates_num);
                           holder.promo_txt = (TextView) convertView.findViewById(R.id.promo_tv);
                           holder.promo_view = convertView.findViewById(R.id.promo_layout);
+                          holder.item_view_loyalty_btn= (Button) convertView.findViewById(R.id.item_view_loyalty_btn);
                           convertView.setTag(holder);
                       } else {
                           holder = (ViewHolder) convertView.getTag();
@@ -156,7 +164,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                       } else {
                           holder.optional_btn.setVisibility(View.GONE);
                       }
-
                       holder.optional_btn.setOnClickListener(new View.OnClickListener() {
                           @Override
                           public void onClick(View v) {
@@ -185,7 +192,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                           }
 
                       });
-   /*----------------------------------------------------------call btn popup nums----------------------------------------------------------------------------------*/
+/*----------------------------------------------------------call btn popup nums----------------------------------------------------------------------------------*/
 
                       holder.call.setOnClickListener(new View.OnClickListener() {
                           @Override
@@ -362,6 +369,31 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                               popComment(myItem.getId());
                           }
                       });
+                       if(myItem.isHaveLoyalty())
+                           holder.item_view_loyalty_btn.setVisibility(View.VISIBLE);
+                      else
+                           holder.item_view_loyalty_btn.setVisibility(View.GONE);
+
+                      holder.item_view_loyalty_btn.setOnClickListener(new View.OnClickListener() {
+                          @Override
+                          public void onClick(View v) {
+
+                              fragmentClass = VoucherFragment.class;
+                              try {
+                                   fragment = (Fragment) fragmentClass.newInstance();
+                              } catch (Exception e) {
+                                  e.printStackTrace();
+                              }
+                              Bundle bundle=new Bundle();
+                              bundle.putString("ItemID",myItem.getId());
+                              bundle.putString("ItemName",Html.fromHtml(myItem.getName()).toString());
+                              fragment.setArguments(bundle);
+                              ((FragmentActivity)context).getSupportFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).commit();
+
+
+                          }
+                      });
+
 
                       return convertView;
 

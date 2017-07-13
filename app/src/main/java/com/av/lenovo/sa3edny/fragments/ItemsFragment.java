@@ -112,6 +112,9 @@ public class ItemsFragment extends Fragment {
                             }
                             if(!object.getString("NoPersonRate").equals("null"))
                             {item.setNumOfPersonsRate(object.getString("NoPersonRate"));}
+
+                            item.setHaveLoyalty(object.getBoolean("HaveLoyalty"));
+
                             itemArrayList.add(item);
                         }
 

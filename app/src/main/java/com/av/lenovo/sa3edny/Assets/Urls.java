@@ -34,5 +34,8 @@ public class Urls {
         return URL_USER_RATE_FOR_ITEM;
     }
     public static String URL_ALL_ITEM_SEARCH=SODIC_BASE+"Item/GetAllSearchItems/search";
+
+    public static String URL_GET_LOYALTY_DATA_FOR_ITEM=  "http://sodicservice.azurewebsites.net/Sodic/loyalty/GetloyaltyData/Get?AccountID="+Variables.ACCOUNT_ID+"&ItemID=";
+
 //"https://www.google.com/maps/d/viewer?mid=1Xe4NoLjHr3ftUvinoY8v8UhyxjA&ll=30.072141670076693%2C31.144612250000023&z=11"
 }

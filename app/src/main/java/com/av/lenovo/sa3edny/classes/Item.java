@@ -12,7 +12,7 @@ public class Item implements Serializable{
    private String id,name,description ,photo1,phone1="0000",phone2,phone3,phone4,phone5,categoryName,subcategoryName,city,region
            ,site,categoryID,menu_url,promoText,promoButton,promo_pdf,url_btn_text,numOfPersonsRate;
    private float rate;
-    private boolean isPromo,isRaty;
+    private boolean isPromo,isRaty,HaveLoyalty;
     double lon,lat;
 
     public String getNumOfPersonsRate() {
@@ -21,6 +21,14 @@ public class Item implements Serializable{
 
     public void setNumOfPersonsRate(String numOfPersonsRate) {
         this.numOfPersonsRate = numOfPersonsRate;
+    }
+
+    public boolean isHaveLoyalty() {
+        return HaveLoyalty;
+    }
+
+    public void setHaveLoyalty(boolean haveLoyalty) {
+        HaveLoyalty = haveLoyalty;
     }
 
     public String getUrl_btn_text() {

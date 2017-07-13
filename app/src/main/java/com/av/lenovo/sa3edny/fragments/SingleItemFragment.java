@@ -77,6 +77,7 @@ public class SingleItemFragment extends Fragment {
                                 if (Variables.fav_ids.size() != 0 && Variables.fav_ids.contains(item.getId())) {
                                     item.setLike(true);
                                 }
+                                item.setHaveLoyalty(object.getBoolean("HaveLoyalty"));
                                 singleitemArrayList.add(item);
                                 if(getContext()!=null)
                                 {

@@ -1,187 +1,283 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.av.lenovo.sa3edny.fragments.VoucherFragment"
     android:background="@mipmap/background">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="150dp"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:background="#9fffffff"
 
-    >
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_launcher"
-        android:id="@+id/prof_voucher_page"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="XXXXXX"
-        android:textColor="#3f3f3f"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:id="@+id/FB_name_voucher_page"/>
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#3f3f3f"/>
+<!--
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:background="#ccffffff"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
         android:orientation="vertical"
-        android:padding="12dp"
-        >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/my_text"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#3f3f3f"
-        />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        android:id="@+id/linearLayout">
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_cornenr_spinner"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="3dp"
-            >
-            <Spinner
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:entries="@array/shop_names"
-                >
-            </Spinner>
-        </LinearLayout>
-</LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="7dp">
+        <ImageView
+            android:id="@+id/prof_voucher_page"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
+            android:id="@+id/FB_name_voucher_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="XXXXXX"
+            android:textColor="#3f3f3f"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+-->
+
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1- Buy Points : "
             android:textSize="18sp"
-            android:textColor="#3f3f3f"/>
+            android:textColor="#3f3f3f"
+        android:id="@+id/textView5"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/loyal_add_points_btn"
+        android:layout_marginStart="16dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp" />
 
         <TextView
+            android:id="@+id/total_points_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" XXXXXX "
             android:textColor="#3f3f3f"
             android:textSize="18sp"
-            />
-    </LinearLayout>
+            app:layout_constraintLeft_toRightOf="@+id/textView5"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.234"
+            tools:layout_constraintBottom_creator="1"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="14dp"
+            app:layout_constraintTop_toBottomOf="@+id/loyalty_shop_name" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <Button
+        android:id="@+id/loyal_add_points_btn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:layout_marginLeft="15dp">
-        <Button
-            android:background="@drawable/rounded_corner_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="Add Points"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            android:textSize="13sp"
-            android:id="@+id/loyal_add_points_btn"
-            />
+        android:layout_marginStart="14dp"
+        android:background="@drawable/rounded_corner_btn"
+        android:text="Add Points"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        android:textSize="13sp"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginLeft="14dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/loyalty_claim_points"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.264"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView4" />
         <Button
             android:textSize="13sp"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="48dp"
             android:text="Claim Reward"
             android:textAllCaps="false"
             android:background="@drawable/rounded_corner_btn"
-            android:layout_marginLeft="10dp"
             android:textColor="#fff"
-            android:id="@+id/loyal_claim_reward_btn1"
-            />
+            android:id="@+id/loyal_claim_visit"
+            app:layout_constraintLeft_toRightOf="@+id/loyalty_add_visit"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintHorizontal_bias="0.251"
+            android:layout_marginStart="17dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toTopOf="@+id/loyalty_add_visit"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/loyalty_add_visit"
+            android:layout_marginBottom="0dp" />
 
-    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2- Promo-Code : XXXXXX"
-        android:textSize="18sp"
-        android:textColor="#3f3f3f"
         android:paddingBottom="7dp"
-        />
-    <Button
-        android:textSize="13sp"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
+        android:text="3- Promo-Code :"
+        android:textColor="#3f3f3f"
+        android:textSize="18sp"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginStart="16dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        android:id="@+id/textView"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/loyalty_claim_promocode" />
+
+    <TextView
+        android:id="@+id/promoCode_tv"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
+        android:text=" XXXXXX "
+        android:textColor="#3f3f3f"
+        android:textSize="18sp"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/loyal_claim_visit"
+        android:layout_marginLeft="13dp"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/loyalty_claim_promocode"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginLeft="34dp"
+        android:background="@drawable/rounded_corner_btn"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp"
         android:text="Claim Reward"
         android:textAllCaps="false"
-        android:background="@drawable/rounded_corner_btn"
         android:textColor="#fff"
-        android:layout_marginLeft="15dp"
-        />
+        android:textSize="13sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginStart="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="54dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.043" />
 
     <TextView
-        android:paddingTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3- Number Of Visits : XXXXXX"
-        android:textSize="18sp"
+        android:paddingBottom="7dp"
+        android:paddingTop="10dp"
+        android:text="2- Number Of Visits :"
         android:textColor="#3f3f3f"
-        android:paddingBottom="7dp"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:layout_marginLeft="15dp">
+        android:textSize="18sp"
+        android:id="@+id/textView4"
+        tools:layout_constraintBottom_creator="1"
+        android:layout_marginStart="16dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/loyalty_add_visit" />
+
         <Button
             android:background="@drawable/rounded_corner_btn"
             android:textSize="13sp"
 
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_height="48dp"
             android:text="Add Visit"
             android:textAllCaps="false"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:layout_marginLeft="46dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/loyalty_add_visit"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="4dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView" />
         <Button
             android:textSize="13sp"
 
             android:padding="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
+            android:layout_width="88dp"
+            android:layout_height="45dp"
             android:text="Claim Reward"
             android:textAllCaps="false"
             android:background="@drawable/rounded_corner_btn"
-            android:layout_marginLeft="10dp"
             android:textColor="#fff"
-            />
-    </LinearLayout>
-    </LinearLayout>
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintBottom_creator="1"
+            android:id="@+id/loyalty_claim_points"
+            tools:layout_constraintLeft_creator="1"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintHorizontal_bias="0.664"
+            app:layout_constraintTop_toTopOf="@+id/loyal_add_points_btn"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/loyal_add_points_btn"
+            android:layout_marginBottom="0dp" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/total_visits_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" XXXXXX "
+        android:textColor="#3f3f3f"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@+id/textView4"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toTopOf="@+id/textView4"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView4"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:textSize="18sp"
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shop name:"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="19dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:textSize="18sp"
+
+        android:id="@+id/loyalty_shop_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="name "
+        android:layout_marginStart="52dp"
+        app:layout_constraintTop_toTopOf="@+id/textView6"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView6"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/textView6"
+        android:layout_marginLeft="8dp" />
+
+</android.support.constraint.ConstraintLayout>

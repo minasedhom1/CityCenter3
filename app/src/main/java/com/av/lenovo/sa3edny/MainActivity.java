@@ -41,6 +41,7 @@ import com.av.lenovo.sa3edny.classes.ThemeApp;
 import com.av.lenovo.sa3edny.fragments.ItemsFragment;
 import com.av.lenovo.sa3edny.fragments.NotificationsListFragment;
 import com.av.lenovo.sa3edny.fragments.SearchFragment;
+import com.av.lenovo.sa3edny.fragments.VoucherFragment;
 import com.av.lenovo.sa3edny.services.BackGroundService;
 import com.av.lenovo.sa3edny.classes.GetDataRequest;
 import com.av.lenovo.sa3edny.fragments.CategoriesFragment;
@@ -132,14 +133,17 @@ public class MainActivity extends AppCompatActivity
         drawer_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              /*  fragmentClass = VoucherFragment.class;
+              fragmentClass = VoucherFragment.class;
                 try {
                     fragment = (Fragment) fragmentClass.newInstance();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).commit();
-                drawer.closeDrawer(GravityCompat.START, true);*/
+                        Bundle bundle=new Bundle();
+                        bundle.putString("ItemID","23");
+                        fragment.setArguments(bundle);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).commit();
+                        drawer.closeDrawer(GravityCompat.START, true);
             }
         });
  /*---------------------------------------------------------------------------------------------------------------------------------*/
