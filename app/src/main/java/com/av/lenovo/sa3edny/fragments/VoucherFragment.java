@@ -4,7 +4,6 @@ package com.av.lenovo.sa3edny.fragments;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -13,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,16 +21,15 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
 import com.av.lenovo.sa3edny.Assets.Urls;
 import com.av.lenovo.sa3edny.Assets.Variables;
-import com.av.lenovo.sa3edny.MainActivity;
 import com.av.lenovo.sa3edny.R;
 import com.av.lenovo.sa3edny.classes.LoyaltyClass;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.squareup.picasso.Picasso;
 
-import jp.wasabeef.picasso.transformations.CropCircleTransformation;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,12 +68,11 @@ LoyaltyClass loyaltyObject;
 
                 total_points.setText(loyaltyObject.getTotal_point());
                 total_visits.setText(loyaltyObject.getTotal_Visite());
-                if(!loyaltyObject.getPromo_Code().equals("null"))
-                {
+
                     promoCode.setText(loyaltyObject.getPromo_Code());
-                }
-            }
+                   }
         },null);
+
         VolleySingleton.getInstance().addToRequestQueue(stringRequest);
     }
 
@@ -101,23 +98,31 @@ LoyaltyClass loyaltyObject;
         loyal_add_points_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popUp();
+                popup_add_points();
             }
         });
         loyalty_claim_points= (Button) v.findViewById(R.id.loyalty_claim_points);
-        loyal_add_points_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popUp();
-            }
-        });
+
 
 
 
         loyalty_add_visit= (Button) v.findViewById(R.id.loyalty_add_visit);
+        loyalty_add_visit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (loyaltyObject.isVisite())
+                    popup_add_visit();
+            }
+        });
+
         loyal_claim_visit= (Button) v.findViewById(R.id.loyal_claim_visit);
         loyalty_claim_promocode=(Button) v.findViewById(R.id.loyalty_claim_promocode);
-
+         loyalty_claim_promocode.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 popup_claim_promo();
+             }
+         });
 
 
         bundle=getArguments();
@@ -128,23 +133,32 @@ LoyaltyClass loyaltyObject;
 
     }
 
-    private void popUp() {
+    private void popup_add_points() {
         final Dialog nagDialog = new Dialog(getContext());
         nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        nagDialog.setContentView(R.layout.popup_loyalty);
+        nagDialog.setContentView(R.layout.popup_loyalty_add_points);
+        TextView shopname= (TextView) nagDialog.findViewById(R.id.shop_name_add_points);
+        final EditText shop_passcode= (EditText) nagDialog.findViewById(R.id.shop_passcode_add_points);
+        final EditText order_num= (EditText) nagDialog.findViewById(R.id.order_num_add_points);
+        final EditText bill_amount= (EditText) nagDialog.findViewById(R.id.bill_amount_add_points);
         Button loyal_verifiy_btn= (Button) nagDialog.findViewById(R.id.loyal_verifiy_btn);
         loyal_verifiy_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String pass=shop_passcode.getText().toString() , order=order_num.getText().toString(), amount=bill_amount.getText().toString();
+              if(!pass.matches("") && !order.matches("") && !amount.matches("")  )
+
+              { add_points(pass,order,amount);}
+                else {
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                 alertDialog.setMessage("Passcode is Wrong!")
-                        .setIcon(R.mipmap.staron)
                         .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                             }
                         });
                 alertDialog.show();
+                     }
             }
         });
         Button loyal_cancel_btn= (Button) nagDialog.findViewById(R.id.loyal_cancel_btn);
@@ -157,4 +171,152 @@ LoyaltyClass loyaltyObject;
         nagDialog.setCancelable(false);
         nagDialog.show();
     }
+
+    public void add_points(String passcode,String order_num,String bill_amount)
+    {
+        StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_POST_ADD_POINTS(Variables.ACCOUNT_ID,
+                bundle.getString("ItemID","not found"),passcode,bill_amount,order_num), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JsonElement root = new JsonParser().parse(response);
+          //      root = new JsonParser().parse(root.getAsString());   //double parse
+                response = root.getAsString();
+                response.matches("");
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    String status = obj.getString("Status");
+
+                        Toast.makeText(getContext(),status,Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, null);
+        VolleySingleton.getInstance().addToRequestQueue(postReq);
+    }
+
+
+
+    private void popup_add_visit() {
+        final Dialog nagDialog = new Dialog(getContext());
+        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        nagDialog.setContentView(R.layout.popup_loyalty_add_visit);
+        TextView shopname= (TextView) nagDialog.findViewById(R.id.shop_name_add_visit);
+        final EditText shop_passcode= (EditText) nagDialog.findViewById(R.id.shop_passcode_add_visit);
+        Button loyal_verifiy_btn= (Button) nagDialog.findViewById(R.id.verifiy_btn_add_visit);
+        loyal_verifiy_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pass=shop_passcode.getText().toString();
+                if(!pass.matches("") )
+
+                { add_visits(pass);}
+                else {
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    alertDialog.setMessage("Passcode is Wrong!")
+                            .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                    alertDialog.show();
+                }
+            }
+        });
+        Button loyal_cancel_btn= (Button) nagDialog.findViewById(R.id.cancel_btn_add_visit);
+        loyal_cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nagDialog.dismiss();
+            }
+        });
+        nagDialog.setCancelable(false);
+        nagDialog.show();
+    }
+
+
+
+    public void add_visits(String passcode)
+    {
+        StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_POST_ADD_VISITS(Variables.ACCOUNT_ID,
+                bundle.getString("ItemID","not found"),passcode), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JsonElement root = new JsonParser().parse(response);
+                response = root.getAsString();
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    String status = obj.getString("Status");
+                    Toast.makeText(getContext(),status,Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, null);
+        VolleySingleton.getInstance().addToRequestQueue(postReq);
+    }
+
+
+
+    private void popup_claim_promo() {
+        final Dialog nagDialog = new Dialog(getContext());
+        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        nagDialog.setContentView(R.layout.popup_loyalty_add_visit);
+        TextView shopname= (TextView) nagDialog.findViewById(R.id.shop_name_add_visit);
+        final EditText shop_passcode= (EditText) nagDialog.findViewById(R.id.shop_passcode_add_visit);
+        Button loyal_verifiy_btn= (Button) nagDialog.findViewById(R.id.verifiy_btn_add_visit);
+        loyal_verifiy_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pass=shop_passcode.getText().toString();
+                if(!pass.matches("") )
+
+                { claim_promo(pass);}
+                else {
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                    alertDialog.setMessage("Passcode is Wrong!")
+                            .setPositiveButton("Try again", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                    alertDialog.show();
+                }
+            }
+        });
+        Button loyal_cancel_btn= (Button) nagDialog.findViewById(R.id.cancel_btn_add_visit);
+        loyal_cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nagDialog.dismiss();
+            }
+        });
+        nagDialog.setCancelable(false);
+        nagDialog.show();
+    }
+
+
+    public void claim_promo(String passcode)
+    {
+        StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_POST_CLAIM_PROMO(Variables.ACCOUNT_ID,
+                bundle.getString("ItemID","not found"),passcode), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JsonElement root = new JsonParser().parse(response);
+                response = root.getAsString();
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    String status = obj.getString("Status");
+                    Toast.makeText(getContext(),status,Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, null);
+        VolleySingleton.getInstance().addToRequestQueue(postReq);
+    }
+
 }

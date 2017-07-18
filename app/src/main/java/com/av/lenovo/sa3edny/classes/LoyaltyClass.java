@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class LoyaltyClass  {
+
 private class PointLevel{
 String LevelNumber,LevelPoint,Description;
     boolean HaveLevel;

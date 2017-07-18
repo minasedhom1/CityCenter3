@@ -35,7 +35,25 @@ public class Urls {
     }
     public static String URL_ALL_ITEM_SEARCH=SODIC_BASE+"Item/GetAllSearchItems/search";
 
-    public static String URL_GET_LOYALTY_DATA_FOR_ITEM=  "http://sodicservice.azurewebsites.net/Sodic/loyalty/GetloyaltyData/Get?AccountID="+Variables.ACCOUNT_ID+"&ItemID=";
+    public static String URL_GET_LOYALTY_DATA_FOR_ITEM=  SODIC_BASE+"loyalty/GetloyaltyData/Get?AccountID="+Variables.ACCOUNT_ID+"&ItemID=";
 
+    public static String URL_POST_ADD_POINTS(String acc_id,String item_id,String passcode,String amount,String order_num)
+    {
+        String  URL_ADD_POINTS=SODIC_BASE+"loyalty/Point/AddPoint?AccountID="+acc_id+"&ItemID="+item_id+"&Password="+passcode+"&Amount="+amount+"&OrderNo="+order_num;
+        return  URL_ADD_POINTS;
+    }
+    public static String URL_POST_ADD_VISITS(String acc_id,String item_id,String passcode)
+    {
+
+        String  URL_ADD_Visits=SODIC_BASE+"loyalty/Visite/AddVisite?AccountID="+acc_id+"&ItemID="+item_id+"&Password="+passcode;
+        return URL_ADD_Visits;
+    }
+
+    public static String URL_POST_CLAIM_PROMO(String acc_id,String item_id,String passcode)
+    {
+
+        String  URL_CLAIM_PROMO=SODIC_BASE+"loyalty/PromoCode/UsePromo?AccountID="+acc_id+"&ItemID="+item_id+"&Password="+passcode;
+        return URL_CLAIM_PROMO;
+    }
 //"https://www.google.com/maps/d/viewer?mid=1Xe4NoLjHr3ftUvinoY8v8UhyxjA&ll=30.072141670076693%2C31.144612250000023&z=11"
 }
