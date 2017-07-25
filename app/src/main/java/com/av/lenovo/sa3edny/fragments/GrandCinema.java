@@ -107,7 +107,7 @@ public class GrandCinema extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         customListView.setGroupIndicator(null);
 
-      //   fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+      //   fab = (FloatingActionButton) getActivity().findViewById(R.shop_id.fab);
         MainActivity.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,7 +144,7 @@ public class GrandCinema extends Fragment {
                     Variables.catID = String.valueOf(cat.getCategoryID());
                     Fragment fragment = new ItemsFragment();
                     getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
-                    GetDataRequest.setUrl(Urls.URL_GET_SELECTED_CATEGORY_ITEMS+ Variables.catID ); //set the clicked cat id to fetch it's items
+                    GetDataRequest.setUrl(Urls.URL_GET_SELECTED_CATEGORY_ITEMS+ Variables.catID ); //set the clicked cat shop_id to fetch it's items
                 }
                 return false;
             }

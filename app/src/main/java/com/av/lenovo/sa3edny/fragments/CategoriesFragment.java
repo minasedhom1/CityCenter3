@@ -117,7 +117,7 @@ public class CategoriesFragment extends Fragment {
                 Variables.catID = String.valueOf(cat.getCategoryID());
                 Fragment fragment = new ItemsFragment();
                 getFragmentManager().beginTransaction().replace(R.id.frag_holder, fragment).addToBackStack("tag").commit();
-                GetDataRequest.setUrl(Urls.URL_GET_SELECTED_CATEGORY_ITEMS+ Variables.catID ); //set the clicked cat id to fetch it's items
+                GetDataRequest.setUrl(Urls.URL_GET_SELECTED_CATEGORY_ITEMS+ Variables.catID ); //set the clicked cat shop_id to fetch it's items
                 }
 
                 return false;

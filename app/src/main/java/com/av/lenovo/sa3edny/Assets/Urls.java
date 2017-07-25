@@ -55,5 +55,15 @@ public class Urls {
         String  URL_CLAIM_PROMO=SODIC_BASE+"loyalty/PromoCode/UsePromo?AccountID="+acc_id+"&ItemID="+item_id+"&Password="+passcode;
         return URL_CLAIM_PROMO;
     }
+
+
+
+
+    public static String URL_POST_CLAIM_POINTS(String acc_id,String item_id,String passcode,String level) {
+
+        return SODIC_BASE + "loyalty/Point/AddPoint?AccountID="+acc_id+"&ItemID="+item_id+"&Password="+passcode+"&LevelNo="+level;
+    }
+
+
 //"https://www.google.com/maps/d/viewer?mid=1Xe4NoLjHr3ftUvinoY8v8UhyxjA&ll=30.072141670076693%2C31.144612250000023&z=11"
 }

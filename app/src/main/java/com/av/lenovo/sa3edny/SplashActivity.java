@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.classes;
+package com.av.lenovo.sa3edny;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +11,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.av.lenovo.sa3edny.MainActivity;
+import com.av.lenovo.sa3edny.classes.ThemeApp;
+import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -27,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_splash);
-
+/*
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
 
@@ -56,9 +57,9 @@ public class SplashActivity extends AppCompatActivity {
         });
 
 
-        RequestQueue queue= Volley.newRequestQueue(this);
-        queue.add(stringRequest);
-        queue.start();
+      //           VolleySingleton.getInstance().addToRequestQueue(stringRequest);*/
+
+        startActivity(new Intent(SplashActivity.this, MainActivity.class));
 
     }
 }

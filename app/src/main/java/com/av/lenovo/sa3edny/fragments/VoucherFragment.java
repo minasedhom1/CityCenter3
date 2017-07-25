@@ -2,10 +2,15 @@ package com.av.lenovo.sa3edny.fragments;
 
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +29,14 @@ import com.av.lenovo.sa3edny.Assets.Variables;
 import com.av.lenovo.sa3edny.R;
 import com.av.lenovo.sa3edny.classes.LoyaltyClass;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
-import com.google.gson.Gson;
+import com.av.lenovo.sa3edny.services.LoyaltyService;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,22 +49,33 @@ public class VoucherFragment extends Fragment {
     }
 
 Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_visit,loyalty_claim_promocode;
-    TextView FB_name_voucher_page,shop_name,total_points,total_visits,promoCode;
+    TextView FB_name_voucher_page, shop_name_tv,total_points,total_visits,promoCode;
     Bundle bundle;
 
 LoyaltyClass loyaltyObject;
-
+    String shop_id,shopname="";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         bundle=getArguments();
-        String id=bundle.getString("ItemID","not found");
+        shop_id =bundle.getString("ItemID","not found");
+        getActivity().startService(new Intent(getContext(), LoyaltyService.class).putExtra("ItemID", shop_id));
+        BroadcastReceiver receiver=new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                loyaltyObject= (LoyaltyClass) intent.getSerializableExtra("loyaltyObject");
+                total_points.setText(loyaltyObject.getTotal_point());
+                total_visits.setText(loyaltyObject.getTotal_Visite());
 
+                promoCode.setText(loyaltyObject.getPromo_Code());
+            }
+        };
+        IntentFilter filter=new IntentFilter("loyaltyService");
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,filter);
 
-
-        StringRequest stringRequest=new StringRequest(Request.Method.GET,
-                Urls.URL_GET_LOYALTY_DATA_FOR_ITEM + id, new Response.Listener<String>() {
+/*        StringRequest stringRequest=new StringRequest(Request.Method.GET,
+                Urls.URL_GET_LOYALTY_DATA_FOR_ITEM + shop_id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 JsonElement root=new JsonParser().parse(response);
@@ -73,7 +91,8 @@ LoyaltyClass loyaltyObject;
                    }
         },null);
 
-        VolleySingleton.getInstance().addToRequestQueue(stringRequest);
+        VolleySingleton.getInstance().addToRequestQueue(stringRequest);*/
+
     }
 
     @Override
@@ -84,12 +103,12 @@ LoyaltyClass loyaltyObject;
 
 
 
-            // ImageView prof_voucher_page= (ImageView) v.findViewById(R.id.prof_voucher_page);
-           //   FB_name_voucher_page= (TextView) v.findViewById(R.id.FB_name_voucher_page);
+            // ImageView prof_voucher_page= (ImageView) v.findViewById(R.shop_id.prof_voucher_page);
+           //   FB_name_voucher_page= (TextView) v.findViewById(R.shop_id.FB_name_voucher_page);
           //  FB_name_voucher_page.setText(MainActivity.profile.getName());
          // Picasso.with(getContext()).load(MainActivity.profile.getProfilePictureUri(300, 300)).transform(new CropCircleTransformation()).into(prof_voucher_page);
 
-        shop_name=(TextView) v.findViewById(R.id.loyalty_shop_name);
+        shop_name_tv =(TextView) v.findViewById(R.id.loyalty_shop_name);
         total_points=(TextView) v.findViewById(R.id.total_points_tv);
         total_visits=(TextView) v.findViewById(R.id.total_visits_tv);
         promoCode=(TextView) v.findViewById(R.id.promoCode_tv);
@@ -103,7 +122,12 @@ LoyaltyClass loyaltyObject;
         });
         loyalty_claim_points= (Button) v.findViewById(R.id.loyalty_claim_points);
 
-
+        loyalty_claim_points.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_claim_points();
+            }
+        });
 
 
         loyalty_add_visit= (Button) v.findViewById(R.id.loyalty_add_visit);
@@ -126,18 +150,19 @@ LoyaltyClass loyaltyObject;
 
 
         bundle=getArguments();
-        shop_name.setText(bundle.getString("ItemName"));
+        shopname=bundle.getString("ItemName");
+        shop_name_tv.setText(shopname);
         String s=bundle.getString("ItemID","not found");
         Toast.makeText(getContext(),s,Toast.LENGTH_SHORT).show();
         return v;
-
     }
 
     private void popup_add_points() {
         final Dialog nagDialog = new Dialog(getContext());
         nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         nagDialog.setContentView(R.layout.popup_loyalty_add_points);
-        TextView shopname= (TextView) nagDialog.findViewById(R.id.shop_name_add_points);
+        TextView shop_name_add_points= (TextView) nagDialog.findViewById(R.id.shop_name_add_points);
+        shop_name_add_points.setText(shopname);
         final EditText shop_passcode= (EditText) nagDialog.findViewById(R.id.shop_passcode_add_points);
         final EditText order_num= (EditText) nagDialog.findViewById(R.id.order_num_add_points);
         final EditText bill_amount= (EditText) nagDialog.findViewById(R.id.bill_amount_add_points);
@@ -187,6 +212,8 @@ LoyaltyClass loyaltyObject;
                     String status = obj.getString("Status");
 
                         Toast.makeText(getContext(),status,Toast.LENGTH_SHORT).show();
+                        getActivity().startService(new Intent(getContext(), LoyaltyService.class).putExtra("ItemID", shop_id));
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -202,7 +229,8 @@ LoyaltyClass loyaltyObject;
         final Dialog nagDialog = new Dialog(getContext());
         nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         nagDialog.setContentView(R.layout.popup_loyalty_add_visit);
-        TextView shopname= (TextView) nagDialog.findViewById(R.id.shop_name_add_visit);
+        TextView shopname_add_visit= (TextView) nagDialog.findViewById(R.id.shop_name_add_visit);
+        shopname_add_visit.setText(shopname);
         final EditText shop_passcode= (EditText) nagDialog.findViewById(R.id.shop_passcode_add_visit);
         Button loyal_verifiy_btn= (Button) nagDialog.findViewById(R.id.verifiy_btn_add_visit);
         loyal_verifiy_btn.setOnClickListener(new View.OnClickListener() {
@@ -240,7 +268,7 @@ LoyaltyClass loyaltyObject;
     public void add_visits(String passcode)
     {
         StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_POST_ADD_VISITS(Variables.ACCOUNT_ID,
-                bundle.getString("ItemID","not found"),passcode), new Response.Listener<String>() {
+                shop_id,passcode), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 JsonElement root = new JsonParser().parse(response);
@@ -310,6 +338,92 @@ LoyaltyClass loyaltyObject;
                     JSONObject obj = new JSONObject(response);
                     String status = obj.getString("Status");
                     Toast.makeText(getContext(),status,Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, null);
+        VolleySingleton.getInstance().addToRequestQueue(postReq);
+    }
+
+
+    private void popup_claim_points() {
+        final Dialog nagDialog = new Dialog(getContext());
+        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        nagDialog.setContentView(R.layout.pop_up_claim_points);
+        Button level1= (Button) nagDialog.findViewById(R.id.level1_btn_claim_points);
+        Button level2= (Button) nagDialog.findViewById(R.id.level2_btn_claim_points);
+        Button level3= (Button) nagDialog.findViewById(R.id.level3_btn_claim_points);
+        final EditText shop_passcode_et = (EditText) nagDialog.findViewById(R.id.shop_passcode_claim_points);
+        final ArrayList<LoyaltyClass.PointLevel> pointLevels=loyaltyObject.getPointsLevel();
+         level1.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+
+                 if(pointLevels.get(0).isHaveLevel())
+                 {
+                     if(!shop_passcode_et.getText().toString().equals(""))
+                     claim_points(shop_passcode_et.getText().toString(),pointLevels.get(0).getLevelNumber());
+                     else
+                         Toast.makeText(getContext(),"please Enter Passcode",Toast.LENGTH_SHORT).show();
+
+                 }
+                 else
+                     {
+                     Toast.makeText(getContext(),"You don't have enough Points for using this level!",Toast.LENGTH_SHORT).show();
+                     }
+             }
+         });
+        level2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pointLevels.get(1).isHaveLevel())
+                {
+                    if(!shop_passcode_et.getText().toString().equals(""))
+                        claim_points(shop_passcode_et.getText().toString(),pointLevels.get(1).getLevelNumber());
+                    else
+                        Toast.makeText(getContext(),"please Enter Passcode",Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"You don't have enough Points for using this level!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        level3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pointLevels.get(2).isHaveLevel())
+                {
+                    if(!shop_passcode_et.getText().toString().equals(""))
+                        claim_points(shop_passcode_et.getText().toString(),pointLevels.get(2).getLevelNumber());
+                    else
+                        Toast.makeText(getContext(),"please Enter Passcode",Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"You don't have enough Points for using this level!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        nagDialog.show();
+    }
+    public void claim_points(String passcode,String level)
+    {
+        StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_POST_CLAIM_POINTS(Variables.ACCOUNT_ID,
+                shop_id,passcode,level), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JsonElement root = new JsonParser().parse(response);
+                response = root.getAsString();
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    String status = obj.getString("Status");
+                    Toast.makeText(getContext(),status,Toast.LENGTH_SHORT).show();
+                    getActivity().startService(new Intent(getContext(), LoyaltyService.class).putExtra("ItemID", shop_id));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

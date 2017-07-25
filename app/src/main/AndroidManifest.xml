@@ -22,7 +22,7 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <activity android:name=".classes.SplashActivity"
+        <activity android:name=".SplashActivity"
             android:theme="@style/SplashTheme"
             >
             <intent-filter>
@@ -50,6 +50,7 @@
             </intent-filter>
         </service>
         <service android:name="com.av.lenovo.sa3edny.services.BackGroundService"/>
+        <service android:name=".services.LoyaltyService"/>
     </application>
 
 </manifest>

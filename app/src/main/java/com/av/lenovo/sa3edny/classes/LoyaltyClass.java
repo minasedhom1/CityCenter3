@@ -1,14 +1,15 @@
 package com.av.lenovo.sa3edny.classes;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Mina on 7/13/2017.
  */
 
-public class LoyaltyClass  {
+public class LoyaltyClass implements Serializable {
 
-private class PointLevel{
+public class PointLevel{
 String LevelNumber,LevelPoint,Description;
     boolean HaveLevel;
 

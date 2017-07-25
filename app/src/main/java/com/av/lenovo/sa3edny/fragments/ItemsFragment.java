@@ -118,7 +118,7 @@ public class ItemsFragment extends Fragment {
                             itemArrayList.add(item);
                         }
 
-                        //  itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.id.name2_tv,itemArrayList);
+                        //  itemAdapter=new MyCustomListAdapter(getContext(),android.R.layout.simple_list_item_1,R.shop_id.name2_tv,itemArrayList);
                         if(getContext()!=null)
                         {itemAdapter = new MyItemAdapter(getContext(), android.R.layout.simple_list_item_1, itemArrayList);
                         ItemList.setAdapter(itemAdapter);

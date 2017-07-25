@@ -98,12 +98,14 @@ public class MainActivity extends AppCompatActivity
       setContentView(R.layout.activity_main);
 
 
+/*
         themeApp=(ThemeApp)getIntent().getSerializableExtra("Theme");
         ImageView logo =(ImageView)findViewById(R.id.logo_header);
         Picasso.with(getBaseContext()).load("http://sa3ednyadmin.azurewebsites.net/IMG/"+themeApp.getAppLogo()).into(logo);
         banner_img = (ImageView) findViewById(R.id.banner_img);
         Picasso.with(this).load("http://sa3ednyadmin.azurewebsites.net/IMG/"+themeApp.getAppBanner()).into(banner_img);
 
+*/
 
         tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -122,7 +124,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-          navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navHed = navigationView.getHeaderView(0);
         faceName = (TextView) navHed.findViewById(R.id.name_tv);
@@ -146,10 +148,11 @@ public class MainActivity extends AppCompatActivity
                         drawer.closeDrawer(GravityCompat.START, true);
             }
         });
+
  /*---------------------------------------------------------------------------------------------------------------------------------*/
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();
- /*---------------------------------------------------------------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------------------------------------------------------------*/
 
  //check for internet availability
         if(isNetworkAvailable())
@@ -266,8 +269,7 @@ private void showEveryThing()
             broadcastReceiver,
             statusIntentFilter);
 }
-
-
+ 
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/
 
     private void notifyFrag() {
