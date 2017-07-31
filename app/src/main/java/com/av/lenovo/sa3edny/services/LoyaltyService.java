@@ -21,7 +21,8 @@ import com.google.gson.JsonParser;
 
 public class LoyaltyService extends IntentService {
 
-    public LoyaltyService() {
+    public LoyaltyService()
+    {
         super("");
     }
     LoyaltyClass loyaltyObject;

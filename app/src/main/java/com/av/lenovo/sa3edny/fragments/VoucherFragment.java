@@ -52,7 +52,7 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
     TextView FB_name_voucher_page, shop_name_tv,total_points,total_visits,promoCode;
     Bundle bundle;
 
-LoyaltyClass loyaltyObject;
+    LoyaltyClass loyaltyObject;
     String shop_id,shopname="";
 
     @Override
@@ -136,7 +136,10 @@ LoyaltyClass loyaltyObject;
             public void onClick(View v) {
                 if (loyaltyObject.isVisite())
                     popup_add_visit();
+                else Toast.makeText(getContext(),"This item not providing visits claiming",Toast.LENGTH_SHORT).show();
             }
+
+
         });
 
         loyal_claim_visit= (Button) v.findViewById(R.id.loyal_claim_visit);
