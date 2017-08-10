@@ -45,15 +45,60 @@ String LevelNumber,LevelPoint,Description;
         HaveLevel = haveLevel;
     }
 }
-    ArrayList<PointLevel> pointsLevel;
-    String Total_point,Total_Visite,Promo_Code,Promo_Code_Description;
-    boolean IsVisite,IsPromoCode,IsPoint;
+    public class VisiteLevel{
+        String LevelNumber, levelVisite,Description;
+        boolean HaveLevel;
 
+        public String getLevelNumber() {
+            return LevelNumber;
+        }
+
+        public void setLevelNumber(String levelNumber) {
+            LevelNumber = levelNumber;
+        }
+
+        public String getLevelVisite() {
+            return levelVisite;
+        }
+
+        public void setLevelVisite(String levelVisite) {
+            this.levelVisite = levelVisite;
+        }
+
+        public String getDescription() {
+            return Description;
+        }
+
+        public void setDescription(String description) {
+            Description = description;
+        }
+
+        public boolean isHaveLevel() {
+            return HaveLevel;
+        }
+
+        public void setHaveLevel(boolean haveLevel) {
+            HaveLevel = haveLevel;
+        }
+    }
+
+    private ArrayList<PointLevel> pointsLevel;
+    private ArrayList<VisiteLevel> visiteLevel;
+   private String Total_point,Total_Visite,Promo_Code,Promo_Code_Description;
+  private boolean IsVisite,IsPromoCode,IsPoint;
+
+
+    public ArrayList<VisiteLevel> getVisiteLevel() {
+        return visiteLevel;
+    }
+
+    public void setVisiteLevel(ArrayList<VisiteLevel> visiteLevel) {
+        this.visiteLevel = visiteLevel;
+    }
 
     public ArrayList<PointLevel> getPointsLevel() {
         return pointsLevel;
     }
-
     public void setPointsLevel(ArrayList<PointLevel> pointsLevel) {
         this.pointsLevel = pointsLevel;
     }

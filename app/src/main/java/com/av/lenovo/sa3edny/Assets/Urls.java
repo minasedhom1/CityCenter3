@@ -63,7 +63,10 @@ public class Urls {
 
         return SODIC_BASE + "loyalty/Point/AddPoint?AccountID="+acc_id+"&ItemID="+item_id+"&Password="+passcode+"&LevelNo="+level;
     }
+    public static String URL_POST_CLAIM_VISITS(String acc_id,String item_id,String passcode,String level) {
 
-
+        return SODIC_BASE + "loyalty/Point/UseVisite?AccountID="+acc_id+"&ItemID="+item_id+"&Password="+passcode+"&LevelNo="+level;
+    }
+//http://sa3ednyservice.azurewebsites.net/Sodic/loyalty/Point/UseVisite?AccountID=1&itemID=292&Password=123456&LevelNo=1
 //"https://www.google.com/maps/d/viewer?mid=1Xe4NoLjHr3ftUvinoY8v8UhyxjA&ll=30.072141670076693%2C31.144612250000023&z=11"
 }

@@ -4,10 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -26,7 +23,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +57,6 @@ import com.facebook.share.widget.LikeView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -97,7 +92,6 @@ public class MainActivity extends AppCompatActivity
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
 
-
 /*
         themeApp=(ThemeApp)getIntent().getSerializableExtra("Theme");
         ImageView logo =(ImageView)findViewById(R.id.logo_header);
@@ -124,6 +118,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navHed = navigationView.getHeaderView(0);
@@ -153,7 +148,7 @@ public class MainActivity extends AppCompatActivity
         FacebookSdk.sdkInitialize(MainActivity.this);
         callbackManager = CallbackManager.Factory.create();
 /*---------------------------------------------------------------------------------------------------------------------------------*/
-
+  //hr@innovativesoftlabs.com - nishantmakhija11@gmail.com
  //check for internet availability
         if(isNetworkAvailable())
         {
@@ -180,8 +175,8 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-private void showEveryThing()
-{
+    private void showEveryThing()
+        {
         mainFrag(); //Goods categories
 
         if (AccessToken.getCurrentAccessToken() != null) //if the user has not logged in yet
@@ -196,7 +191,7 @@ private void showEveryThing()
         }
  /*---------------------------------------------------------------------------------------------------------------------------------*/
 
- /*------------------------------------------------------check if there is a logged in FB acc---------------------------------------------------------------------------*/
+ /*------------------------------------------------------check if here is a logged in FB acc---------------------------------------------------------------------------*/
         profile = Profile.getCurrentProfile();
         if (profile != null) {
             faceName.setText(profile.getName());
@@ -322,7 +317,7 @@ private void showEveryThing()
         }
     }
 
-    public void LoginFB_request()
+ public void LoginFB_request()
     {
         LoginManager loginManager = LoginManager.getInstance();
         loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -427,7 +422,7 @@ private void showEveryThing()
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void     mainFrag() {
+    public void  mainFrag() {
         navigationView.getMenu().getItem(0).setChecked(true);
         fragmentClass = CategoriesFragment.class;
         try {

@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Cancel"
-            android:background="@drawable/badge_text"
+            android:background="@drawable/rounded_corner_btn"
             android:textColor="#fff"
             android:id="@+id/cancel_btn_add_visit"
             />
@@ -58,7 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Verify"
-            android:background="@drawable/badge_text"
-            android:id="@+id/verifiy_btn_add_visit"/>
+            android:background="@drawable/rounded_corner_btn"
+            android:id="@+id/verifiy_btn_add_visit"
+            />
     </LinearLayout>
 </LinearLayout>

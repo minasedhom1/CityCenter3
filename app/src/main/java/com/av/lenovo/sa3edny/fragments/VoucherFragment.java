@@ -143,6 +143,12 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
         });
 
         loyal_claim_visit= (Button) v.findViewById(R.id.loyal_claim_visit);
+        loyal_claim_visit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup_claim_visits();
+            }
+        });
         loyalty_claim_promocode=(Button) v.findViewById(R.id.loyalty_claim_promocode);
          loyalty_claim_promocode.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -280,6 +286,7 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
                     JSONObject obj = new JSONObject(response);
                     String status = obj.getString("Status");
                     Toast.makeText(getContext(),status,Toast.LENGTH_SHORT).show();
+                    refreshData();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -341,6 +348,8 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
                     JSONObject obj = new JSONObject(response);
                     String status = obj.getString("Status");
                     Toast.makeText(getContext(),status,Toast.LENGTH_SHORT).show();
+                    refreshData();
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -360,7 +369,7 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
         Button level3= (Button) nagDialog.findViewById(R.id.level3_btn_claim_points);
         final EditText shop_passcode_et = (EditText) nagDialog.findViewById(R.id.shop_passcode_claim_points);
         final ArrayList<LoyaltyClass.PointLevel> pointLevels=loyaltyObject.getPointsLevel();
-         level1.setOnClickListener(new View.OnClickListener() {
+        level1.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
 
@@ -414,6 +423,8 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
         });
         nagDialog.show();
     }
+
+
     public void claim_points(String passcode,String level)
     {
         StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_POST_CLAIM_POINTS(Variables.ACCOUNT_ID,
@@ -426,14 +437,122 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
                     JSONObject obj = new JSONObject(response);
                     String status = obj.getString("Status");
                     Toast.makeText(getContext(),status,Toast.LENGTH_SHORT).show();
-                    getActivity().startService(new Intent(getContext(), LoyaltyService.class).putExtra("ItemID", shop_id));
-
+                    refreshData();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }, null);
         VolleySingleton.getInstance().addToRequestQueue(postReq);
+    }
+
+    private void popup_claim_visits() {
+        final Dialog nagDialog = new Dialog(getContext());
+        nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        nagDialog.setContentView(R.layout.pop_up_claim_points);
+        Button level1= (Button) nagDialog.findViewById(R.id.level1_btn_claim_points);
+        Button level2= (Button) nagDialog.findViewById(R.id.level2_btn_claim_points);
+        Button level3= (Button) nagDialog.findViewById(R.id.level3_btn_claim_points);
+        final EditText shop_passcode_et = (EditText) nagDialog.findViewById(R.id.shop_passcode_claim_points);
+        final ArrayList<LoyaltyClass.VisiteLevel> visiteLevels=loyaltyObject.getVisiteLevel();
+        level1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(visiteLevels.get(0).isHaveLevel())
+                {
+                    if(!shop_passcode_et.getText().toString().equals(""))
+                        claim_visits(shop_passcode_et.getText().toString(),visiteLevels.get(0).getLevelNumber());
+                    else
+                        Toast.makeText(getContext(),"please Enter Passcode",Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"You don't have enough Visits to use this level!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        level2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(visiteLevels.get(1).isHaveLevel())
+                {
+                    if(!shop_passcode_et.getText().toString().equals(""))
+                        claim_visits(shop_passcode_et.getText().toString(),visiteLevels.get(1).getLevelNumber());
+                    else
+                        Toast.makeText(getContext(),"please Enter Passcode",Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"You don't have enough Visits to use this level!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        level3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(visiteLevels.get(2).isHaveLevel())
+                {
+                    if(!shop_passcode_et.getText().toString().equals(""))
+                        claim_visits(shop_passcode_et.getText().toString(),visiteLevels.get(2).getLevelNumber());
+                    else
+                        Toast.makeText(getContext(),"please Enter Passcode",Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"You don't have enough Visits to use this level!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        nagDialog.show();
+    }
+
+    public void claim_visits(String passcode,String level)
+    {
+        StringRequest postReq = new StringRequest(Request.Method.POST, Urls.URL_POST_CLAIM_VISITS(Variables.ACCOUNT_ID,
+                shop_id,passcode,level), new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JsonElement root = new JsonParser().parse(response);
+                response = root.getAsString();
+                try {
+                    JSONObject obj = new JSONObject(response);
+                    String status = obj.getString("Status");
+                    Toast.makeText(getContext(),status,Toast.LENGTH_SHORT).show();
+                    refreshData();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, null);
+        VolleySingleton.getInstance().addToRequestQueue(postReq);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    void refreshData()
+    {
+        getActivity().startService(new Intent(getContext(), LoyaltyService.class).putExtra("ItemID", shop_id));
+
     }
 
 }
