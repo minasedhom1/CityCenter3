@@ -182,7 +182,11 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
                 String pass=shop_passcode.getText().toString() , order=order_num.getText().toString(), amount=bill_amount.getText().toString();
               if(!pass.matches("") && !order.matches("") && !amount.matches("")  )
 
-              { add_points(pass,order,amount);}
+              { add_points(pass,order,amount);
+                  shop_passcode.setText("");
+                  order_num.setText("");
+                  bill_amount.setText("");
+              }
                 else {
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                 alertDialog.setMessage("Passcode is Wrong!")
@@ -248,7 +252,11 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
                 String pass=shop_passcode.getText().toString();
                 if(!pass.matches("") )
 
-                { add_visits(pass);}
+                {
+                    add_visits(pass);
+                    shop_passcode.setText("");
+                }
+
                 else {
                     final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                     alertDialog.setMessage("Passcode is Wrong!")
@@ -302,16 +310,19 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
         final Dialog nagDialog = new Dialog(getContext());
         nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         nagDialog.setContentView(R.layout.popup_loyalty_add_visit);
-        TextView shopname= (TextView) nagDialog.findViewById(R.id.shop_name_add_visit);
+        TextView shopname_claim_promo= (TextView) nagDialog.findViewById(R.id.shop_name_add_visit);
         final EditText shop_passcode= (EditText) nagDialog.findViewById(R.id.shop_passcode_add_visit);
         Button loyal_verifiy_btn= (Button) nagDialog.findViewById(R.id.verifiy_btn_add_visit);
+        shopname_claim_promo.setText(shopname);
         loyal_verifiy_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String pass=shop_passcode.getText().toString();
                 if(!pass.matches("") )
 
-                { claim_promo(pass);}
+                { claim_promo(pass);
+                  shop_passcode.setText("");
+                }
                 else {
                     final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
                     alertDialog.setMessage("Passcode is Wrong!")
@@ -367,6 +378,8 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
         Button level1= (Button) nagDialog.findViewById(R.id.level1_btn_claim_points);
         Button level2= (Button) nagDialog.findViewById(R.id.level2_btn_claim_points);
         Button level3= (Button) nagDialog.findViewById(R.id.level3_btn_claim_points);
+        TextView details= (TextView) nagDialog.findViewById(R.id.description_tv_popup_claim_loyalty);
+        TextView cancel= (TextView) nagDialog.findViewById(R.id.cancel_tv_popup_claim_loyalty);
         final EditText shop_passcode_et = (EditText) nagDialog.findViewById(R.id.shop_passcode_claim_points);
         final ArrayList<LoyaltyClass.PointLevel> pointLevels=loyaltyObject.getPointsLevel();
         level1.setOnClickListener(new View.OnClickListener() {
@@ -421,6 +434,30 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
                 }
             }
         });
+
+        details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog description_dialog = new Dialog(getContext());
+                description_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                description_dialog.setContentView(R.layout.popup_claim_levels_description);
+                TextView level1_des= (TextView) description_dialog.findViewById(R.id.level1_tv_description);
+                TextView level2_des= (TextView) description_dialog.findViewById(R.id.level2_tv_description);
+                TextView level3_des= (TextView) description_dialog.findViewById(R.id.level3_tv_description);
+                level1_des.setText("Level One:  " + pointLevels.get(0).getDescription());
+                level2_des.setText("Level Two:  " + pointLevels.get(1).getDescription());
+                level3_des.setText("Level Three:  " + pointLevels.get(2).getDescription());
+                description_dialog.show();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nagDialog.dismiss();
+            }
+        });
+
         nagDialog.show();
     }
 
@@ -450,9 +487,11 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
         final Dialog nagDialog = new Dialog(getContext());
         nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         nagDialog.setContentView(R.layout.pop_up_claim_points);
-        Button level1= (Button) nagDialog.findViewById(R.id.level1_btn_claim_points);
+        final Button level1= (Button) nagDialog.findViewById(R.id.level1_btn_claim_points);
         Button level2= (Button) nagDialog.findViewById(R.id.level2_btn_claim_points);
         Button level3= (Button) nagDialog.findViewById(R.id.level3_btn_claim_points);
+        TextView details= (TextView) nagDialog.findViewById(R.id.description_tv_popup_claim_loyalty);
+        TextView cancel= (TextView) nagDialog.findViewById(R.id.cancel_tv_popup_claim_loyalty);
         final EditText shop_passcode_et = (EditText) nagDialog.findViewById(R.id.shop_passcode_claim_points);
         final ArrayList<LoyaltyClass.VisiteLevel> visiteLevels=loyaltyObject.getVisiteLevel();
         level1.setOnClickListener(new View.OnClickListener() {
@@ -507,6 +546,31 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
                 }
             }
         });
+
+        details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog description_dialog = new Dialog(getContext());
+                description_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                description_dialog.setContentView(R.layout.popup_claim_levels_description);
+                TextView level1_des= (TextView) description_dialog.findViewById(R.id.level1_tv_description);
+                TextView level2_des= (TextView) description_dialog.findViewById(R.id.level2_tv_description);
+                TextView level3_des= (TextView) description_dialog.findViewById(R.id.level3_tv_description);
+                level1_des.setText("Level One:  " + visiteLevels.get(0).getDescription());
+                level2_des.setText("Level Two:  " + visiteLevels.get(1).getDescription());
+                level3_des.setText("Level Three:  " + visiteLevels.get(2).getDescription());
+                description_dialog.show();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nagDialog.dismiss();
+            }
+        });
+
+
         nagDialog.show();
     }
 

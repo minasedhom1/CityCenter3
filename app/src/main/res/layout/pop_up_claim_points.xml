@@ -55,5 +55,29 @@
         android:layout_marginEnd="5dp"
         android:layout_marginTop="5dp"
         android:textColor="#fff"  />
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="15dp"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textSize="19sp"
+        android:clickable="true"
+        android:textColor="@drawable/popup_claim_details_selector"
+        android:id="@+id/description_tv_popup_claim_loyalty"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_gravity="right"
+        android:textSize="19sp"
+        android:clickable="true"
+        android:textColor="@drawable/popup_claim_details_selector"
+        android:id="@+id/cancel_tv_popup_claim_loyalty"/>
+</FrameLayout>
 </LinearLayout>
