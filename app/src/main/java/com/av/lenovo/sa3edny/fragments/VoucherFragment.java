@@ -596,23 +596,6 @@ Button loyal_add_points_btn,loyalty_claim_points,loyalty_add_visit,loyal_claim_v
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     void refreshData()
     {
         getActivity().startService(new Intent(getContext(), LoyaltyService.class).putExtra("ItemID", shop_id));

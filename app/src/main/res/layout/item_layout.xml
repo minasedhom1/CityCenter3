@@ -11,7 +11,7 @@
     android:paddingStart="5dp"
     android:paddingEnd="5dp">
 
-    <ImageView
+<!--    <ImageView
         android:contentDescription="an Image"
         android:layout_width="match_parent"
         android:layout_height="250dp"
@@ -19,6 +19,13 @@
         android:id="@+id/item_icon"
         android:background="#fff"
         android:layout_gravity="center"
+        />-->
+      <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager_list"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+          android:layout_height="250dp"
+          android:background="#ffff"
         />
 <View  android:layout_width="match_parent"
     android:layout_height="1dp"

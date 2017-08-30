@@ -25,20 +25,20 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
- * Created by mido on 2/6/2017.
+ * Created by  on 2/6/2017.
  **/
 
 public class ExpandListAdpter extends BaseExpandableListAdapter {
 
-    AppCompatActivity activity;
+    private AppCompatActivity activity;
 
-    class ViewHolder {
-        Button explore;
-        TextView catName, catDetails;
-        ImageView categoryIcon;
+    private class ViewHolder {
+          Button explore;
+          TextView catName, catDetails;
+          ImageView categoryIcon;
     }
 
-    ArrayList<Category> catArray;
+    private ArrayList<Category> catArray;
    // ArrayList<Subcategory> subcatArray;
 
     public ExpandListAdpter(AppCompatActivity activity,ArrayList<Category> catArray) {
@@ -111,8 +111,8 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
             {
                 holder.catDetails.setVisibility(View.VISIBLE);
                 holder.catDetails.setText(myCat.getDescription_En());}
-            Picasso.with(activity).load(myCat.getLogo()).transform(new RoundedCornersTransformation(25,0)).fit().into(holder.categoryIcon);
-            holder.catName.setTextSize(15f);
+                Picasso.with(activity).load(myCat.getLogo()).transform(new RoundedCornersTransformation(25,0)).fit().into(holder.categoryIcon);
+                holder.catName.setTextSize(15f);
 
             holder.explore.setTypeface(MainActivity.font,Typeface.BOLD);
            //  holder.explore.setTextSize(13f);

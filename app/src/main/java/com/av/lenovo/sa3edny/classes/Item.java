@@ -2,6 +2,7 @@ package com.av.lenovo.sa3edny.classes;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lenovo on 02/01/2017.
@@ -9,11 +10,22 @@ import java.util.ArrayList;
 
 public class Item implements Serializable{
 
-   private String id,name,description ,photo1,phone1="0000",phone2,phone3,phone4,phone5,categoryName,subcategoryName,city,region
+   private String id,name,description ,phone1="0000",phone2,phone3,phone4,phone5,categoryName,subcategoryName,city,region
            ,site,categoryID,menu_url,promoText,promoButton,promo_pdf,url_btn_text,numOfPersonsRate;
    private float rate;
     private boolean isPromo,isRaty,HaveLoyalty;
     double lon,lat;
+
+    private List<String> item_media=new ArrayList<>();
+
+
+    public List<String> getItem_media() {
+        return item_media;
+    }
+
+    public void setItem_media(List<String> item_media) {
+        this.item_media = item_media;
+    }
 
     public String getNumOfPersonsRate() {
         return numOfPersonsRate;
@@ -215,14 +227,14 @@ public class Item implements Serializable{
         this.description = description;
     }
 
-    public String getPhoto1() {
+/*    public String getPhoto1() {
         return photo1;
     }
 
     public void setPhoto1(String photo1) {
         photo1=photo1.replaceAll(" ","%20");
         this.photo1 = photo1;
-    }
+    }*/
 
 
     public String getCategoryName() {

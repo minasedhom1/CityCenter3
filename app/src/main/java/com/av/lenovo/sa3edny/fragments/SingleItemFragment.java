@@ -69,7 +69,7 @@ public class SingleItemFragment extends Fragment {
                                 if (object.getString("Rate") != "null") {
                                     item.setRate(Float.valueOf(object.getString("Rate"))); //get rate and round it implicitly
                            }
-                                item.setPhoto1(Urls.URL_IMG_PATH + object.getString("Photo1"));
+                              //  item.setPhoto1(Urls.URL_IMG_PATH + object.getString("Photo1"));
                                 item.setCategoryName(object.getString("CategoryName_En"));
                                 item.setSubcategoryName(object.getString("SubcategoryName_En"));
                                 item.setCategoryID(Variables.catID);

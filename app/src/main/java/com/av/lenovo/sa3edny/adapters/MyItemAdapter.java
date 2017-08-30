@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -66,10 +67,10 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
  */
 
 public class MyItemAdapter extends ArrayAdapter<Item> {
-    ShareDialog shareDialog ;
-    Context context;
-    List<Item> itemsList;
-    ProgressBar progressBar;
+    private ShareDialog shareDialog ;
+    private Context context;
+    private List<Item> itemsList;
+    private ProgressBar progressBar;
     public Fragment fragment = null;
     public Class fragmentClass = null;
     public MyItemAdapter(Context context, int resource, List<Item> itemsList) {
@@ -81,7 +82,8 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
     class ViewHolder
         {
            // ImageButton menu,share, call,comment;
-            ImageView image;
+          //  ImageView image;
+            ViewPager viewPager;
             TextView name, description,rate,rates_num,promo_txt;
             ShineButton addToFavBtn;
             Spinner rateSpin;
@@ -104,7 +106,12 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                           holder.menu = (Button) convertView.findViewById(R.id.item_view_menu_btn);
                           holder.name = (TextView) convertView.findViewById(R.id.name2_tv);
                           holder.description = (TextView) convertView.findViewById(R.id.item_description);
-                          holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
+
+                          //  holder.image = (ImageView) convertView.findViewById(R.id.item_icon);
+
+                          holder.viewPager= (ViewPager) convertView.findViewById(R.id.viewpager_list);
+
+
                           holder.addToFavBtn = (ShineButton) convertView.findViewById(R.id.like_btn);
                           holder.rate = (TextView) convertView.findViewById(R.id.item_rate_value);
                           holder.rateSpin = (Spinner) convertView.findViewById(R.id.rate_spinner);
@@ -135,7 +142,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
                       holder.rate.setText(String.valueOf(myItem.getRate()));
                       //  holder.image.setMaxHeight(300);
-                      Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl)
+                  //    Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl)
 
 
                       if (myItem.getNumOfPersonsRate() != null) {
@@ -290,13 +297,14 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                       });
 /*------------------------------------------------------------------pupup item image--------------------------------------------------------------------------*/
 
-                      holder.image.setOnClickListener(new View.OnClickListener() {
+               /*       holder.image.setOnClickListener(new View.OnClickListener() {
                           @Override
                           public void onClick(View view) {
-                              popUpPhoto(myItem.getPhoto1());
+                     //         popUpPhoto(myItem.getPhoto1());
 
                           }
-                      });
+                      });*/
+               holder.viewPager.setAdapter(new CustomPagerAdapter(context,myItem.getItem_media()));
 /*------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------------------Menu btn-----------------------------------------------------------------------*/
@@ -451,7 +459,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
             ShareLinkContent linkContent = new ShareLinkContent.Builder()
                     .setContentTitle(Html.fromHtml(myItem.getName()).toString())
                     .setContentDescription(Html.fromHtml(myItem.getDescription()).toString())
-                    .setImageUrl(Uri.parse(myItem.getPhoto1()))
+               //     .setImageUrl(Uri.parse(myItem.getPhoto1()))
                     .setContentUrl(Uri.parse("https://sodicclient.azurewebsites.net/#/Itemid?id="+myItem.getId()))
                     .build();
             shareDialog.show(linkContent);

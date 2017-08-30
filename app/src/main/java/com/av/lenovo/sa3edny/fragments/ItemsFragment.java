@@ -102,7 +102,28 @@ public class ItemsFragment extends Fragment {
                                // Log.d("rate", Float.valueOf(object.getString("Rate")).toString());
                             }
 
-                            item.setPhoto1(Urls.URL_IMG_PATH + object.getString("Photo1"));
+                           // item.setPhoto1(Urls.URL_IMG_PATH + object.getString("Photo1"));
+
+                            String [] media={object.getString("Photo1"),
+                                    object.getString("Photo2"),
+                                    object.getString("Photo3"),
+                                    object.getString("Photo4"),
+                                    object.getString("Photo5")};
+                            ArrayList<String>media_list= (ArrayList<String>) item.getItem_media();
+                            for(String s : media)
+                            {
+                                if(!s.equals("null"))
+                                 media_list.add(Urls.URL_IMG_PATH + s);
+                            }
+                            media_list.add("https://archive.org/download/ksnn_compilation_master_the_internet/ksnn_compilation_master_the_internet_512kb.mp4");
+                           /* item.getItem_media().add(Urls.URL_IMG_PATH + object.getString("Photo1"));
+                            item.getItem_media().add(Urls.URL_IMG_PATH + object.getString("Photo2"));
+                            item.getItem_media().add(Urls.URL_IMG_PATH + object.getString("Photo3"));
+                            item.getItem_media().add(Urls.URL_IMG_PATH + object.getString("Photo4"));
+                            item.getItem_media().add(Urls.URL_IMG_PATH + object.getString("Photo5"));
+                            item.getItem_media().add(Urls.URL_IMG_PATH + object.getString("Video"));*/
+
+
                             item.setCategoryName(object.getString("CategoryName_En"));
                             item.setSubcategoryName(object.getString("SubcategoryName_En"));
                             item.setCategoryID(Variables.catID);
@@ -158,7 +179,7 @@ public class ItemsFragment extends Fragment {
 
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         View footerView = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_layout, ItemList, false);
         ItemList.addFooterView(footerView,null,false);
@@ -184,44 +205,16 @@ public class ItemsFragment extends Fragment {
 
 
     }
-/*
-    private void getFavIds() {
-        final StringRequest favrequest = new StringRequest(Request.Method.GET, Urls.URL_GET_FAVOURITES_FOR_ID,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JsonElement root = new JsonParser().parse(response);
-                            response = root.getAsString();
-                            JSONObject jsonObject=new JSONObject(response);
-                            jsonArray=jsonObject.getJSONArray("ItemsList");
-                            for (int i = 0; i < jsonArray.length(); i++)
-                            {
-                                jsonObject = jsonArray.getJSONObject(i);
-                                fav_ids.add(jsonObject.getString("ItemID"));
-                            }
-
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "onErrorResponse:\n\n" + error.toString(), Toast.LENGTH_LONG).show();
-            }
-        });
-
-        if(Variables.ACCOUNT_ID!=null)
-        { VolleySingleton.getInstance().addToRequestQueue(favrequest);}
-
-    }
-*/
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
     }
 
+    public boolean notNull(String s)
+    {
+        if(s.equals("null")) return false;
+        else return true;
+    }
 
 }
