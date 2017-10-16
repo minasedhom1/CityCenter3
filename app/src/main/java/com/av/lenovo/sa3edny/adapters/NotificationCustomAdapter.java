@@ -26,8 +26,8 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class NotificationCustomAdapter extends ArrayAdapter<Notification> {
 
-        List <Notification> notificationList2;
-         Context context;
+  List <Notification> notificationList2;
+  Context context;
         public NotificationCustomAdapter(Context context, int resource, List<Notification> objects) {
             super(context, resource, objects);
             this.notificationList2=objects;

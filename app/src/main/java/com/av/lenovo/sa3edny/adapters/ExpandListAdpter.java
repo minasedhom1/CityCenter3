@@ -64,7 +64,6 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
         return catArray.get(groupPosition).getSub_array().size(); //***;)
     }
 
-
     @Override
     public Object getChild(int groupPosition, int childPosition) {
         return null;
@@ -82,6 +81,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
         return true; //**
     }
     ViewHolder holder;
+
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         holder = new ViewHolder();
@@ -116,7 +116,7 @@ public class ExpandListAdpter extends BaseExpandableListAdapter {
 
             holder.explore.setTypeface(MainActivity.font,Typeface.BOLD);
            //  holder.explore.setTextSize(13f);
-            //holder.explore.setTypeface(Typeface.DEFAULT_BOLD);
+           //   holder.explore.setTypeface(Typeface.DEFAULT_BOLD);
             return convertView;
 
         } catch (Exception e) {

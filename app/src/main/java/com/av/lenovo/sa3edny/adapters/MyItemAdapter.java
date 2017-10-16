@@ -72,14 +72,14 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
     private List<Item> itemsList;
     private ProgressBar progressBar;
     public Fragment fragment = null;
-    public Class fragmentClass = null;
+    private Class fragmentClass = null;
     public MyItemAdapter(Context context, int resource, List<Item> itemsList) {
         super(context, resource,itemsList);
         this.context= context;
         this.itemsList=itemsList;
     }
 
-    class ViewHolder
+    private class ViewHolder
         {
            // ImageButton menu,share, call,comment;
           //  ImageView image;
@@ -141,9 +141,6 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
                       holder.description.setText(des);
 
                       holder.rate.setText(String.valueOf(myItem.getRate()));
-                      //  holder.image.setMaxHeight(300);
-                  //    Picasso.with(getContext()).load(myItem.getPhoto1()).error(R.mipmap.ic_launcher).into(holder.image);  //             //new DownLoadImageTask(image).execute(imageUrl)
-
 
                       if (myItem.getNumOfPersonsRate() != null) {
                           holder.rates_num.setVisibility(View.VISIBLE);
@@ -304,6 +301,7 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
                           }
                       });*/
+               //Viewpager part replaced with the ordinary image view ******new*******
                holder.viewPager.setAdapter(new CustomPagerAdapter(context,myItem.getItem_media()));
 /*------------------------------------------------------------------------------------------------------------------------------------------------*/
 
