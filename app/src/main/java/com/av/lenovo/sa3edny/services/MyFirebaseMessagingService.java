@@ -6,14 +6,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
-import com.av.lenovo.sa3edny.Assets.Variables;
-import com.av.lenovo.sa3edny.MainActivity;
+import com.av.lenovo.sa3edny.utils.Variables;
+import com.av.lenovo.sa3edny.ui.MainActivity;
 import com.google.firebase.messaging.RemoteMessage;
 
 import me.leolin.shortcutbadger.ShortcutBadger;

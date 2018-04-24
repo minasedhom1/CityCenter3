@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.adapters;
+package com.av.lenovo.sa3edny.ui.items;
 
 import android.Manifest;
 import android.app.Activity;
@@ -39,14 +39,12 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.av.lenovo.sa3edny.Assets.Methods;
-import com.av.lenovo.sa3edny.Assets.Urls;
-import com.av.lenovo.sa3edny.Assets.Variables;
+import com.av.lenovo.sa3edny.utils.Methods;
+import com.av.lenovo.sa3edny.utils.Urls;
+import com.av.lenovo.sa3edny.utils.Variables;
 import com.av.lenovo.sa3edny.R;
-import com.av.lenovo.sa3edny.classes.Item;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
-import com.av.lenovo.sa3edny.fragments.CategoriesFragment;
-import com.av.lenovo.sa3edny.fragments.VoucherFragment;
+import com.av.lenovo.sa3edny.ui.loyality.VoucherFragment;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.google.gson.JsonElement;
@@ -467,13 +465,13 @@ public class MyItemAdapter extends ArrayAdapter<Item> {
 
 /*---------------------------------------------------------------Comment Btn-----------------------------------------------------------------------------*/
     private void popComment(String item_id)
-{
-    final Dialog nagDialog = new Dialog(getContext());
-    nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    nagDialog.setContentView(R.layout.popup_comment_item);
-    progressBar= (ProgressBar) nagDialog.findViewById(R.id.progressBarrr);
-    WebView mWebViewComments = (WebView) nagDialog.findViewById(R.id.item_comment_webview_);
-    mWebViewComments.setWebViewClient(new WebViewClient(){
+        {
+          final Dialog nagDialog = new Dialog(getContext());
+          nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+          nagDialog.setContentView(R.layout.popup_comment_item);
+          progressBar= (ProgressBar) nagDialog.findViewById(R.id.progressBarrr);
+          WebView mWebViewComments = (WebView) nagDialog.findViewById(R.id.item_comment_webview_);
+          mWebViewComments.setWebViewClient(new WebViewClient(){
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);

@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny;
+package com.av.lenovo.sa3edny.ui;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -30,19 +30,20 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.av.lenovo.sa3edny.Assets.Methods;
-import com.av.lenovo.sa3edny.Assets.Urls;
-import com.av.lenovo.sa3edny.Assets.Variables;
+import com.av.lenovo.sa3edny.utils.Methods;
+import com.av.lenovo.sa3edny.utils.Urls;
+import com.av.lenovo.sa3edny.utils.Variables;
+import com.av.lenovo.sa3edny.R;
 import com.av.lenovo.sa3edny.classes.ThemeApp;
-import com.av.lenovo.sa3edny.fragments.ItemsFragment;
-import com.av.lenovo.sa3edny.fragments.NotificationsListFragment;
-import com.av.lenovo.sa3edny.fragments.SearchFragment;
-import com.av.lenovo.sa3edny.fragments.VoucherFragment;
+import com.av.lenovo.sa3edny.ui.categories.GrandCinema;
+import com.av.lenovo.sa3edny.ui.items.ItemsFragment;
+import com.av.lenovo.sa3edny.ui.loyality.VoucherFragment;
+import com.av.lenovo.sa3edny.ui.notification.NotificationsListFragment;
+import com.av.lenovo.sa3edny.ui.search.SearchFragment;
 import com.av.lenovo.sa3edny.services.BackGroundService;
 import com.av.lenovo.sa3edny.classes.GetDataRequest;
-import com.av.lenovo.sa3edny.fragments.CategoriesFragment;
-import com.av.lenovo.sa3edny.fragments.ContactUsFragment;
-import com.av.lenovo.sa3edny.fragments.GrandCinema;
+import com.av.lenovo.sa3edny.ui.categories.CategoriesFragment;
+
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -91,15 +92,6 @@ public class MainActivity extends AppCompatActivity
       protected void onCreate(final Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_main);
-
-/*
-        themeApp=(ThemeApp)getIntent().getSerializableExtra("Theme");
-        ImageView logo =(ImageView)findViewById(R.id.logo_header);
-        Picasso.with(getBaseContext()).load("http://sa3ednyadmin.azurewebsites.net/IMG/"+themeApp.getAppLogo()).into(logo);
-        banner_img = (ImageView) findViewById(R.id.banner_img);
-        Picasso.with(this).load("http://sa3ednyadmin.azurewebsites.net/IMG/"+themeApp.getAppBanner()).into(banner_img);
-
-*/
 
         tryConnect= (Button) findViewById(R.id.try_connect_btn);
         fab = (FloatingActionButton) findViewById(R.id.fab);

@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.classes;
+package com.av.lenovo.sa3edny.ui.categories;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.fragments;
+package com.av.lenovo.sa3edny.ui.loyality;
 
 
 import android.app.Dialog;
@@ -24,12 +24,10 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.av.lenovo.sa3edny.Assets.Urls;
-import com.av.lenovo.sa3edny.Assets.Variables;
+import com.av.lenovo.sa3edny.utils.Urls;
+import com.av.lenovo.sa3edny.utils.Variables;
 import com.av.lenovo.sa3edny.R;
-import com.av.lenovo.sa3edny.classes.LoyaltyClass;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
-import com.av.lenovo.sa3edny.services.LoyaltyService;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 

@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.Assets;
+package com.av.lenovo.sa3edny.utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,14 +20,9 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.av.lenovo.sa3edny.MainActivity;
+import com.av.lenovo.sa3edny.ui.MainActivity;
 import com.av.lenovo.sa3edny.R;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 

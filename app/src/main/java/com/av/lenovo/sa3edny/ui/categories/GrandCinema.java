@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.fragments;
+package com.av.lenovo.sa3edny.ui.categories;
 
 
 import android.os.Bundle;
@@ -18,17 +18,15 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.av.lenovo.sa3edny.Assets.Methods;
-import com.av.lenovo.sa3edny.Assets.Urls;
-import com.av.lenovo.sa3edny.Assets.Variables;
-import com.av.lenovo.sa3edny.MainActivity;
+import com.av.lenovo.sa3edny.utils.Methods;
+import com.av.lenovo.sa3edny.utils.Urls;
+import com.av.lenovo.sa3edny.utils.Variables;
+import com.av.lenovo.sa3edny.ui.MainActivity;
 import com.av.lenovo.sa3edny.classes.CacheRequest;
-import com.av.lenovo.sa3edny.adapters.ExpandListAdpter;
 import com.av.lenovo.sa3edny.classes.GetDataRequest;
-import com.av.lenovo.sa3edny.classes.Category;
 import com.av.lenovo.sa3edny.R;
-import com.av.lenovo.sa3edny.classes.Subcategory;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
+import com.av.lenovo.sa3edny.ui.items.ItemsFragment;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 

@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.fragments;
+package com.av.lenovo.sa3edny.ui;
 
 
 import android.graphics.Bitmap;
@@ -12,8 +12,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.av.lenovo.sa3edny.Assets.Methods;
-import com.av.lenovo.sa3edny.Assets.Urls;
+import com.av.lenovo.sa3edny.utils.Methods;
+import com.av.lenovo.sa3edny.utils.Urls;
 import com.av.lenovo.sa3edny.R;
 
 /**
@@ -22,19 +22,15 @@ import com.av.lenovo.sa3edny.R;
 public class ContactUsFragment extends Fragment {
 
 
-    public ContactUsFragment() {
-        // Required empty public constructor
-    }
-
-WebView  webViewl;
+    WebView  webViewl;
     ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-View view =inflater.inflate(R.layout.fragment_contact_us, container, false);
+        View view =inflater.inflate(R.layout.fragment_contact_us, container, false);
         Methods.setPath(view,getContext());
-        progressBar= (ProgressBar) view.findViewById(R.id.progress_bar);
-        webViewl= (WebView) view.findViewById(R.id.contact_us_web_view);
+        progressBar= view.findViewById(R.id.progress_bar);
+        webViewl= view.findViewById(R.id.contact_us_web_view);
         webViewl.setWebViewClient(new WebViewClient()
         {
             @Override
@@ -53,7 +49,6 @@ View view =inflater.inflate(R.layout.fragment_contact_us, container, false);
         WebSettings settings=webViewl.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(true);
-
         webViewl.loadUrl(Urls.URL_CONTACT_US_MAP);
 
         return  view;

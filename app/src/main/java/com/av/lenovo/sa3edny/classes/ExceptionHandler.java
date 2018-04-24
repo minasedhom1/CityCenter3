@@ -6,12 +6,8 @@ import android.content.Context;
  * Created by Mina on 4/9/2017.
  */
 
-public class
-
-ExceptionHandler implements java.lang.Thread.UncaughtExceptionHandler {
-
+public class ExceptionHandler implements java.lang.Thread.UncaughtExceptionHandler {
     Context context;
-
     public ExceptionHandler(Context context) {
         this.context = context;
     }

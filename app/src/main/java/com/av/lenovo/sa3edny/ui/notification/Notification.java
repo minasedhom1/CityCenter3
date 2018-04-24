@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.classes;
+package com.av.lenovo.sa3edny.ui.notification;
 
 /**
  * Created by mido on 3/30/2017.

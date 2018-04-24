@@ -1,12 +1,8 @@
-package com.av.lenovo.sa3edny.Assets;
+package com.av.lenovo.sa3edny.utils;
 
-import com.av.lenovo.sa3edny.classes.Category;
-import com.av.lenovo.sa3edny.classes.Item;
-import com.av.lenovo.sa3edny.classes.Notification;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.av.lenovo.sa3edny.ui.categories.Category;
+import com.av.lenovo.sa3edny.ui.items.Item;
+import com.av.lenovo.sa3edny.ui.notification.Notification;
 
 import java.util.ArrayList;
 

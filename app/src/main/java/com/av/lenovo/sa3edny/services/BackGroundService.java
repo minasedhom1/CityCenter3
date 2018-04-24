@@ -4,24 +4,16 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
-import android.util.Log;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.av.lenovo.sa3edny.Assets.Methods;
-import com.av.lenovo.sa3edny.Assets.Urls;
-import com.av.lenovo.sa3edny.Assets.Variables;
-import com.av.lenovo.sa3edny.MainActivity;
-import com.av.lenovo.sa3edny.classes.Item;
+import com.av.lenovo.sa3edny.utils.Methods;
+import com.av.lenovo.sa3edny.utils.Urls;
+import com.av.lenovo.sa3edny.utils.Variables;
+import com.av.lenovo.sa3edny.ui.items.Item;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -29,8 +21,6 @@ import com.google.gson.JsonParser;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by mido on 4/3/2017.

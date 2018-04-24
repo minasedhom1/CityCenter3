@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.av.lenovo.sa3edny.fragments.NotificationsListFragment">
+    tools:context="com.av.lenovo.sa3edny.ui.notification.NotificationsListFragment">
     <include layout="@layout/path_layout"/>
     <!-- TODO: Update blank fragment layout -->
     <FrameLayout

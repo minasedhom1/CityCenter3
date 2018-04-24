@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.fragments;
+package com.av.lenovo.sa3edny.ui.categories;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -12,23 +12,20 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.av.lenovo.sa3edny.Assets.Methods;
-import com.av.lenovo.sa3edny.Assets.Urls;
-import com.av.lenovo.sa3edny.Assets.Variables;
-import com.av.lenovo.sa3edny.MainActivity;
+import com.av.lenovo.sa3edny.utils.Methods;
+import com.av.lenovo.sa3edny.utils.Urls;
+import com.av.lenovo.sa3edny.utils.Variables;
+import com.av.lenovo.sa3edny.ui.MainActivity;
 import com.av.lenovo.sa3edny.classes.CacheRequest;
-import com.av.lenovo.sa3edny.classes.Category;
-import com.av.lenovo.sa3edny.adapters.ExpandListAdpter;
 import com.av.lenovo.sa3edny.classes.GetDataRequest;
-import com.av.lenovo.sa3edny.classes.Subcategory;
 import com.av.lenovo.sa3edny.R;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
+import com.av.lenovo.sa3edny.ui.items.ItemsFragment;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import org.json.JSONArray;
@@ -44,7 +41,7 @@ public class CategoriesFragment extends Fragment {
     JSONArray jsonArray;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater     inflater, ViewGroup container, Bundle savedInstanceState) {
       categoryArrayList = new ArrayList<>();
 
         CacheRequest cacheRequest = new CacheRequest(Request.Method.GET,Urls.URL_GET_CATEGORIES_GOODS, new Response.Listener<NetworkResponse>() {
@@ -123,7 +120,7 @@ public class CategoriesFragment extends Fragment {
                 return false;
             }
         });
-
+     //AppsValley@8899
           expand_listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
        @Override
        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -140,10 +137,6 @@ public class CategoriesFragment extends Fragment {
        }
    });
 }
-
-
-
-
 
 /*--------------------------------------------------------------get subcategories----------------------------------------------------------------------------------*/
 

@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.adapters;
+package com.av.lenovo.sa3edny.ui.notification;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,9 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.av.lenovo.sa3edny.Assets.Urls;
+import com.av.lenovo.sa3edny.utils.Urls;
 import com.av.lenovo.sa3edny.R;
-import com.av.lenovo.sa3edny.classes.Notification;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -34,8 +33,7 @@ public class NotificationCustomAdapter extends ArrayAdapter<Notification> {
             this.context=context;
         }
         class ViewHolder
-        {
-            TextView description;
+        {  TextView description;
             ImageView icon;
         }
         @NonNull
@@ -43,7 +41,6 @@ public class NotificationCustomAdapter extends ArrayAdapter<Notification> {
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = new ViewHolder();
             try {
-
                 if (convertView == null) {
                     LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                     convertView = inflater.inflate(R.layout.custom_notification, parent, false);
@@ -59,8 +56,9 @@ public class NotificationCustomAdapter extends ArrayAdapter<Notification> {
                 { Picasso.with(getContext()).load(Urls.URL_IMG_PATH+notification.getItem_Photo()).error(R.mipmap.ic_launcher).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.icon);}
                 else {Picasso.with(getContext()).load(R.mipmap.notificationicon).transform(new RoundedCornersTransformation(20,0)).fit().into(holder.icon);}
                 return convertView;
+            }
 
-            } catch (Exception e) {
+            catch (Exception e) {
                 return null;
             }
         }

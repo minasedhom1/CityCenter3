@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.adapters;
+package com.av.lenovo.sa3edny.ui.categories;
 
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +11,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.av.lenovo.sa3edny.Assets.Methods;
-import com.av.lenovo.sa3edny.MainActivity;
+import com.av.lenovo.sa3edny.utils.Methods;
+import com.av.lenovo.sa3edny.ui.MainActivity;
 import com.av.lenovo.sa3edny.R;
-import com.av.lenovo.sa3edny.classes.Category;
-import com.av.lenovo.sa3edny.classes.Subcategory;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

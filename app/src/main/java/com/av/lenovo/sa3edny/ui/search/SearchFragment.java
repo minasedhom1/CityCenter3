@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.fragments;
+package com.av.lenovo.sa3edny.ui.search;
 
 
 import android.content.BroadcastReceiver;
@@ -29,11 +29,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.av.lenovo.sa3edny.Assets.Methods;
-import com.av.lenovo.sa3edny.Assets.Variables;
-import com.av.lenovo.sa3edny.MainActivity;
+import com.av.lenovo.sa3edny.utils.Methods;
+import com.av.lenovo.sa3edny.utils.Variables;
+import com.av.lenovo.sa3edny.ui.MainActivity;
 import com.av.lenovo.sa3edny.R;
-import com.av.lenovo.sa3edny.classes.Item;
+import com.av.lenovo.sa3edny.ui.items.Item;
 
 import java.util.ArrayList;
 import java.util.Collections;

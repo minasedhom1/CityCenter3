@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.fragments;
+package com.av.lenovo.sa3edny.ui.notification;
 
 
 import android.os.Bundle;
@@ -16,14 +16,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.av.lenovo.sa3edny.Assets.Methods;
-import com.av.lenovo.sa3edny.Assets.Urls;
-import com.av.lenovo.sa3edny.Assets.Variables;
-import com.av.lenovo.sa3edny.MainActivity;
+import com.av.lenovo.sa3edny.utils.Methods;
+import com.av.lenovo.sa3edny.utils.Urls;
+import com.av.lenovo.sa3edny.utils.Variables;
+import com.av.lenovo.sa3edny.ui.MainActivity;
 import com.av.lenovo.sa3edny.R;
-import com.av.lenovo.sa3edny.classes.Notification;
-import com.av.lenovo.sa3edny.adapters.NotificationCustomAdapter;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
+import com.av.lenovo.sa3edny.ui.search.SingleItemFragment;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -40,7 +39,7 @@ import java.util.List;
  */
 public class NotificationsListFragment extends Fragment {
     JSONArray jsonArray;
-   List<Notification> notificationList=new ArrayList<>();
+    List<Notification> notificationList=new ArrayList<>();
     ListView notiListView;
     ProgressBar progressBar;
     NotificationCustomAdapter adapter;

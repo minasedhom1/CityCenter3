@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.av.lenovo.sa3edny.fragments.VoucherFragment"
+    tools:context="com.av.lenovo.sa3edny.ui.loyality.VoucherFragment"
     android:background="@mipmap/background">
 
 

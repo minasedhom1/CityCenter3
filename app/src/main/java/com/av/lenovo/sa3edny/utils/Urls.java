@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.Assets;
+package com.av.lenovo.sa3edny.utils;
 
 /**
  * Created by lenovo on 23/01/2017.

@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.adapters;
+package com.av.lenovo.sa3edny.ui.items;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -72,7 +72,6 @@ public class CustomPagerAdapter extends PagerAdapter {
         }
             container.addView(view,0);
         return view;
-
     }
 
     @Override

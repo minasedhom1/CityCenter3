@@ -17,11 +17,11 @@
         <activity
             android:windowSoftInputMode="stateHidden|adjustPan"
             android:clearTaskOnLaunch="true"
-            android:name="com.av.lenovo.sa3edny.MainActivity"
+            android:name="com.av.lenovo.sa3edny.ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <activity android:name=".SplashActivity"
+        <activity android:name=".ui.SplashActivity"
             android:theme="@style/SplashTheme">
 
             <intent-filter>
@@ -50,7 +50,7 @@
             </intent-filter>
         </service>
         <service android:name="com.av.lenovo.sa3edny.services.BackGroundService"/>
-        <service android:name=".services.LoyaltyService"/>
+        <service android:name=".ui.loyality.LoyaltyService"/>
     </application>
 
 </manifest>

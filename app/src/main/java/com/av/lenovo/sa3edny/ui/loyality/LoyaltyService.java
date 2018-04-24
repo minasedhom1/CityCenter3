@@ -1,4 +1,4 @@
-package com.av.lenovo.sa3edny.services;
+package com.av.lenovo.sa3edny.ui.loyality;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -8,8 +8,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.av.lenovo.sa3edny.Assets.Urls;
-import com.av.lenovo.sa3edny.classes.LoyaltyClass;
+import com.av.lenovo.sa3edny.utils.Urls;
 import com.av.lenovo.sa3edny.classes.VolleySingleton;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
