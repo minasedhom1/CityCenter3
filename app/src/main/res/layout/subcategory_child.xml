@@ -6,7 +6,7 @@
     android:gravity="center_vertical"
    >
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
@@ -15,29 +15,37 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         >
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@mipmap/ic_launcher"
-            android:id="@+id/child_icon"
-       android:layout_marginBottom="2dp"
-            />
-        <TextView
-            android:text="itemss"
-            android:id="@+id/lblListItem"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="10dp"/>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/child_icon"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginBottom="2dp"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/lblListItem"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/cairo"
+                android:maxWidth="240dp"
+                android:paddingLeft="10dp"
+                android:text="itemssssssssssssssssssssssssssssssssssss"
+                android:textSize="15sp" />
+        </LinearLayout>
         <ImageView
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:src="@mipmap/right_arrow"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical|end"
+            />
 
-    </LinearLayout>
+    </FrameLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

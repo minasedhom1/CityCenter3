@@ -2,7 +2,7 @@
     <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="38dp"
         android:background="#E3E3F7"
         android:paddingLeft="5dp"
     >
@@ -21,8 +21,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Anchor test > subcat1"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:layout_marginLeft="5dp"
             android:id="@+id/item_path_tv"
-            android:textColor="#3f3f3f"/>
+            android:textColor="#3f3f3f"
+            android:fontFamily="@font/cairo"/>
     </LinearLayout>

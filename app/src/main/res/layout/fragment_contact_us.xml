@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context="com.av.lenovo.sa3edny.ui.ContactUsFragment">
+    tools:context="com.av.m.sa3edny.ui.home.categories.contactUS.ContactUsFragment">
     <!-- TODO: Update blank fragment layout -->
 
     <include layout="@layout/path_layout" />
@@ -42,13 +42,13 @@
         <WebView
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:id="@+id/contact_us_web_view"
+            andritemIDd:iditemID@+id/contact_us_web_view"
             android:focusable="true"
             android:clickable="true"
             />
 
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/map"
+                andritemIDd:iditemID@+id/map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 class="com.google.android.gms.maps.SupportMapFragment" />

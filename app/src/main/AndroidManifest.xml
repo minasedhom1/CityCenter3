@@ -1,56 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.av.lenovo.sa3edny">
+    package="com.av.m.sa3edny">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
 
- <!--   <uses-permission android:name="com.android.vending.BILLING" />-->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
 
+    <!-- <uses-permission andrname_Enname="com.android.vending.BILLING" /> -->
     <application
-        android:name="com.av.lenovo.sa3edny.classes.VolleySingleton"
+        android:name=".classes.VolleySingleton"
         android:allowBackup="true"
         android:icon="@mipmap/icon_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
         <activity
-            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:name=".ui.MainActivity"
             android:clearTaskOnLaunch="true"
-            android:name="com.av.lenovo.sa3edny.ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity android:name=".ui.SplashActivity"
-            android:theme="@style/SplashTheme">
-
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".ui.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <service
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
-            android:name="com.av.lenovo.sa3edny.services.MyFirebaseInstanceIDService">
+        <service android:name=".services.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name="com.av.lenovo.sa3edny.services.MyFirebaseMessagingService">
+        <service android:name=".services.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="com.av.lenovo.sa3edny.services.BackGroundService"/>
-        <service android:name=".ui.loyality.LoyaltyService"/>
+        <service android:name=".services.BackGroundService" />
+        <service android:name=".ui.home.categories.loyality.LoyaltyService" />
+
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".ui.login.signup.SignupActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.items.FbCommentActivity" />
+        <activity
+            android:name=".ui.newRequest.ItemOrderPage"
+            android:label="@string/title_activity_item_order_page"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.newRequest.PickLocationActivity"
+            android:label="@string/title_activity_pick_location"></activity>
     </application>
 
 </manifest>

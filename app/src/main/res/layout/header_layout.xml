@@ -4,38 +4,22 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-   android:id="@+id/header_layout_id"
-    android:gravity="top">
-
+    android:id="@+id/header_layout_id"
+    android:gravity="top" >
 
 
     <FrameLayout
         android:id="@+id/baner_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp" >
-
-
+        android:layout_height="85dp" >
 
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/baner2"
+            android:src="@color/colorPrimaryDark"
             android:scaleType="fitXY"
             android:id="@+id/banner_img"/>
-
-
-
-      <ImageView
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/logo2"
-            android:id="@+id/logo_header"
-            android:soundEffectsEnabled="false"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:layout_gravity="center_horizontal"/>
-
 
 
         <ImageView
@@ -44,7 +28,7 @@
             android:layout_height="35dp"
             android:src="@drawable/nav_icon"
             android:layout_marginTop="7dp"
-            android:padding="3dp"
+            android:padding="6dp"
             android:clickable="true"
             android:id="@+id/nav_icon"
             />
@@ -54,18 +38,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/notifi_frame_lo"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:visibility="visible"
+            >
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:padding="3.5dp"
-            android:src="@drawable/notification_selector"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="3dp"
+            android:src="@mipmap/ic_notif"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="2dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/notify_icon"
             android:clickable="true"
+
              />
 
             <TextView
@@ -81,6 +68,16 @@
                 android:id="@+id/badge_number"/>
 
         </FrameLayout>
+
+        <ImageView
+              android:id="@+id/logo_header"
+              android:layout_width="250dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:paddingBottom="3dp"
+              android:paddingTop="3dp"
+              android:soundEffectsEnabled="false"
+              android:src="@mipmap/logo2" />
 
 
     </FrameLayout>

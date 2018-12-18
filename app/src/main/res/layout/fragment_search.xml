@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.av.lenovo.sa3edny.ui.search.SearchFragment"
-    android:background="@mipmap/background"
+    tools:context=".ui.home.categories.search.SearchFragment"
+    android:background="@mipmap/ic_background"
     >
 
     <!-- TODO: Update blank fragment layout -->
@@ -20,13 +20,14 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="36dp"
-        android:textSize="19sp"
+        android:textSize="18sp"
         android:background="#fff"
        android:paddingLeft="10dp"
         android:drawableLeft="@drawable/searchicon2"
         android:hint="Search...."
         android:id="@+id/search_et"
-        android:drawablePadding="5dp"/>
+        android:drawablePadding="5dp"
+        android:fontFamily="@font/cairo"/>
     </FrameLayout>
 <FrameLayout
     android:layout_width="match_parent"

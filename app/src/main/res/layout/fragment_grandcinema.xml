@@ -1,11 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.av.lenovo.sa3edny.ui.categories.GrandCinema"
-    android:background="@mipmap/background"
-
+    tools:context=".ui.home.categories.cats.GrandCinema"
+    android:background="@mipmap/ic_background"
     >
 
     <ExpandableListView
@@ -21,4 +20,10 @@
         android:paddingTop="5dp"
         />
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:visibility="visible"/>
+</FrameLayout>

@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Cancel"
-            android:background="@drawable/rounded_corner_btn"
+            android:background="@drawable/rounded_corner_explore_btn"
             android:textColor="#fff"
             android:id="@+id/loyal_cancel_btn"
             />
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="Verify"
-            android:background="@drawable/rounded_corner_btn"
+            android:background="@drawable/rounded_corner_explore_btn"
             android:id="@+id/loyal_verifiy_btn"/>
     </LinearLayout>
 

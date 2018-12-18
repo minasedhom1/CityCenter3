@@ -5,7 +5,7 @@
         <item
             android:id="@+id/nav_mallstores"
             android:icon="@drawable/goods_icon"
-            android:title="Goods"
+            android:title="Shops"
             />
         <item
             android:id="@+id/nav_grandcinema"
@@ -14,7 +14,7 @@
         <item
             android:id="@+id/nav_whatsnew"
             android:icon="@drawable/whatsnew_icon"
-            android:title="Whats new?!" />
+            android:title="What's new?" />
         <item
             android:id="@+id/nav_latest_offers"
             android:icon="@drawable/offer"
@@ -23,9 +23,9 @@
         <item
             android:id="@+id/nav_fav"
             android:icon="@drawable/favourites_icon"
-            android:title="Favorite" />
+            android:title="Favorites" />
      <!--   <item
-        android:id="@+id/nav_notify"
+        andritemIDd:iditemID@+id/nav_notify"
         android:icon="@drawable/notify"
         android:title="Notifications" />
 -->
@@ -34,10 +34,14 @@
                 android:id="@+id/nav_search"
                 android:icon="@drawable/search"
                 android:title="Search" />
-            <item
-                android:id="@+id/nav_contact_us"
+  <!--          <item
+                andritemIDd:iditemID@+id/nav_contact_us"
                 android:icon="@drawable/contactus_icon"
-                android:title="Contact Us" />
+                android:title="Contact Us" />-->
+<!--        <item
+            android:id="@+id/nav_addItem"
+            android:icon="@mipmap/ic_add_item"
+            android:title="Add your Shop/Business" />-->
         </group>
 
 

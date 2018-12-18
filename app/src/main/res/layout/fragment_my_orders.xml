@@ -1,0 +1,32 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.av.m.sa3edny.ui.MyOrdersFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No orders found."
+        android:fontFamily="@font/cairo"
+        android:textSize="22dp"
+        android:layout_gravity="center"
+        android:textStyle="bold"/>
+    <Button
+        android:id="@+id/cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:text="Dismiss"
+        android:textAllCaps="false"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/cairo"
+        android:layout_marginBottom="20dp"
+        android:drawablePadding="10dp"
+        android:textSize="17sp"
+        android:background="@color/transparent"
+        android:textColor="#FF6666"
+        android:textStyle="bold"
+        />
+</FrameLayout>

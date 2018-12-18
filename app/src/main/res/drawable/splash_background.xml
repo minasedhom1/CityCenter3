@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+   >
 
-<item android:drawable="@color/white" />
+<item android:drawable="@color/lightGray"
+    />
 
-<item>
+<!--<item >
 
 <bitmap
     android:autoMirrored="true"
     android:gravity="center"
-    android:src="@mipmap/logo2" />
-</item>
+    android:src="@mipmap/ic_splash_logo_insurance" />
+</item>-->
 
     </layer-list>

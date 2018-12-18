@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Item name"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone"/>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/black_frame_spinner"
+    android:layout_marginBottom="15dp"
+    android:layout_marginTop="10dp"
+    >
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        />
+</FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/black_frame_spinner"
+        android:layout_marginBottom="10dp"
+        >
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:entries="@array/rate_values"
+            />
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        >
+<!--        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:hint="Address"
+            android:layout_marginRight="15dp"/>-->
+
+    <Button
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableRight="@mipmap/ic_gps"
+        android:drawablePadding="5dp"
+        android:backgroundTint="@color/light_gray"
+        android:text="Get Location"
+        android:layout_marginRight="5dp"
+        />
+
+</LinearLayout>
+</LinearLayout>

@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.av.lenovo.sa3edny.ui.notification.NotificationsListFragment">
+    tools:context=".ui.home.categories.notification.NotificationsListFragment">
     <include layout="@layout/path_layout"/>
     <!-- TODO: Update blank fragment layout -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/background">
+        android:background="@mipmap/ic_background">
     <ListView
         android:background="#4dffffff"
         android:paddingTop="2dp"

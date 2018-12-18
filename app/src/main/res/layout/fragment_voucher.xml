@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.av.lenovo.sa3edny.ui.loyality.VoucherFragment"
-    android:background="@mipmap/background">
+    tools:context=".ui.home.categories.loyality.VoucherFragment"
+    android:background="@mipmap/ic_background">
 
 
 <!--
@@ -22,17 +22,17 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintLeft_creator="1"
-        android:id="@+id/linearLayout">
+        andritemIDd:iditemID@+id/linearLayout">
 
         <ImageView
-            android:id="@+id/prof_voucher_page"
+            andritemIDd:iditemID@+id/prof_voucher_page"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
-            android:id="@+id/FB_name_voucher_page"
+            andritemIDd:iditemID@+id/FB_name_voucher_page"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -77,7 +77,7 @@
         android:id="@+id/loyal_add_points_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner_btn"
+        android:background="@drawable/rounded_corner_explore_btn"
         android:text="Add Points"
         android:textAllCaps="false"
         android:textColor="#fff"
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:text="Claim Reward"
         android:textAllCaps="false"
-        android:background="@drawable/rounded_corner_btn"
+        android:background="@drawable/rounded_corner_explore_btn"
         android:textColor="#fff"
         android:id="@+id/loyal_claim_visit"
         app:layout_constraintLeft_toRightOf="@+id/loyalty_add_visit"
@@ -141,7 +141,7 @@
         android:id="@+id/loyalty_claim_promocode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner_btn"
+        android:background="@drawable/rounded_corner_explore_btn"
         android:paddingEnd="5dp"
         android:paddingStart="5dp"
         android:text="Claim Reward"
@@ -174,7 +174,7 @@
         app:layout_constraintTop_toBottomOf="@+id/loyal_add_points_btn" />
 
     <Button
-        android:background="@drawable/rounded_corner_btn"
+        android:background="@drawable/rounded_corner_explore_btn"
         android:textSize="13sp"
         android:gravity="center"
         android:layout_width="wrap_content"
@@ -195,7 +195,7 @@
         android:layout_height="wrap_content"
         android:text="Claim Reward"
         android:textAllCaps="false"
-        android:background="@drawable/rounded_corner_btn"
+        android:background="@drawable/rounded_corner_explore_btn"
         android:textColor="#fff"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"

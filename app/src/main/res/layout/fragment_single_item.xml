@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.av.lenovo.sa3edny.ui.search.SingleItemFragment">
-    <include layout="@layout/path_layout"
-        />
+    tools:context=".ui.home.categories.search.SingleItemFragment">
+    <!--<include layout="@layout/path_layout"
+        />-->
     <!-- TODO: Update blank fragment layout -->
     <ListView
         android:layout_width="match_parent"

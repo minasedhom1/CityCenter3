@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+>
+<LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:weightSum="1"
     android:background="#59ffffff"
     android:paddingTop="10dp"
@@ -16,17 +20,30 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:src="@mipmap/carfor"
-        android:id="@+id/item_icon"
+        andritemIDd:iditemID@+id/item_icon"
         android:background="#fff"
         android:layout_gravity="center"
         />-->
-      <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager_list"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
         android:layout_width="match_parent"
-          android:layout_height="250dp"
-          android:background="#ffff"
-        />
+        android:layout_height="wrap_content">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager_list"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@color/white"
+            />
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabDots"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabBackground="@drawable/tab_selector"
+            app:tabGravity="center"
+            app:tabIndicatorHeight="0dp"
+            android:layout_gravity="bottom"
+            />
+    </FrameLayout>
 <View  android:layout_width="match_parent"
     android:layout_height="1dp"
     android:background="#bdbdbd"/>
@@ -50,14 +67,17 @@
             android:textSize="19sp"
             android:textColor="#000080"
             android:layout_marginLeft="5dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:maxWidth="200dp"
+            android:fontFamily="@font/cairo"
+            />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="7dp"
                 android:background="@drawable/rounded_cornenr_imageview">
 
 
@@ -85,7 +105,9 @@
                 android:id="@+id/rates_num"
                 android:text="(4)"
                 android:layout_marginLeft="5dp"
-                android:textSize="16sp"/>
+                android:textSize="14sp"
+                android:fontFamily="@font/cairo"
+                android:layout_marginTop="-2dp"/>
         </LinearLayout>
         <com.sackcentury.shinebuttonlib.ShineButton
             android:layout_width="25dp"
@@ -116,12 +138,13 @@
     android:layout_marginLeft="10dp"
     >
     <Spinner
-        android:layout_width="150dp"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:entries="@array/rate_values"
         android:id="@+id/rate_spinner"
-
+        style="@style/SpinnerTextViewItem"
         >
+
     </Spinner>
     </LinearLayout>
     <TextView
@@ -130,8 +153,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/item_description"
         android:layout_marginLeft="15dp"
-        android:textSize="16sp"
-        android:textColor="#3f3f3f"/>
+        android:textSize="15sp"
+        android:textColor="#3f3f3f"
+        android:fontFamily="@font/cairo"
+        android:lineSpacingExtra="-5dp"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -146,16 +172,20 @@
           >
 
         <TextView
-            android:padding="10dp"
+            android:textSize="13sp"
+            android:padding="7dp"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:background="@drawable/rounded_promo_tab"
             android:layout_gravity="top"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="15dp"
             android:id="@+id/promo_tv"
             android:text="Click View Offers To Download Seoudi Magazine. Valid From April 1st To April 18th 2017"
+            android:fontFamily="@font/cairo"
+            android:lineSpacingExtra="-5dp"
             />
 
             <TextView
@@ -163,25 +193,57 @@
                 android:layout_height="wrap_content"
                 android:text="Promotion"
                 android:textStyle="bold"
-                android:textColor="#C1195A"
+                android:textColor="#cdC1195A"
                 android:textSize="16sp"
                 android:layout_gravity="center|top"
+                android:fontFamily="@font/cairo"
                 />
         </FrameLayout>
+        <TableRow android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:id="@+id/iv_facebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_facebook2" />
+
+            <ImageView
+                android:id="@+id/iv_twitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_twitter" />
+
+            <ImageView
+                android:id="@+id/iv_instagram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_instagram" />
+
+            <ImageView
+                android:id="@+id/iv_youtube"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_youtube" />
+
+        </TableRow>
    <Button
-       android:layout_marginTop="7dp"
        android:layout_width="wrap_content"
        android:layout_height="44dp"
        android:id="@+id/option_btn"
        android:text="View"
        android:textColor="@drawable/button_text_color"
        android:textAllCaps="false"
-       android:textSize="19sp"
+       android:textSize="17sp"
        android:gravity="center_vertical"
        android:paddingLeft="60dp"
        android:background="@mipmap/menu"
        android:visibility="visible"
        android:layout_gravity="center_horizontal"
+       android:fontFamily="@font/cairo"
+
        />
         <Button
             android:layout_marginTop="3dp"
@@ -191,12 +253,14 @@
             android:text="Call"
             android:textColor="@drawable/button_text_color"
             android:textAllCaps="false"
-            android:textSize="19sp"
+            android:textSize="17sp"
             android:gravity="center_vertical"
             android:paddingLeft="60dp"
             android:background="@mipmap/call"
             android:visibility="visible"
             android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/cairo"
+
             />
 
         <Button
@@ -207,12 +271,14 @@
             android:text="Share"
             android:textColor="@drawable/button_text_color"
             android:textAllCaps="false"
-            android:textSize="19sp"
+            android:textSize="17sp"
             android:gravity="center_vertical"
             android:paddingLeft="60dp"
             android:background="@mipmap/share"
             android:visibility="visible"
             android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/cairo"
+
             />
         <Button
             android:layout_marginTop="3dp"
@@ -222,12 +288,14 @@
             android:text="Comment"
             android:textColor="@drawable/button_text_color"
             android:textAllCaps="false"
-            android:textSize="19sp"
+            android:textSize="17sp"
             android:gravity="center_vertical"
             android:paddingLeft="60dp"
             android:background="@mipmap/comment"
             android:visibility="visible"
             android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/cairo"
+
             />
 
         <Button
@@ -238,12 +306,13 @@
             android:text="Menu"
             android:textColor="@drawable/button_text_color"
             android:textAllCaps="false"
-            android:textSize="19sp"
+            android:textSize="17sp"
             android:gravity="center_vertical"
             android:paddingLeft="60dp"
             android:background="@mipmap/menu"
             android:visibility="gone"
             android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/cairo"
             />
         <Button
             android:layout_marginTop="3dp"
@@ -256,6 +325,25 @@
             android:textSize="19sp"
             android:gravity="center"
             android:visibility="gone"
+            android:fontFamily="@font/cairo"
+
+            />
+        <Button
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:id="@+id/item_directions_btn"
+            android:text="Direction to here"
+            android:textColor="@drawable/button_text_color"
+            android:textAllCaps="false"
+            android:textSize="17sp"
+            android:gravity="center_vertical"
+            android:paddingLeft="60dp"
+            android:background="@mipmap/comment"
+            android:visibility="visible"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/cairo"
             />
     </LinearLayout>
 </LinearLayout>
+</ScrollView>

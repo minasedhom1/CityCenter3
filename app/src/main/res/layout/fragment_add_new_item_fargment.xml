@@ -1,0 +1,221 @@
+<layout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fancy="http://schemas.android.com/apk/res-auto"
+    tools:context="com.av.m.sa3edny.ui.home.categories.addNewItem.AddNewItemFargment">
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<!--    <include layout="@layout/path_layout"
+        />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:paddingTop="35dp">
+
+        <ImageView
+            android:id="@+id/add_item_img"
+            android:layout_width="115dp"
+            android:layout_height="112dp"
+            android:src="@mipmap/ic_add_img"
+            android:layout_gravity="center_horizontal"/>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Add your Shop/business Logo in high quality."
+    android:gravity="center_horizontal"
+    android:textSize="10sp"
+    android:layout_marginTop="5dp"
+    android:fontFamily="casual"
+    android:textStyle="bold"
+    />
+        <EditText
+            android:layout_marginTop="7dp"
+            android:id="@+id/item_name_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Shop/Business Name*"
+            android:textSize="14sp"
+            android:tooltipText="Add you Shop/Business Name here as you wish your users to see it"
+            android:maxLines="1"
+            android:maxLength="50"
+            />
+        <EditText
+            android:id="@+id/item_des_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Shop/Business Description*"
+            android:textSize="14sp"
+            android:maxLines="3"
+            />
+        <EditText
+            android:id="@+id/item_phone_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Shop/Business Phone*"
+            android:textSize="14sp"
+            android:inputType="phone"
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            >
+                    <EditText
+                        android:id="@+id/item_address_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:hint="Shop/Business Location"
+                        android:textSize="14sp"
+                        android:enabled="false"
+                        android:textColor="@color/black_effective"
+
+                        />
+
+
+            <ImageView
+                android:id="@+id/get_latlng_iv"
+                android:src="@mipmap/ic_gps"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:textSize="17sp"
+                android:padding="6dp"
+
+                />
+
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select your Shop/Business Category"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/black_frame_spinner"
+            >
+            <Spinner
+                android:id="@+id/cat_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                />
+        </FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select your Mall or Center"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/black_frame_spinner"
+            android:layout_marginBottom="10dp"
+            >
+            <Spinner
+                android:id="@+id/subcat_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:entries="@array/subCats_list"
+                />
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="35dp"
+            android:layout_gravity="bottom"
+            >
+
+       <!-- <com.rilixtech.materialfancybutton.MaterialFancyButton
+            android:id="@+id/create_item_btn"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:padding="-5dp"
+            fancy:mfb_defaultColor="#ffd140"
+            fancy:mfb_focusColor="#5474b8"
+            fancy:mfb_radius="40dp"
+            fancy:mfb_text="Add"
+            android:textSize="18sp"
+            fancy:mfb_textColor="@color/dark_gray"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            />-->
+            <Button
+                android:id="@+id/create_item_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Item"
+                android:textAllCaps="false"
+                android:fontFamily="@font/cairo"
+                android:textSize="18sp"
+                android:background="@color/transparent"
+                android:textColor="#FF6666"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:gravity="left|bottom"
+                android:paddingLeft="15dp"
+                />
+
+            <Button
+                android:id="@+id/cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:fontFamily="@font/cairo"
+                android:textSize="18sp"
+                android:background="@color/transparent"
+                android:textColor="#FF6666"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:gravity="right|bottom"
+                android:paddingRight="15dp"
+                />
+            <!--<com.rilixtech.materialfancybutton.MaterialFancyButton
+                android:id="@+id/cancel_btn"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:padding="-5dp"
+                fancy:mfb_defaultColor="@color/google_red"
+                fancy:mfb_focusColor="#5474b8"
+                fancy:mfb_radius="40dp"
+                fancy:mfb_text="Cancel"
+                android:textSize="18sp"
+                fancy:mfb_textColor="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="15dp"/>-->
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+     />
+    </FrameLayout>
+</ScrollView>
+</layout>

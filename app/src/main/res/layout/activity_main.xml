@@ -21,7 +21,27 @@
         android:fitsSystemWindows="false"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer"
+        style="@style/NavigationTheme"
+        app:itemIconTint="@drawable/drawer_item"
+            app:itemTextColor="@drawable/drawer_item"
+                    >
+        <Button
+            android:id="@+id/sign_out_btn"
+            android:drawableRight="@mipmap/ic_log_out"
+            android:paddingRight="50dp"
+            android:paddingLeft="50dp"
+            android:layout_gravity="bottom"
+            android:text="Sign out"
+            android:textSize="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/google_red"
+            android:layout_alignParentBottom="true"
+            android:textColor="@android:color/white"
+            android:textAllCaps="true"
 
-        />
+            />
+    </android.support.design.widget.NavigationView>
+
 
 </android.support.v4.widget.DrawerLayout>

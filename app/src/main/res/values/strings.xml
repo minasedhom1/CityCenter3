@@ -29,4 +29,20 @@
     <!-- TODO: Remove or change this placeholder text -->
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string-array name="cats_list">
+        <item>Select Category</item>
+    </string-array>
+
+    <string-array name="subCats_list">
+        <item>Select SubCategory</item>
+    </string-array>
+
+    <string name="subscribe_text">For Shops/Businesses to subscribe to Pickup and Delivery Service Email us at</string>
+    <string name="info_mail">info@sa3edney.net</string>
+    <string name="title_activity_item_order_page">ItemOrderPage</string>
+    <string name="add_order_address"><u>Add your address</u>.</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCkK0eIVo7L0fQQyipqzsLGMtXmhHvh9Co</string>
+    <string name="update_order_address"><u>Change your address</u>.</string>
+    <string name="title_activity_pick_location">Pick Location</string>
+
 </resources>
