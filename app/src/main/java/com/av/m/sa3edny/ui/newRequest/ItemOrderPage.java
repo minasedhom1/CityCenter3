@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
@@ -14,6 +15,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.ImageViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -192,7 +195,8 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
         request_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                makeOrder();
+                setUpGClient();
+                getMyLocation();
                 //ItemOrderPage.this.finish();
             }
             });
@@ -261,53 +265,15 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
         else if(requestCode==REQUEST_CHECK_SETTINGS_GPS) {
             switch (resultCode){
                 case  Activity.RESULT_OK:
-                        getMyLocation();
+                      getMyLocation();
                     break;
                 case  Activity.RESULT_CANCELED:
-                        checkPermissions();
+                     // checkPermissions();
+                      popupAddress(new OrderAddress(),false);
                     break;
-
             }
-
-           /* if (resultCode == Activity.RESULT_OK)
-            {
-                if(getActivity()!=null)
-                  getMyLocation();
-            } else {
-                requestPermissionLocation();
-            }*/
         }
-       /* else if(requestCode == PLACE_PICKER_REQUEST && resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-                OrderAddress orderAddress = new OrderAddress();
-                Place place = PlacePicker.getPlace(data, this);
-                String lat = String.valueOf(place.getLatLng().latitude);
-                String lng = String.valueOf(place.getLatLng().longitude);
-                orderAddress.setLat(lat);
-                orderAddress.setLng(lng);
-                String toastMsg = String.format("Place: %s", place.getName());
-                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-                Geocoder geocoder = new Geocoder(this);
-                try {
-                    List<Address> addresses = geocoder.getFromLocation(place.getLatLng().latitude, place.getLatLng().longitude, 1);
-                    //String address = addresses.get(0).getAddressLine(0);
-                    if (addresses.size() > 0) {
-                        String country = addresses.get(0).getCountryName();
-                        String city = addresses.get(0).getAdminArea();
-                        String district = addresses.get(0).getSubAdminArea();
-                        String street = addresses.get(0).getThoroughfare();
-                        orderAddress.setCountry(country);
-                        orderAddress.setCity(city);
-                        orderAddress.setDistrict(district);
-                        orderAddress.setStreet(street);
-                    }
-                    popupAddress(orderAddress);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }*/
     }
     ImageView iv;
     public void add_img(Uri uri){
@@ -340,9 +306,6 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
     private static ApiInterface apiInterface= ApiClient.getClient().create(ApiInterface.class);
 
     public void makeOrder(){
-        setUpGClient();
-        getMyLocation();
-        if(false) {
             showProgress();
             MultipartBody.Builder builder = new MultipartBody.Builder();
             builder.setType(MultipartBody.FORM);
@@ -354,15 +317,15 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
             }
             builder.addFormDataPart("Mobile", myAddress.getMobile());
             if(myAddress.getCountry()!=null)
-                builder.addFormDataPart("Country", myAddress.getCountry());
-            builder.addFormDataPart("City", myAddress.getCity());
+          //      builder.addFormDataPart("Country", myAddress.getCountry());
+          //  builder.addFormDataPart("City", myAddress.getCity());
             builder.addFormDataPart("District", myAddress.getDistrict());
             if(myAddress.getBuilding()!=null)
                 builder.addFormDataPart("Building", myAddress.getBuilding());
             builder.addFormDataPart("Latitude", myAddress.getLat());
             builder.addFormDataPart("Longitude", myAddress.getLng());
-            if(myAddress.getFloor()!=null)
-                builder.addFormDataPart("Floor", myAddress.getFloor());
+          /*  if(myAddress.getFloor()!=null)
+                builder.addFormDataPart("Floor", myAddress.getFloor());*/
             if(myAddress.getApartment()!=null)
                 builder.addFormDataPart("Apartment", myAddress.getApartment());
             if(!comment_et.getText().toString().matches(""))
@@ -398,7 +361,6 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
                     hideProgress();
                 }
             });
-        }//else Toast.makeText(this,"Please add your address first",Toast.LENGTH_LONG).show();
     }
 
     public void showPopup(View v) {
@@ -469,23 +431,24 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
         }
     }*/
 
-    private void popupAddress(final OrderAddress address){
+    private void popupAddress(final OrderAddress address,boolean allowGPS){
 
         googleApiClient.stopAutoManage(this);
         googleApiClient.disconnect();
+
         final Dialog popup = new Dialog(ItemOrderPage.this);
         popup.requestWindowFeature(Window.FEATURE_NO_TITLE);
         popup.setContentView(R.layout.popup_add_order_address);
         final EditText mobile_et=popup.findViewById(R.id.mobile_et);
-        final EditText city_et=popup.findViewById(R.id.city_et);
+        //final EditText city_et=popup.findViewById(R.id.city_et);
         final EditText district_et=popup.findViewById(R.id.district_et);
        // final EditText street_et=popup.findViewById(R.id.street_et);
         final EditText build_no_et=popup.findViewById(R.id.build_no_et);
         //final EditText floor_no_et=popup.findViewById(R.id.floor_no_et);
         final EditText apart_no_et=popup.findViewById(R.id.apart_no_et);
         //final TextView change_address_tv=popup.findViewById(R.id.change_address_popup_tv);
-        city_et.setText(address.getCity());
-        district_et.setText(address.getDistrict());
+       // city_et.setText(address.getCity());
+       // district_et.setText(address.getDistrict());
        // street_et.setText(address.getStreet());
        /* change_address_tv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -499,19 +462,19 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isEmpty(mobile_et)||isEmpty(city_et)||isEmpty(district_et)){
+                if(isEmpty(mobile_et)){//||isEmpty(city_et)||isEmpty(district_et)){
                     return;
                 }
                 else {
                     String mobile = mobile_et.getText().toString();
-                    String city = city_et.getText().toString();
+                    //String city = city_et.getText().toString();
                     String district = district_et.getText().toString();
                    // String street = street_et.getText().toString();
                     String build_no = build_no_et.getText().toString();
                    // String floor_no = floor_no_et.getText().toString();
                     String apart_no = apart_no_et.getText().toString();
 
-                    address.setCity(city);
+                    //address.setCity(city);
                     address.setMobile(mobile);
                     address.setDistrict(district);
                     //address.setStreet(street);
@@ -519,6 +482,7 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
                     //address.setFloor(floor_no);
                     address.setApartment(apart_no);
                     myAddress=address;
+                    makeOrder();
                     Toast.makeText(ItemOrderPage.this,"Your Address saved.",Toast.LENGTH_LONG).show();
                    // add_address_btn.setText("Edit Address");
                     popup.dismiss();
@@ -533,6 +497,12 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
                 popup.dismiss();
             }
         });
+
+        final ImageView gps_indicator =popup.findViewById(R.id.gps_indicator_iv);
+        if(allowGPS)
+            ImageViewCompat.setImageTintList(gps_indicator, ColorStateList.valueOf(ContextCompat.getColor(this, R.color.dimmed_green)));
+
+        popup.setCancelable(false);
         popup.show();
     }
 
@@ -554,7 +524,7 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
     LocationManager locationManager;
     String latitude,longitude;
 
-    public void getCurrentLocation() {
+   /* public void getCurrentLocation() {
         showProgress();
         LocationListener locationListener=new LocationListener() {
             @Override
@@ -603,7 +573,7 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
             e.printStackTrace();
         }
     }
-
+*/
     private final static int REQUEST_ID_MULTIPLE_PERMISSIONS=0x1;
 
   /*  private boolean checkPermissions() {
@@ -717,7 +687,12 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
         if (myLocation != null) {
                 Double latitude = myLocation.getLatitude();
                 Double longitude = myLocation.getLongitude();
-                try {
+                OrderAddress address=new OrderAddress();
+                address.setLng(String.valueOf(longitude));
+                address.setLat(String.valueOf(latitude));
+                Toast.makeText(this,String.valueOf(latitude),Toast.LENGTH_SHORT).show();
+                popupAddress(address,true);
+               /* try {
                     String languageToLoad = "ar_EG";
                     Locale locale = new Locale(languageToLoad);
                     Locale.setDefault(locale);
@@ -728,18 +703,15 @@ public class ItemOrderPage extends AppCompatActivity implements GoogleApiClient.
                         String country = listAddresses.get(0).getCountryName(); //country
                         String city = listAddresses.get(0).getAdminArea();//city
                         String region = listAddresses.get(0).getSubAdminArea();//region
-                        OrderAddress address=new OrderAddress();
-                        address.setLng(String.valueOf(longitude));
-                        address.setLat(String.valueOf(latitude));
+
                         address.setCity(city);
                         address.setDistrict(region);
-                        Toast.makeText(this,city,Toast.LENGTH_SHORT).show();
-                        popupAddress(address);
+
                     }
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
         }
 
